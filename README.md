@@ -5,7 +5,7 @@ Logging utility
 ## Usage
 
 ```
-var logger = require('next-logger');
+var logger = require('ft-next-logger');
 
 logger.info('Saying hello');
 logger.warn('Everything’s mostly cool');
