@@ -1,0 +1,18 @@
+{
+  "name": "ft-next-logger",
+  "version": "0.0.1",
+  "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Financial-Times/next-logger.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "winston": "^0.9.0"
+  },
+  "devDependencies": {
+    "chai": "^2.2.0",
+    "jshint": "^2.6.3",
+    "mocha": "^2.2.1"
+  }
+}
