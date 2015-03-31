@@ -2,5 +2,5 @@ install:
 	npm install
 
 test:
-	jshint main.js --config .jshintrc
+	next-build-tools verify
 	mocha tests
