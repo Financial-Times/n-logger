@@ -9,6 +9,6 @@ module.exports = (function () {
 		transports.push(new (winston.transports.Console)());
 	}
 	return new (winston.Logger)({
-	    transports: transports
+		transports: transports
 	});
 })();

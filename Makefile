@@ -1,6 +1,8 @@
+.PHONY: test
+
 install:
 	npm install
 
 test:
-	jshint main.js --config .jshintrc
-	mocha tests
+	next-build-tools verify
+	mocha

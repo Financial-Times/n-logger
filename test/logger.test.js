@@ -1,4 +1,5 @@
-'use script';
+/*global describe, it*/
+"use strict";
 
 require('chai').should();
 var logger = require('../main');

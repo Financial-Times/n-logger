@@ -1,0 +1,16 @@
+sudo: false
+language: node_js
+script: make test
+node_js:
+- '0.10'
+before_deploy:
+- npm-prepublish --verbose
+deploy:
+  provider: npm
+  email: matt@mattandre.ws
+  api_key:
+    secure: KYzRDE6ylphHeLgkmtLkqMvysPQbsixECAunYzJ/3YqZnZcc2Wf689NrDe4Vz+sFq9+9UstTiUZNqTP6yx/HCjZqwUZXpVZAv87kzg4jpcKDXH9tXVYj1qskK0ucvGSaU1MlLmNFUxG1C6RcscFny1s/fhRvqV8zSYEUWBQ7ZHk=
+  on:
+    all_branches: true
+    tags: true
+    repo: Financial-Times/next-logger
