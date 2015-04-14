@@ -4,10 +4,14 @@ var winston = require('winston');
 
 module.exports = (function () {
 	var transports = [];
+	var options = {};
 
-	if (process.env.NODE_ENV !== 'test') {
-		transports.push(new (winston.transports.Console)());
+	// only log errors when testing
+	if (process.env.NODE_ENV === 'test') {
+		options.level = 'error';
 	}
+	transports.push(new (winston.transports.Console)(options));
+
 	return new (winston.Logger)({
 		transports: transports
 	});
