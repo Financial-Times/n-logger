@@ -1,8 +1,16 @@
 .PHONY: test
 
+clean:
+	git clean -fxd
+
 install:
 	npm install
 
-test:
-	next-build-tools verify
+verify:
+	obt verify
+
+unit-test:
 	mocha
+
+test: verify unit-test
+
