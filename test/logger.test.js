@@ -1,12 +1,12 @@
-/*global describe, it*/
+/* global describe, it */
 'use strict';
 
 require('chai').should();
-var logger = require('../main');
+const logger = require('../main');
 
-describe('Logger', function () {
+describe('Logger', () => {
 
-	it('should exist', function () {
+	it('should exist', () => {
 		logger.should.exist;
 	});
 

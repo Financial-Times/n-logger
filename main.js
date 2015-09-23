@@ -1,19 +1,24 @@
 /* global process */
 'use strict';
 
-var winston = require('winston');
-var Splunk = require('./lib/transports/splunk');
+const winston = require('winston');
+const Splunk = require('./lib/transports/splunk');
 
-module.exports = (function () {
-	var transports = [];
-	var options = {};
-
-	// only log errors when testing
-	if (process.env.NODE_ENV === 'test') {
-		options.level = 'error';
+module.exports = (() => {
+	const transports = [];
+	transports.push(
+		// only log errors to console when testing
+		new (winston.transports.Console)({
+			level: process.env.NODE_ENV === 'test' ? 'error' : 'info'
+		})
+	);
+	if (process.env.NODE_ENV !== 'test') {
+		transports.push(
+			new Splunk({
+				level: 'error'
+			})
+		);
 	}
-	transports.push(new (winston.transports.Console)(options));
-	transports.push(new Splunk(options));
 
 	return new (winston.Logger)({
 		transports: transports

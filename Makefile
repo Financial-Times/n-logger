@@ -7,10 +7,10 @@ install:
 	npm install
 
 verify:
-	obt verify
+	obt verify --esLintPath .eslintrc
 
 unit-test:
-	mocha
+	mocha --recursive test
 
 test: verify unit-test
 
