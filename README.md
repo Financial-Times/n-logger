@@ -27,3 +27,9 @@ logger.info('Saying hello');
 ```
 
 (Uses Winston, so see [here](https://github.com/winstonjs/winston) for full api)
+
+## Releasing
+
+    $ make release version=patch
+
+Version also accepts `minor`, `major`, etc. See the [release-it docs](https://www.npmjs.com/package/release-it#user-content-examples)

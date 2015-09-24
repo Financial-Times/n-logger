@@ -16,6 +16,7 @@
     "mocha": "^2.2.1",
     "npm-prepublish": "^1.2.0",
     "origami-build-tools": "^4.0.0",
+    "release-it": "^2.2.2",
     "sinon": "^1.17.0"
   },
   "engines": {
