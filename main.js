@@ -5,18 +5,22 @@ const winston = require('winston');
 const Splunk = require('./lib/transports/splunk');
 
 let logger;
-let config;
+let appName;
+let opts;
+let inited = false;
 
 module.exports = {
-	init(c) {
-		config = c;
+	init(applicationName, options) {
+		appName = applicationName;
+		opts = options;
+		inited = true;
 	},
 
 	get logger() {
 		if (logger) {
 			return logger;
 		}
-		if (!config) {
+		if (!inited) {
 			throw new Error('Please call init first');
 		}
 		const transports = [];
@@ -28,7 +32,7 @@ module.exports = {
 		);
 		if (process.env.NODE_ENV !== 'test') {
 			transports.push(
-				new Splunk(config.appName, {
+				new Splunk(appName, {
 					level: 'error'
 				})
 			);
@@ -38,5 +42,12 @@ module.exports = {
 			transports: transports
 		});
 
+	},
+
+	reset() {
+		logger = undefined;
+		appName = undefined;
+		opts = undefined;
+		inited = false;
 	}
 };
