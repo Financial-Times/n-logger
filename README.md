@@ -1,4 +1,4 @@
-# Next Logger [![Build Status](https://travis-ci.org/Financial-Times/next-logger.svg)](https://travis-ci.org/Financial-Times/next-logger)
+# Next Logger [![Circle CI](https://circleci.com/gh/Financial-Times/next-logger.svg?style=svg)](https://circleci.com/gh/Financial-Times/next-logger)
 
 Logging utility
 
@@ -27,3 +27,9 @@ logger.info('Saying hello');
 ```
 
 (Uses Winston, so see [here](https://github.com/winstonjs/winston) for full api)
+
+## Releasing
+
+    $ make release version=patch
+
+Version also accepts `minor`, `major`, etc. See the [release-it docs](https://www.npmjs.com/package/release-it#user-content-examples)
