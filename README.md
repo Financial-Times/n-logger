@@ -15,7 +15,7 @@ logger.warn('Everything’s mostly cool');
 logger.error('Uh-oh', { field: 'some value' });
 ```
 
-of if you're living in the wonderfule world of JavaScript modules,
+or if you're living in the wonderful world of JavaScript modules,
 
 ```
 import {init as loggerInit, logger} from 'ft-next-logger';
