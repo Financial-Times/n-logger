@@ -1,4 +1,4 @@
-# Next Logger
+# Next Logger [![Build Status](https://travis-ci.org/Financial-Times/next-logger.svg)](https://travis-ci.org/Financial-Times/next-logger)
 
 Logging utility
 
