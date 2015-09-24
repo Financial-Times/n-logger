@@ -1,13 +1,33 @@
-/*global describe, it*/
-"use strict";
+/* global describe, afterEach, it */
+'use strict';
 
 require('chai').should();
-var logger = require('../main');
+const logger = require('../main');
 
-describe('Logger', function () {
+describe('Logger', () => {
 
-	it('should exists', function () {
+	afterEach(() => {
+		logger.reset();
+	});
+
+	it('should exist', () => {
 		logger.should.exist;
+	});
+
+	it('should fail if init isn\'t called first', () => {
+		(() => { logger.logger }).should.throw(/^Please call init first$/);
+	});
+
+	it('should have console and splunk transports', () => {
+		logger.init('ft-next-front-page');
+		const transports = logger.logger.transports;
+		transports.console.should.exists;
+		transports.splunk.should.exists;
+	});
+
+	it('should log to splunk on error', () => {
+		logger.init('ft-next-front-page');
+		logger.logger.transports.splunk.level.should.equal('error');
 	});
 
 });
