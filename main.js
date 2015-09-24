@@ -26,15 +26,20 @@ module.exports = {
 		const transports = [];
 		transports.push(
 			// only log errors to console when testing
-			new (winston.transports.Console)({
-				level: process.env.NODE_ENV === 'test' ? 'error' : 'info'
-			})
+			new (winston.transports.Console)(
+				Object.assign({}, {
+					level: process.env.NODE_ENV === 'test' ? 'error' : 'info'
+				}, opts)
+			)
 		);
 		if (process.env.NODE_ENV !== 'test') {
 			transports.push(
-				new Splunk(appName, {
-					level: 'error'
-				})
+				new Splunk(
+					appName,
+					Object.assign({}, {
+						level: 'error'
+					}, opts)
+				)
 			);
 		}
 

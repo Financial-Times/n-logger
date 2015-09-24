@@ -4,7 +4,7 @@
 require('chai').should();
 const logger = require('../main');
 
-describe.only('Logger', () => {
+describe('Logger', () => {
 
 	afterEach(() => {
 		logger.reset();
