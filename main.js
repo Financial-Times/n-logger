@@ -4,55 +4,35 @@
 const winston = require('winston');
 const Splunk = require('./lib/transports/splunk');
 
-let logger;
-let appName;
-let opts;
-let inited = false;
+class Logger {
 
-module.exports = {
-	init(applicationName, options) {
-		appName = applicationName;
-		opts = options;
-		inited = true;
-	},
+	constructor() {
+		this.logger = new (winston.Logger)();
+	}
 
-	get logger() {
-		if (logger) {
-			return logger;
-		}
-		if (!inited) {
-			console.error('ft-next-logger: please call init first');
-		}
-		const transports = [];
-		transports.push(
-			// only log errors to console when testing
-			new (winston.transports.Console)(
-				Object.assign({}, {
-					level: process.env.NODE_ENV === 'test' ? 'error' : 'info'
-				}, opts)
-			)
+	init(appName, opts) {
+		this.appName = appName;
+		this.opts = opts;
+
+		// add console logger
+		this.logger.add(
+			winston.transports.Console,
+			Object.assign({}, {
+				level: process.env.NODE_ENV === 'test' ? 'error' : 'info'
+			}, opts)
 		);
 		if (process.env.NODE_ENV !== 'test') {
-			transports.push(
-				new Splunk(
-					appName,
-					Object.assign({}, {
-						level: 'error'
-					}, opts)
-				)
+			// add splunk logger
+			this.logger.add(
+				Splunk,
+				Object.assign({}, {
+					level: 'error',
+					appName
+				}, opts)
 			);
 		}
-
-		return logger = new (winston.Logger)({
-			transports: transports
-		});
-
-	},
-
-	reset() {
-		logger = undefined;
-		appName = undefined;
-		opts = undefined;
-		inited = false;
 	}
-};
+
+}
+
+module.exports = new Logger();
