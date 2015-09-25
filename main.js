@@ -21,7 +21,7 @@ module.exports = {
 			return logger;
 		}
 		if (!inited) {
-			throw new Error('Please call init first');
+			console.error('ft-next-logger: please call init first');
 		}
 		const transports = [];
 		transports.push(
