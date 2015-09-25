@@ -8,9 +8,14 @@ class Logger {
 
 	constructor() {
 		this.logger = new (winston.Logger)();
+		this.inited = false;
 	}
 
 	init(appName, opts) {
+		if (this.inited) {
+			return;
+		}
+		this.inited = true;
 		this.appName = appName;
 		this.opts = opts;
 

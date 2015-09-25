@@ -4,7 +4,7 @@
 require('chai').should();
 const formatMeta = require('../../lib/format-meta');
 
-describe.only('Format Meta', () => {
+describe('Format Meta', () => {
 
 	it('should exist', () => {
 		formatMeta.should.exist;

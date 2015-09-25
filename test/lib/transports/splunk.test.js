@@ -12,7 +12,7 @@ describe('Splunk', () => {
 	});
 
 	it('should be able to instantiate', () => {
-		const splunkTransport = new Splunk('ft-next-front-page', {});
+		const splunkTransport = new Splunk({ appName: 'ft-next-front-page' });
 		splunkTransport.should.exist;
 		splunkTransport.agent.kill();
 	});
@@ -21,10 +21,10 @@ describe('Splunk', () => {
 		const mockAgent = {
 			send: sinon.spy()
 		};
-		const splunkTransport = new Splunk('ft-next-front-page', { agent: mockAgent });
+		const splunkTransport = new Splunk({ appName: 'ft-next-front-page', agent: mockAgent });
 		splunkTransport.log('error', 'a message', { field: 'value'});
 		mockAgent.send.called.should.be.true;
-		mockAgent.send.calledWith('a message field="value"').should.be.true;
+		mockAgent.send.calledWith('a message field=value').should.be.true;
 	});
 
 });
