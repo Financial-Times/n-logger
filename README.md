@@ -5,24 +5,14 @@ Logging utility
 ## Usage
 
 ```
-var loggerInit = require('ft-next-logger').init;
 # init first, setting the app's name
-loggerInit('ft-next-front-page');
-var logger = require('ft-next-logger').logger;
+require('ft-next-logger').init('ft-next-front-page');
 
+# then..
+var logger = require('ft-next-logger').logger;
 logger.info('Saying hello');
 logger.warn('Everything’s mostly cool');
 logger.error('Uh-oh', { field: 'some value' });
-```
-
-or if you're living in the wonderful world of ES6 modules,
-
-```
-import {init as loggerInit, logger} from 'ft-next-logger';
-loggerInit('ft-next-front-page);
-
-logger.info('Saying hello');
-...
 ```
 
 (Uses Winston, so see [here](https://github.com/winstonjs/winston) for full api)
