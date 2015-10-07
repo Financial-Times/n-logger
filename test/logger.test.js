@@ -7,7 +7,7 @@ const logger = require('../main');
 describe('Logger', () => {
 
 	before(() => {
-		logger.init('ft-next-front-page');
+		logger.init('ft-next-front-page', {}, { splunk: true });
 	});
 
 	it('should exist', () => {

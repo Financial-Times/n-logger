@@ -11,7 +11,7 @@ class Logger {
 		this.inited = false;
 	}
 
-	init(appName, opts) {
+	init(appName, opts, transports) {
 		if (this.inited) {
 			return;
 		}
@@ -26,7 +26,7 @@ class Logger {
 				level: process.env.NODE_ENV === 'test' ? 'error' : 'info'
 			}, opts)
 		);
-		if (process.env.NODE_ENV !== 'test') {
+		if (process.env.NODE_ENV === 'production' || (transports && transports.splunk)) {
 			// add splunk logger
 			this.logger.add(
 				Splunk,
