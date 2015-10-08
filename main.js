@@ -29,19 +29,18 @@ class Logger {
 		this.logger.remove('console');
 	}
 
-	addSplunk(appName, splunkUrl, level, opts) {
+	addSplunk(splunkUrl, level, opts) {
 		if (this.logger.transports.splunk) {
 			return;
 		}
-		if (!appName || !splunkUrl) {
-			this.logger.warn('No `appName` or `splunkUrl` supplied');
+		if (!splunkUrl) {
+			this.logger.warn('No `splunkUrl` supplied');
 			return false;
 		}
 		this.logger.add(
 			Splunk,
 			Object.assign({}, {
 				level: level || 'error',
-				appName,
 				splunkUrl
 			}, opts)
 		);
