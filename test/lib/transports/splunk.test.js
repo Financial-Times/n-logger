@@ -12,7 +12,7 @@ describe('Splunk', () => {
 	});
 
 	it('should be able to instantiate', () => {
-		const splunkTransport = new Splunk({ appName: 'ft-next-front-page' });
+		const splunkTransport = new Splunk({ host: 'http://splunk.ft.com/', appName: 'ft-next-front-page' });
 		splunkTransport.should.exist;
 		splunkTransport.agent.kill();
 	});
