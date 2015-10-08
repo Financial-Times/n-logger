@@ -25,7 +25,7 @@ logger.error('Uh-oh', { field: 'some value' });
 
 #### Splunk
 
-`addSplunk(appName, splunkUrl, level = 'error', opts = {})`
+`addSplunk(splunkUrl, level = 'error', opts = {})`
 
 ## Releasing
 

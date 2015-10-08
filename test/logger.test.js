@@ -51,30 +51,26 @@ describe('Logger', () => {
 	describe('Splunk', () => {
 
 		it('should be able to add', () => {
-			logger.addSplunk('http://splunk.ft.com', 'ft-next-front-page', 'warn');
+			logger.addSplunk('http://splunk.ft.com', 'warn');
 			logger.logger.transports.splunk.level.should.equal('warn');
 		});
 
 		it('should have "error" level by default', () => {
-			logger.addSplunk('http://splunk.ft.com', 'ft-next-front-page');
+			logger.addSplunk('http://splunk.ft.com');
 			logger.logger.transports.splunk.level.should.equal('error');
 		});
 
-		it('should return false if no `host` supplied', () => {
+		it('should return false if no `splunkUrl` supplied', () => {
 			logger.addSplunk().should.equal(false);
 		});
 
-		it('should return false if no `appName` supplied', () => {
-			logger.addSplunk('http://splunk.ft.com').should.equal(false);
-		});
-
 		it('should not be able to add if already added', () => {
-			logger.addSplunk();
-			(() => logger.addSplunk()).should.not.throw(Error);
+			logger.addSplunk('http://splunk.ft.com');
+			(() => logger.addSplunk('http://splunk.ft.com')).should.not.throw(Error);
 		});
 
 		it('should be able to remove', () => {
-			logger.addSplunk();
+			logger.addSplunk('http://splunk.ft.com');
 			logger.removeSplunk();
 			logger.logger.transports.should.be.empty;
 		});
