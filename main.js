@@ -1,4 +1,3 @@
-/* global process */
 'use strict';
 
 const winston = require('winston');
@@ -11,31 +10,53 @@ class Logger {
 		this.inited = false;
 	}
 
-	init(appName, opts, transports) {
-		if (this.inited) {
+	addConsole(level, opts) {
+		if (this.logger.transports.console) {
 			return;
 		}
-		this.inited = true;
-		this.appName = appName;
-		this.opts = opts;
-
-		// add console logger
 		this.logger.add(
 			winston.transports.Console,
 			Object.assign({}, {
-				level: process.env.NODE_ENV === 'test' ? 'error' : 'info'
+				level: level || 'info'
 			}, opts)
 		);
-		if (process.env.NODE_ENV === 'production' || (transports && transports.splunk)) {
-			// add splunk logger
-			this.logger.add(
-				Splunk,
-				Object.assign({}, {
-					level: 'error',
-					appName
-				}, opts)
-			);
+	}
+
+	removeConsole() {
+		if (!this.logger.transports.console) {
+			return;
 		}
+		this.logger.remove('console');
+	}
+
+	addSplunk(appName, splunkUrl, level, opts) {
+		if (this.logger.transports.splunk) {
+			return;
+		}
+		if (!appName || !splunkUrl) {
+			this.logger.warn('No `appName` or `splunkUrl` supplied');
+			return false;
+		}
+		this.logger.add(
+			Splunk,
+			Object.assign({}, {
+				level: level || 'error',
+				appName,
+				splunkUrl
+			}, opts)
+		);
+	}
+
+	removeSplunk() {
+		if (!this.logger.transports.splunk) {
+			return;
+		}
+		this.logger.remove('splunk');
+	}
+
+	clearLoggers() {
+		Object.keys(this.logger.transports)
+			.forEach(logger => this.logger.remove(logger));
 	}
 
 }

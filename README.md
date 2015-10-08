@@ -5,8 +5,8 @@ Logging utility
 ## Usage
 
 ```
-# init first, setting the app's name
-require('ft-next-logger').init('ft-next-front-page');
+# add a logger
+require('ft-next-logger').addConsole();
 
 # then..
 var logger = require('ft-next-logger').logger;
@@ -16,6 +16,16 @@ logger.error('Uh-oh', { field: 'some value' });
 ```
 
 (Uses Winston, so see [here](https://github.com/winstonjs/winston) for full api)
+
+### Loggers
+
+#### Console
+
+`addConsole(level = 'info', opts = {})`
+
+#### Splunk
+
+`addSplunk(appName, splunkUrl, level = 'error', opts = {})`
 
 ## Releasing
 
