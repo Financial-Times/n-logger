@@ -11,7 +11,7 @@ describe('Splunk', () => {
 	});
 
 	it('should be able to instantiate', () => {
-		const splunkTransport = new Splunk({ splunkUrl: 'http://splunk.ft.com/', appName: 'ft-next-front-page' });
+		const splunkTransport = new Splunk({ splunkUrl: 'http://splunk.ft.com/ft-next-front-page' });
 		splunkTransport.should.exist;
 		splunkTransport.agent.kill();
 	});
@@ -20,7 +20,7 @@ describe('Splunk', () => {
 		const mockAgent = {
 			send: sinon.spy()
 		};
-		const splunkTransport = new Splunk({ splunkUrl: 'http://splunk.ft.com/', appName: 'ft-next-front-page', agent: mockAgent });
+		const splunkTransport = new Splunk({ splunkUrl: 'http://splunk.ft.com/ft-next-front-page', agent: mockAgent });
 		mockAgent.url = 'http://splunk.ft.com/ft-next-front-page';
 		splunkTransport.log('error', 'a message', { field: 'value'});
 		mockAgent.send.called.should.be.true;
