@@ -30,12 +30,12 @@ class Logger {
 		this.logger.remove('console');
 	}
 
-	addSplunk(appName, host, level, opts) {
+	addSplunk(appName, splunkUrl, level, opts) {
 		if (this.logger.transports.splunk) {
 			return;
 		}
-		if (!appName || !host) {
-			this.logger.warn('No `appName` or `host` supplied');
+		if (!appName || !splunkUrl) {
+			this.logger.warn('No `appName` or `splunkUrl` supplied');
 			return false;
 		}
 		this.logger.add(
@@ -43,7 +43,7 @@ class Logger {
 			Object.assign({}, {
 				level: level || 'error',
 				appName,
-				host
+				splunkUrl
 			}, opts)
 		);
 	}
