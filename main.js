@@ -1,4 +1,3 @@
-/* global process */
 'use strict';
 
 const winston = require('winston');

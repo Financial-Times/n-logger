@@ -1,4 +1,3 @@
-/* global __dirname, describe, beforeEach, afterEach, it */
 'use strict';
 
 require('chai').should();
