@@ -15,9 +15,9 @@ unit-test:
 test: verify unit-test
 
 release:
-ifeq ($(version),)
-	@echo "Supply a release version, e.g. make release version=patch"
-	exit 1
-endif
-	release-it $(version) -p -n
+	ifeq ($(version),)
+		@echo "Supply a release version, e.g. make release version=patch"
+		exit 1
+	endif
+		nbt bottle $(version)
 
