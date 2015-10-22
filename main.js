@@ -60,4 +60,11 @@ class Logger {
 
 }
 
-module.exports = new Logger();
+const logger = new Logger();
+// set up the logger
+logger.addConsole(process.env.NODE_ENV === 'test' ? 'error' : 'info');
+if (process.env.NODE_ENV === 'production' && process.env.SPLUNK_URL) {
+	logger.addSplunk(process.env.SPLUNK_URL);
+}
+
+module.exports = logger;
