@@ -5,10 +5,6 @@ Logging utility
 ## Usage
 
 ```
-# add a logger
-require('ft-next-logger').addConsole();
-
-# then..
 var logger = require('ft-next-logger').logger;
 logger.info('Saying hello');
 logger.warn('Everything’s mostly cool');
@@ -19,17 +15,22 @@ logger.error('Uh-oh', { field: 'some value' });
 
 ### Loggers
 
-#### Console
+By default 
 
-`addConsole(level = 'info', opts = {})`
+ * the `console` logger is added if `NODE_ENV !== production`
+ * the `splunk` logger is added if `NODE_ENV === production` and there is a `SPLUNK_URL` env variable
 
-#### Splunk
+### API
 
-`addSplunk(splunkUrl, level = 'error', opts = {})`
+ * `addConsole(level = 'info', opts = {})`
+ * `removeConsole()`
+ * `addSplunk(splunkUrl, level = 'error', opts = {})`
+ * `removeSplunk()`
+ * `clearLoggers()`
 
 ## Releasing
 
     $ make release version=patch
 
-Version also accepts `minor`, `major`, etc. See the [release-it docs](https://www.npmjs.com/package/release-it#user-content-examples)
+Version also accepts `minor` and `major`
 
