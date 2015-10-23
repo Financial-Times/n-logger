@@ -40,7 +40,7 @@ class Logger {
 		this.logger.add(
 			Splunk,
 			Object.assign({}, {
-				level: level || 'error',
+				level: level || 'info',
 				splunkUrl
 			}, opts)
 		);
