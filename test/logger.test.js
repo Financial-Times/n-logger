@@ -55,9 +55,9 @@ describe('Logger', () => {
 			logger.logger.transports.splunk.level.should.equal('warn');
 		});
 
-		it('should have "error" level by default', () => {
+		it('should have "info" level by default', () => {
 			logger.addSplunk('http://splunk.ft.com');
-			logger.logger.transports.splunk.level.should.equal('error');
+			logger.logger.transports.splunk.level.should.equal('info');
 		});
 
 		it('should return false if no `splunkUrl` supplied', () => {
