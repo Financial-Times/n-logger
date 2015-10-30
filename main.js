@@ -61,8 +61,15 @@ class Logger {
 }
 
 const logger = new Logger();
-// set up the logger
-logger.addConsole(process.env.NODE_ENV === 'test' ? 'error' : 'info');
+
+let consoleLoggerLevel;
+if(process.env.NODE_ENV === 'test') {
+	consoleLoggerLevel = 'error';
+} else {
+	consoleLoggerLevel = process.env.CONSOLE_LOGGER_LEVEL || 'info'
+}
+logger.addConsole(consoleLoggerLevel);
+
 if (process.env.NODE_ENV === 'production' && process.env.SPLUNK_URL) {
 	logger.addSplunk(process.env.SPLUNK_URL);
 }
