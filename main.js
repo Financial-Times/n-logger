@@ -66,7 +66,7 @@ let consoleLoggerLevel;
 if(process.env.NODE_ENV === 'test') {
 	consoleLoggerLevel = 'error';
 } else {
-	consoleLoggerLevel = process.env.CONSOLE_LOGGER_LEVEL || 'info'
+	consoleLoggerLevel = process.env.CONSOLE_LOGGER_LEVEL || 'silly'
 }
 logger.addConsole(consoleLoggerLevel);
 
