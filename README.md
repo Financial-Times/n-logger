@@ -15,8 +15,10 @@ logger.error('Uh-oh', { field: 'some value' });
 
 By default
 
- * the `console` logger is added; logs to `error` if `NODE_ENV === test`, `info` otherwise
- * the `splunk` logger is added if `NODE_ENV === production`
+* the `console` logger is added
+  * logs to `error` if `NODE_ENV === test`
+  * otherwise logger level is set by `CONSOLE_LOGGER_LEVEL` environment variable, or is set to `silly` by default
+* the `splunk` logger is added if `NODE_ENV === production`
 
 ### API
 
