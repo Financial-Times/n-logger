@@ -71,7 +71,7 @@ if(process.env.NODE_ENV === 'test') {
 logger.addConsole(consoleLoggerLevel);
 
 if (process.env.NODE_ENV === 'production' && process.env.SPLUNK_URL) {
-	logger.addSplunk(process.env.SPLUNK_URL);
+	logger.addSplunk(process.env.SPLUNK_URL, process.env.SPLUNK_LOG_LEVEL || 'warn');
 }
 
 module.exports = logger;
