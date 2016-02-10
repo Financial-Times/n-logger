@@ -27,7 +27,7 @@ describe('Agent', () => {
 			});
 			server.listen(port);
 		});
-		agent = fork(path.resolve(__dirname, '..', '..', 'lib/agent.js'), [`${host}/${appName}`]);
+		agent = fork(path.resolve(__dirname, '..', '..', 'src/lib/agent.js'), [`${host}/${appName}`]);
 	});
 
 	afterEach(done => {
