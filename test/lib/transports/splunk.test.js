@@ -2,7 +2,7 @@
 
 require('chai').should();
 const sinon = require('sinon');
-const Splunk = require('../../../lib/transports/splunk');
+const Splunk = require('../../../src/lib/transports/splunk');
 
 describe('Splunk', () => {
 

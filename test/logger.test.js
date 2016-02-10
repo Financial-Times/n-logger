@@ -1,7 +1,7 @@
 'use strict';
 
 require('chai').should();
-const logger = require('../main');
+const logger = require('../src/main');
 
 describe('Logger', () => {
 

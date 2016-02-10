@@ -6,6 +6,13 @@ clean:
 install:
 	npm install
 
+
+build:
+	rm -rf dist/
+	mkdir dist
+	babel src --out-dir dist
+
+
 verify:
 	obt verify --esLintPath .eslintrc
 
