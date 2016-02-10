@@ -1,6 +1,6 @@
 {
   "name": "ft-next-logger",
-  "version": "4.3.0-alpha.2",
+  "version": "4.3.0",
   "main": "dist/main.js",
   "repository": {
     "type": "git",
