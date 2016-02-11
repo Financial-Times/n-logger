@@ -4,16 +4,16 @@ clean:
 	git clean -fxd
 
 install:
-	@echo "Installing..."
+	@echo "Installing…"
 	@npm install
 
 verify:
-	@echo "Verifying..."
+	@echo "Verifying…"
 	@find ./src ./test -type f -exec lintspaces -e .editorconfig -i js-comments {} + &&\
 	eslint -c ./.eslintrc.json ./src ./test
 
 unit-test:
-	@echo "Unit Testing..."
+	@echo "Unit Testing…"
 	@mocha --require test/setup --recursive --reporter spec test
 
 test: verify unit-test
