@@ -2,20 +2,21 @@
 
 Logging utility
 
+## Installation
+
+    npm install @financial-times/n-logger
+
+
 ## Usage
 
-```
-import logger from 'ft-next-logger';
-logger.info('Saying hello');
-logger.warn('Everything’s mostly cool');
-logger.error('Uh-oh', { field: 'some value' });
-```
+    import logger from '@financial-times/n-logger';
+    logger.info('Saying hello');
+    logger.warn('Everything’s mostly cool');
+    logger.error('Uh-oh', { field: 'some value' });
 
 If using CommonJS modules
 
-```
-const logger = require('ft-next-logger').default;
-```
+    const logger = require('@financial-times/n-logger').default;
 
 ### Loggers
 
