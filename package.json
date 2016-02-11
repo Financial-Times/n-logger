@@ -23,6 +23,7 @@
     "eslint": "^1.10.3",
     "lintspaces-cli": "^0.1.1",
     "mocha": "^2.2.1",
+    "next-build-tools": "^5.16.1",
     "sinon": "^1.17.0"
   },
   "engines": {
