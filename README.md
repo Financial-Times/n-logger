@@ -2,22 +2,28 @@
 
 Logging utility
 
+## Installation
+
+    npm install @financial-times/n-logger
+
+
 ## Usage
 
-```
-var logger = require('ft-next-logger').logger;
-logger.info('Saying hello');
-logger.warn('Everything’s mostly cool');
-logger.error('Uh-oh', { field: 'some value' });
-```
+    import logger from '@financial-times/n-logger';
+    logger.info('Saying hello');
+    logger.warn('Everything’s mostly cool');
+    logger.error('Uh-oh', { field: 'some value' });
+
+If using CommonJS modules
+
+    const logger = require('@financial-times/n-logger').default;
 
 ### Loggers
 
 By default
 
 * the `console` logger is added
-  * logs to `error` if `NODE_ENV === test`
-  * otherwise logger level is set by `CONSOLE_LOGGER_LEVEL` environment variable, or is set to `silly` by default
+  * logger level can be set by `CONSOLE_LOG_LEVEL` environment variable; defaults to `silly`
 * the `splunk` logger is added if `NODE_ENV === production`
 
 ### API
@@ -28,10 +34,4 @@ By default
  * `addSplunk(splunkUrl, level = 'info', opts = {})`
  * `removeSplunk()`
  * `clearLoggers()`
-
-## Releasing
-
-    $ make release version=patch
-
-Version also accepts `minor` and `major`
 

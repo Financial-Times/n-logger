@@ -1,35 +1,48 @@
-'use strict';
+import winston from 'winston';
+import Splunk from './lib/transports/splunk';
+import formatMessage from './lib/format-message';
+import formatMeta from './lib/format-meta';
 
-const winston = require('winston');
-const Splunk = require('./lib/transports/splunk');
+const nonEmpty = item => item;
+
+const formatter = options => {
+	const meta = Object.assign({ level: options.level }, options.meta);
+	return [formatMessage(options.message), formatMeta(meta)]
+		.filter(nonEmpty)
+		.join(' ');
+};
 
 class Logger {
 
-	constructor() {
+	constructor () {
 		this.logger = new (winston.Logger)();
-		this.inited = false;
+		// create logging methods
+		Object.keys(this.logger.levels).forEach(level =>
+			this[level] = (...args) => this.logger[level](...args)
+		);
 	}
 
-	addConsole(level, opts) {
+	addConsole (level, opts) {
 		if (this.logger.transports.console) {
 			return;
 		}
 		this.logger.add(
 			winston.transports.Console,
 			Object.assign({}, {
-				level: level || 'info'
+				level: level || 'info',
+				formatter
 			}, opts)
 		);
 	}
 
-	removeConsole() {
+	removeConsole () {
 		if (!this.logger.transports.console) {
 			return;
 		}
 		this.logger.remove('console');
 	}
 
-	addSplunk(splunkUrl, level, opts) {
+	addSplunk (splunkUrl, level, opts) {
 		if (this.logger.transports.splunk) {
 			return;
 		}
@@ -46,14 +59,14 @@ class Logger {
 		);
 	}
 
-	removeSplunk() {
+	removeSplunk () {
 		if (!this.logger.transports.splunk) {
 			return;
 		}
 		this.logger.remove('splunk');
 	}
 
-	clearLoggers() {
+	clearLoggers () {
 		Object.keys(this.logger.transports)
 			.forEach(logger => this.logger.remove(logger));
 	}
@@ -62,16 +75,11 @@ class Logger {
 
 const logger = new Logger();
 
-let consoleLoggerLevel;
-if(process.env.NODE_ENV === 'test') {
-	consoleLoggerLevel = 'error';
-} else {
-	consoleLoggerLevel = process.env.CONSOLE_LOGGER_LEVEL || 'silly'
-}
-logger.addConsole(consoleLoggerLevel);
+logger.addConsole(process.env.CONSOLE_LOG_LEVEL || 'silly');
 
+// only log to splunk in production
 if (process.env.NODE_ENV === 'production' && process.env.SPLUNK_URL) {
 	logger.addSplunk(process.env.SPLUNK_URL, process.env.SPLUNK_LOG_LEVEL || 'warn');
 }
 
-module.exports = logger;
+export default logger;

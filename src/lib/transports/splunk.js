@@ -1,13 +1,12 @@
-'use strict';
-
-const fork = require('child_process').fork;
-const path = require('path');
-const winston = require('winston');
-const formatMeta = require('../format-meta');
+import { fork } from 'child_process';
+import path from 'path';
+import winston from 'winston';
+import formatMessage from '../format-message';
+import formatMeta from '../format-meta';
 
 class Splunk extends winston.Transport {
 
-	constructor(opts) {
+	constructor (opts) {
 		super(opts);
 		this.name = 'splunk';
 		if (opts && opts.agent) {
@@ -18,12 +17,12 @@ class Splunk extends winston.Transport {
 		}
 	}
 
-	log(level, msg, meta, callback) {
-		const formattedMsg = msg.replace(/"/g, '\'');
+	log (level, msg, meta, callback) {
+		const formattedMsg = formatMessage(msg);
 		const formattedMeta = formatMeta(meta);
 		this.agent.send(`${formattedMsg} ${formattedMeta}`, (err) => callback(err, true));
 	}
 
 }
 
-module.exports = Splunk;
+export default Splunk;

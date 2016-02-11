@@ -1,5 +1,13 @@
-src/
-.idea/
-.editorconfig
-circle.yml
+/.babelrc
+/.editorconfig
+/.eslintrc.json
+/.gitignore
+/circle.yml
+/ft.yml
+/Makefile
+
+/.idea/
+/src/
+/test/
+
 

@@ -1,7 +1,6 @@
-'use strict';
-
-require('chai').should();
-const logger = require('../src/main');
+import chai from 'chai';
+chai.should();
+import logger from '../src/main';
 
 describe('Logger', () => {
 

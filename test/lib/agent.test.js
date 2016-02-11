@@ -1,9 +1,8 @@
-'use strict';
-
-require('chai').should();
-const fork = require('child_process').fork;
-const path = require('path');
-const http = require('http');
+import chai from 'chai';
+chai.should();
+import { fork } from 'child_process';
+import path from 'path';
+import http from 'http';
 
 describe('Agent', () => {
 	const port = '6666';
@@ -18,10 +17,10 @@ describe('Agent', () => {
 	beforeEach(() => {
 		promise = new Promise(resolve => {
 			server = http.createServer(req => {
-				req.on('data', function(chunk) {
+				req.on('data', function (chunk) {
 					requestData += chunk.toString();
 				});
-				req.on('end', function(){
+				req.on('end', function (){
 					resolve(requestData);
 				});
 			});
