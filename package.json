@@ -20,6 +20,7 @@
     "babel-preset-es2015": "^6.5.0",
     "babel-register": "^6.5.1",
     "chai": "^3.4.0",
+    "eslint": "^1.10.3",
     "lintspaces-cli": "^0.1.1",
     "mocha": "^2.2.1",
     "sinon": "^1.17.0"
