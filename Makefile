@@ -4,27 +4,21 @@ clean:
 	git clean -fxd
 
 install:
-	npm install
-
-
-build:
-	rm -rf dist/
-	mkdir dist
-	babel src --out-dir dist
-
+	@echo "Installing..."
+	@npm install
 
 verify:
-	obt verify --esLintPath .eslintrc
+	@echo "Verifying..."
+	@find ./src ./test -type f -exec lintspaces -e .editorconfig -i js-comments {} + &&\
+	eslint -c ./.eslintrc.json ./src ./test
 
 unit-test:
-	mocha --recursive test
+	@echo "Unit Testing..."
+	@mocha --require test/setup --recursive --reporter spec test
 
 test: verify unit-test
 
-release:
-ifeq ($(version),)
-	@echo "Supply a release version, e.g. make release version=patch"
-	exit 1
-endif
-	nbt bottle $(version)
-
+build: $(shell find src -type f)
+	@echo "Building..."
+	@rm -rf build
+	@babel -d build src

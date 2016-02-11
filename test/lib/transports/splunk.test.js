@@ -1,8 +1,7 @@
-'use strict';
-
-require('chai').should();
-const sinon = require('sinon');
-const Splunk = require('../../../src/lib/transports/splunk');
+import chai from 'chai';
+chai.should();
+import sinon from 'sinon';
+import Splunk from '../../../src/lib/transports/splunk';
 
 describe('Splunk', () => {
 

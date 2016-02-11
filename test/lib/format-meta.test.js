@@ -1,7 +1,6 @@
-'use strict';
-
-require('chai').should();
-const formatMeta = require('../../src/lib/format-meta');
+import chai from 'chai';
+chai.should();
+import formatMeta from '../../src/lib/format-meta';
 
 describe('Format Meta', () => {
 
