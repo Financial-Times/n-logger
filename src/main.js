@@ -2,8 +2,7 @@ import winston from 'winston';
 import Splunk from './lib/transports/splunk';
 import formatMessage from './lib/format-message';
 import formatMeta from './lib/format-meta';
-
-const nonEmpty = item => item;
+import nonEmpty from './lib/non-empty';
 
 const formatter = options => {
 	const meta = Object.assign({ level: options.level }, options.meta);
