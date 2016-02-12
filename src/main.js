@@ -1,15 +1,6 @@
 import winston from 'winston';
 import Splunk from './lib/transports/splunk';
-import formatMessage from './lib/format-message';
-import formatMeta from './lib/format-meta';
-import nonEmpty from './lib/non-empty';
-
-const formatter = options => {
-	const meta = Object.assign({ level: options.level }, options.meta);
-	return [formatMessage(options.message), formatMeta(meta)]
-		.filter(nonEmpty)
-		.join(' ');
-};
+import formatter from './lib/formatter';
 
 class Logger {
 
@@ -21,16 +12,13 @@ class Logger {
 		);
 	}
 
-	addConsole (level, opts) {
+	addConsole (level = 'info', opts = {}) {
 		if (this.logger.transports.console) {
 			return;
 		}
 		this.logger.add(
 			winston.transports.Console,
-			Object.assign({}, {
-				level: level || 'info',
-				formatter
-			}, opts)
+			Object.assign({ level, formatter }, opts)
 		);
 	}
 
@@ -41,7 +29,7 @@ class Logger {
 		this.logger.remove('console');
 	}
 
-	addSplunk (splunkUrl, level, opts) {
+	addSplunk (splunkUrl, level = 'info', opts = {}) {
 		if (this.logger.transports.splunk) {
 			return;
 		}
@@ -51,10 +39,7 @@ class Logger {
 		}
 		this.logger.add(
 			Splunk,
-			Object.assign({}, {
-				level: level || 'info',
-				splunkUrl
-			}, opts)
+			Object.assign({ level, splunkUrl }, opts)
 		);
 	}
 
