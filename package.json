@@ -1,6 +1,6 @@
 {
   "name": "@financial-times/n-logger",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "main": "build/main.js",
   "repository": {
     "type": "git",
