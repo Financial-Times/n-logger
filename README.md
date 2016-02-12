@@ -30,6 +30,7 @@ By default
 ### API
 
   * `[silly|debug|verbose|info|warn|error](errorMessage, errorMeta = {})`
+    * an `errorMessage` can be any primitive type, plus an `Error` object
   * `addConsole(level = 'info', opts = {})`
   * `removeConsole()`
   * `addSplunk(splunkUrl, level = 'info', opts = {})`

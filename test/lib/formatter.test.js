@@ -38,7 +38,8 @@ describe('Formatter', () => {
 	});
 
 	it('should understand a message that\'s an Error', () => {
-		const message = new Error('whoops!');
+		class MyError extends Error { };
+		const message = new MyError('whoops!');
 		const options = { message };
 		formatter(options).should.startWith('whoops! errorName=Error errorStack="Error: whoops!\n    at');
 	});
