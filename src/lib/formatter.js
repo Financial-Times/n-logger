@@ -3,11 +3,17 @@ import formatMeta from './format-meta';
 
 const nonEmpty = item => item;
 
+const extractErrorDetails = err => ({
+	error_message: err.message,
+	error_name: err.name,
+	error_stack: err.stack
+});
+
 const handleErrorMessage = (message, meta) => {
 	if (message instanceof Error) {
-		meta.errorName = message.name;
-		meta.errorStack = message.stack;
-		return [message.message, meta];
+		return [message.message, Object.assign({}, extractErrorDetails(message), meta)];
+	} else if (meta instanceof Error) {
+		return [message, extractErrorDetails(meta)];
 	} else {
 		return [message, meta];
 	}

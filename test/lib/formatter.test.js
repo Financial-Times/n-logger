@@ -41,7 +41,28 @@ describe('Formatter', () => {
 		class MyError extends Error { };
 		const message = new MyError('whoops!');
 		const options = { message };
-		formatter(options).should.startWith('whoops! errorName=Error errorStack="Error: whoops!\n    at');
+		formatter(options).should.startWith('whoops! error_message=whoops! error_name=Error error_stack="Error: whoops!\n    at');
+	});
+
+	it('should understand a message that\'s an Error with meta', () => {
+		class MyError extends Error { };
+		const message = new MyError('whoops!');
+		const options = { message, meta: { foo: 'bar' }};
+		formatter(options).should.endWith('foo=bar');
+	});
+
+	it('should understand meta that\'s an Error', () => {
+		class MyError extends Error { };
+		const meta = new MyError('whoops!');
+		const options = { meta };
+		formatter(options).should.startWith('error_message=whoops! error_name=Error error_stack="Error: whoops!\n    at');
+	});
+
+	it('should understand meta that\'s an Error with a message', () => {
+		class MyError extends Error { };
+		const meta = new MyError('whoops!');
+		const options = { message: 'a message', meta };
+		formatter(options).should.startWith('a message error_message=whoops! error_name=Error error_stack="Error: whoops!\n    at');
 	});
 
 });
