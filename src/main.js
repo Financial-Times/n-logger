@@ -12,6 +12,10 @@ class Logger {
 		);
 	}
 
+	log (...args) {
+		this.logger.log(...args);
+	}
+
 	addConsole (level = 'info', opts = {}) {
 		if (this.logger.transports.console) {
 			return;
