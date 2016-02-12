@@ -19,7 +19,7 @@ class Splunk extends winston.Transport {
 
 	log (level, msg, meta, callback) {
 		const formattedMsg = formatMessage(msg);
-		const formattedMeta = formatMeta(meta);
+		const formattedMeta = formatMeta(Object.assign({ level }, meta));
 
 		// HACK: For AWS Lambda
 		// Compare the breaking API change somewhere ebetween 0.10 and 4.x.x
