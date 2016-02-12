@@ -26,4 +26,13 @@ describe('Splunk', () => {
 		mockAgent.send.calledWith('a message level=error field=value').should.be.true;
 	});
 
+	it('should handle no message', () => {
+		const mockAgent = {
+			send: sinon.spy()
+		};
+		const splunkTransport = new Splunk({ splunkUrl: 'http://splunk.ft.com/ft-next-front-page', agent: mockAgent });
+		splunkTransport.log('error', '');
+		mockAgent.send.calledWith('level=error').should.be.true;
+	});
+
 });

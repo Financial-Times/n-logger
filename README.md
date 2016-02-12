@@ -22,16 +22,18 @@ If using CommonJS modules
 
 By default
 
-* the `console` logger is added
-  * logger level can be set by `CONSOLE_LOG_LEVEL` environment variable; defaults to `silly`
-* the `splunk` logger is added if `NODE_ENV === production`
+  * the `console` logger is added
+    * logger level can be set by `CONSOLE_LOG_LEVEL` env variable; defaults to `silly`
+  * the `splunk` logger is added if `NODE_ENV === production`
+    * logger level can be set by `SPLUNK_LOG_LEVEL` env variable; defaults to `warn`
 
 ### API
 
- * `logger` - the [Winston object](https://github.com/winstonjs/winston)
- * `addConsole(level = 'info', opts = {})`
- * `removeConsole()`
- * `addSplunk(splunkUrl, level = 'info', opts = {})`
- * `removeSplunk()`
- * `clearLoggers()`
-
+  * `[silly|debug|verbose|info|warn|error](errorMessage, errorMeta = {})`
+    * an `errorMessage` can be any primitive type, plus an `Error` object
+  * `addConsole(level = 'info', opts = {})`
+  * `removeConsole()`
+  * `addSplunk(splunkUrl, level = 'info', opts = {})`
+  * `removeSplunk()`
+  * `clearLoggers()`
+  * `logger` - the [Winston object](https://github.com/winstonjs/winston)
