@@ -13,4 +13,10 @@ describe('Format Message', () => {
 		formatMessage(message).should.equal('an \'error\' occurred');
 	});
 
+	it('should understand a message that\'s an Error', () => {
+		class MyError extends Error { };
+		const message = new MyError('whoops!');
+		formatMessage(message).should.startWith('error_message=whoops! error_name=Error error_stack="Error: whoops!\n    at');
+	});
+
 });

@@ -1,18 +1,19 @@
 import chai from 'chai';
 chai.should();
-import formatMeta from '../../src/lib/format-meta';
+import { formatObject, formatValue } from '../../src/lib/format-splunk';
 
-describe('Format Meta', () => {
+describe('Format Splunk', () => {
 
 	it('should exist', () => {
-		formatMeta.should.exist;
+		formatObject.should.exist;
+		formatValue.should.exist;
 	});
 
 	it('should format objects', () => {
 		const meta = {
 			app: 'ft-next-front-page'
 		};
-		formatMeta(meta).should.equal('app=ft-next-front-page');
+		formatObject(meta).should.equal('app=ft-next-front-page');
 	});
 
 	it('should format objects with multiple properties', () => {
@@ -20,21 +21,21 @@ describe('Format Meta', () => {
 			app: 'ft-next-front-page',
 			level: 'error'
 		};
-		formatMeta(meta).should.equal('app=ft-next-front-page level=error');
+		formatObject(meta).should.equal('app=ft-next-front-page level=error');
 	});
 
 	it('should wrap values with spaces in double quotes', () => {
 		const meta = {
 			msg: 'Bad response'
 		};
-		formatMeta(meta).should.equal('msg="Bad response"');
+		formatObject(meta).should.equal('msg="Bad response"');
 	});
 
 	it('should convert values with double quotes to singles', () => {
 		const meta = {
 			msg: 'Server responded with "Bad Request", 400'
 		};
-		formatMeta(meta).should.equal('msg="Server responded with \'Bad Request\', 400"');
+		formatObject(meta).should.equal('msg="Server responded with \'Bad Request\', 400"');
 	});
 
 	it('should handle non-string values', () => {
@@ -42,7 +43,7 @@ describe('Format Meta', () => {
 			msg: 'Bad response',
 			status: 400
 		};
-		formatMeta(meta).should.equal('msg="Bad response" status=400');
+		formatObject(meta).should.equal('msg="Bad response" status=400');
 	});
 
 });

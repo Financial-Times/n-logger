@@ -1,6 +1,7 @@
 import winston from 'winston';
 import Splunk from './lib/transports/splunk';
 import formatter from './lib/formatter';
+import formatMessage from './lib/format-message';
 
 class Logger {
 
@@ -8,12 +9,13 @@ class Logger {
 		this.logger = new (winston.Logger)();
 		// create logging methods
 		Object.keys(this.logger.levels).forEach(level =>
-			this[level] = (...args) => this.logger[level](...args)
+			this[level] = (...args) => this.log(level, ...args)
 		);
 	}
 
-	log (...args) {
-		this.logger.log(...args);
+	log (level, message, ...args) {
+		const formattedMessage = formatMessage(message);
+		this.logger.log(level, formattedMessage, ...args);
 	}
 
 	addConsole (level = 'info', opts = {}) {
