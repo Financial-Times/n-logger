@@ -14,7 +14,7 @@ verify:
 
 unit-test:
 	@echo "Unit Testing…"
-	@mocha --require test/setup --recursive --reporter spec --watch test
+	@mocha --require test/setup --recursive --reporter spec test
 
 test: verify unit-test
 
