@@ -19,6 +19,6 @@ unit-test:
 test: verify unit-test
 
 build: $(shell find src -type f)
-	@echo "Building..."
+	@echo "Building…"
 	@rm -rf build
 	@babel -d build src
