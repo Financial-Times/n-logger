@@ -1,6 +1,21 @@
 import winston from 'winston';
 import Splunk from './lib/transports/splunk';
 import formatter from './lib/formatter';
+import { formatError } from './lib/format';
+
+const loggerArgs = (level, message, meta) => {
+	const formattedMessage = formatError(message);
+	const formattedMeta = formatError(meta);
+	const args = [level];
+	// if message is an object, merge with meta
+	if (typeof formattedMessage === 'object') {
+		return args.concat([Object.assign({}, formattedMeta, formattedMessage || {})]);
+	} else {
+		return args.concat([message, formattedMeta]);
+	}
+};
+
+const empty = item => item;
 
 class Logger {
 
@@ -8,12 +23,13 @@ class Logger {
 		this.logger = new (winston.Logger)();
 		// create logging methods
 		Object.keys(this.logger.levels).forEach(level =>
-			this[level] = (...args) => this.logger[level](...args)
+			this[level] = (...args) => this.log(level, ...args)
 		);
 	}
 
-	log (...args) {
-		this.logger.log(...args);
+	log (level, message, meta) {
+		const args = loggerArgs(level, message, meta).filter(empty);
+		this.logger.log.apply(this.logger, args);
 	}
 
 	addConsole (level = 'info', opts = {}) {

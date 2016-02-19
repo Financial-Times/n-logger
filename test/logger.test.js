@@ -1,5 +1,8 @@
+import sinon from 'sinon';
 import chai from 'chai';
+import chaiString from 'chai-string';
 chai.should();
+chai.use(chaiString);
 import logger from '../src/main';
 
 describe('Logger', () => {
@@ -17,6 +20,66 @@ describe('Logger', () => {
 		logger.clearLoggers();
 		logger.logger.transports.should.be.empty;
 	});
+
+	describe('Logging', () => {
+
+		let logSpy;
+
+		beforeEach(() => {
+			logSpy = sinon.spy(logger.logger, 'log');
+		});
+
+		afterEach(() => {
+			logSpy.restore();
+		});
+
+		it('should be able to log a message', () => {
+			logger.log('info', 'a message');
+			logSpy.calledWithExactly('info', 'a message').should.be.true;
+		});
+
+		it('should be able to use shorthand methods', () => {
+			logger.info('a message');
+			logSpy.calledWithExactly('info', 'a message').should.be.true;
+		});
+
+		it('should pass message and meta through', () => {
+			logger.log('info', 'a message', { foo: 'foo' });
+			logSpy.calledWithExactly('info', 'a message', { foo: 'foo' }).should.be.true;
+		});
+
+		it('should pass meta only through', () => {
+			logger.log('info', { foo: 'foo' });
+			logSpy.calledWithExactly('info', { foo: 'foo' }).should.be.true;
+		});
+
+		it('should convert Error message to meta', () => {
+			class MyError extends Error { };
+			logger.log('info', new MyError('whoops!'));
+			logSpy.lastCall.args[1].should.have.property('error_message', 'whoops!');
+			logSpy.lastCall.args[1].should.have.property('error_name', 'Error');
+			logSpy.lastCall.args[1].error_stack.should.startWith('Error: whoops!\n    at');
+		});
+
+		it('should combine Error message meta', () => {
+			class MyError extends Error { };
+			logger.log('info', new MyError('whoops!'), { foo: 'foo' });
+			logSpy.lastCall.args[1].should.have.property('error_message', 'whoops!');
+			logSpy.lastCall.args[1].should.have.property('error_name', 'Error');
+			logSpy.lastCall.args[1].should.have.property('foo', 'foo');
+			logSpy.lastCall.args[1].error_stack.should.startWith('Error: whoops!\n    at');
+		});
+
+		it('should handle message and Error meta', () => {
+			class MyError extends Error { };
+			logger.log('info', 'a message', new MyError('whoops!'));
+			logSpy.lastCall.args[1].should.equal('a message');
+			logSpy.lastCall.args[2].should.have.property('error_message', 'whoops!');
+			logSpy.lastCall.args[2].should.have.property('error_name', 'Error');
+			logSpy.lastCall.args[2].error_stack.should.startWith('Error: whoops!\n    at');
+		});
+
+	})
 
 	describe('Console', () => {
 
