@@ -2,7 +2,8 @@ import chai from 'chai';
 import chaiString from 'chai-string';
 chai.should();
 chai.use(chaiString);
-import formatter from '../../src/lib/formatter';
+
+import formatter from '../../build/lib/formatter';
 
 describe('Formatter', () => {
 

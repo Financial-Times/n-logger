@@ -1,6 +1,6 @@
 /.babelrc
 /.editorconfig
-/.eslintrc.json
+/.eslintrc.js
 /.gitignore
 /circle.yml
 /ft.yml
@@ -9,5 +9,3 @@
 /.idea/
 /src/
 /test/
-
-

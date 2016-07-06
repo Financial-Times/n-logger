@@ -1,6 +1,7 @@
 import chai from 'chai';
 chai.should();
-import { formatError, formatMessage, formatFields, formatValue } from '../../src/lib/format';
+
+import { formatError, formatMessage, formatFields, formatValue } from '../../build/lib/format';
 
 describe('Format', () => {
 

@@ -1,8 +1,8 @@
-import chai from 'chai';
-chai.should();
 import { fork } from 'child_process';
 import path from 'path';
 import http from 'http';
+import chai from 'chai';
+chai.should();
 
 describe('Agent', () => {
 	const port = '6666';
@@ -26,7 +26,7 @@ describe('Agent', () => {
 			});
 			server.listen(port);
 		});
-		agent = fork(path.resolve(__dirname, '..', '..', 'src/lib/agent.js'), [`${host}/${appName}`]);
+		agent = fork(path.resolve(__dirname, '..', '..', 'build/lib/agent.js'), [`${host}/${appName}`]);
 	});
 
 	afterEach(done => {

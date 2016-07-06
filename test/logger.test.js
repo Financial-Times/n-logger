@@ -3,7 +3,8 @@ import chai from 'chai';
 import chaiString from 'chai-string';
 chai.should();
 chai.use(chaiString);
-import logger from '../src/main';
+
+import logger from '../build/main';
 
 describe('Logger', () => {
 
@@ -65,9 +66,7 @@ describe('Logger', () => {
 			class MyError extends Error { };
 			logger.log('info', new MyError('whoops!'), { foo: 'foo' });
 			logSpy.lastCall.args[1].should.have.property('error_message', 'whoops!');
-			logSpy.lastCall.args[1].should.have.property('error_name', 'Error');
 			logSpy.lastCall.args[1].should.have.property('foo', 'foo');
-			logSpy.lastCall.args[1].error_stack.should.startWith('Error: whoops!\n    at');
 		});
 
 		it('should handle message and Error meta', () => {
@@ -75,8 +74,19 @@ describe('Logger', () => {
 			logger.log('info', 'a message', new MyError('whoops!'));
 			logSpy.lastCall.args[1].should.equal('a message');
 			logSpy.lastCall.args[2].should.have.property('error_message', 'whoops!');
-			logSpy.lastCall.args[2].should.have.property('error_name', 'Error');
-			logSpy.lastCall.args[2].error_stack.should.startWith('Error: whoops!\n    at');
+		});
+
+		it('should be able to send message, error and meta', () => {
+			class MyError extends Error { };
+			logger.log('info', 'a message', new MyError('whoops!'), { extra: 'foo' });
+			logSpy.lastCall.args[1].should.equal('a message');
+			logSpy.lastCall.args[2].should.have.property('error_message', 'whoops!');
+			logSpy.lastCall.args[2].should.have.property('extra', 'foo');
+		});
+
+		it('should be able to send multiple metas', () => {
+			logger.log('info', { extra: 'foo' }, { anotherExtra: 'bar' }, { extra: 'baz' });
+			logSpy.calledWithExactly('info', { extra: 'foo', anotherExtra: 'bar' }).should.be.true;
 		});
 
 	})
