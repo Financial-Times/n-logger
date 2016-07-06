@@ -10,9 +10,14 @@ Logging utility
 ## Usage
 
     import logger from '@financial-times/n-logger';
+
+    logger.log('info', 'Saying hello');
     logger.info('Saying hello');
     logger.warn('Everything’s mostly cool');
     logger.error('Uh-oh', { field: 'some value' });
+
+    const err = new Error('Whoops!');
+    logger.error('Uh-oh', err, { extra_field: 'boo' });
 
 If using CommonJS modules
 
@@ -29,11 +34,24 @@ By default
 
 ### API
 
-  * `[silly|debug|verbose|info|warn|error](errorMessage, errorMeta = {})`
-    * an `errorMessage` can be any primitive type, plus an `Error` object
-  * `addConsole(level = 'info', opts = {})`
-  * `removeConsole()`
-  * `addSplunk(splunkUrl, level = 'info', opts = {})`
-  * `removeSplunk()`
-  * `clearLoggers()`
-  * `logger` - the [Winston object](https://github.com/winstonjs/winston)
+#### log(level, message, ...meta)
+
+ * `level` can be silly, debug, verbose, info, warn or error
+ * `message` is optional
+ * any number of meta objects can be supplied, including `Error` objects
+
+#### silly|debug|verbose|info|warn|error(message, ...meta)
+
+#### addConsole(level = 'info', opts = {})
+
+#### removeConsole()
+
+#### addSplunk(splunkUrl, level = 'info', opts = {})
+
+#### removeSplunk()
+
+#### clearLoggers()
+
+#### logger
+
+The [Winston object](https://github.com/winstonjs/winston)
