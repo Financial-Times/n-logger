@@ -3,7 +3,8 @@ import chai from 'chai';
 import chaiString from 'chai-string';
 chai.should();
 chai.use(chaiString);
-import logger from '../src/main';
+
+import logger from '../build/main';
 
 describe('Logger', () => {
 
@@ -33,8 +34,9 @@ describe('Logger', () => {
 			logSpy.restore();
 		});
 
-		it('should be able to log a message', () => {
+		it.only('should be able to log a message', () => {
 			logger.log('info', 'a message');
+			console.log(logSpy.lastCall.args);
 			logSpy.calledWithExactly('info', 'a message').should.be.true;
 		});
 
@@ -77,6 +79,16 @@ describe('Logger', () => {
 			logSpy.lastCall.args[2].should.have.property('error_message', 'whoops!');
 			logSpy.lastCall.args[2].should.have.property('error_name', 'Error');
 			logSpy.lastCall.args[2].error_stack.should.startWith('Error: whoops!\n    at');
+		});
+
+		it('should be able to send message, error and meta', () => {
+			class MyError extends Error { };
+			logger.log('info', 'a message', new MyError('whoops!'), { extra: 'foo' });
+			logSpy.lastCall.args[1].should.equal('a message');
+			logSpy.lastCall.args[2].should.have.property('error_message', 'whoops!');
+			logSpy.lastCall.args[2].should.have.property('error_name', 'Error');
+			logSpy.lastCall.args[2].error_stack.should.startWith('Error: whoops!\n    at');
+			logSpy.lastCall.args[2].should.have.property('extra', 'foo');
 		});
 
 	})

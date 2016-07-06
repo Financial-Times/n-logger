@@ -3,15 +3,19 @@ import Splunk from './lib/transports/splunk';
 import formatter from './lib/formatter';
 import { formatError } from './lib/format';
 
-const loggerArgs = (level, message, meta) => {
+const loggerArgs = (level, message, ...metas) => {
 	const formattedMessage = formatError(message);
-	const formattedMeta = formatError(meta);
+	const formattedMetas = metas
+		.reduce(
+			(currentFormattedMetas, meta) =>
+				Object.assign({}, currentFormattedMetas, formatError(meta)),
+			{});
 	const args = [level];
 	// if message is an object, merge with meta
 	if (typeof formattedMessage === 'object') {
-		return args.concat([Object.assign({}, formattedMeta, formattedMessage || {})]);
+		return args.concat([Object.assign({}, formattedMetas, formattedMessage || {})]);
 	} else {
-		return args.concat([message, formattedMeta]);
+		return args.concat([message, formattedMetas]);
 	}
 };
 
@@ -27,8 +31,8 @@ class Logger {
 		);
 	}
 
-	log (level, message, meta) {
-		const args = loggerArgs(level, message, meta).filter(empty);
+	log (level, message, ...metas) {
+		const args = loggerArgs(level, message, ...metas).filter(empty);
 		this.logger.log.apply(this.logger, args);
 	}
 

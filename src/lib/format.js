@@ -1,8 +1,14 @@
-const extractErrorDetails = err => ({
-	error_message: err.message,
-	error_name: err.name,
-	error_stack: err.stack
-});
+const extractErrorDetails = err => {
+	const deets = {
+		error_message: err.message,
+		error_name: err.name
+	};
+	if (err.stack) {
+		deets.error_stack = err.stack;
+	}
+
+	return deets;
+};
 
 const deQuote = string => (typeof string === 'string') ? string.replace(/"/g, '\'') : string;
 
