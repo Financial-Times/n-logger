@@ -34,9 +34,8 @@ describe('Logger', () => {
 			logSpy.restore();
 		});
 
-		it.only('should be able to log a message', () => {
+		it('should be able to log a message', () => {
 			logger.log('info', 'a message');
-			console.log(logSpy.lastCall.args);
 			logSpy.calledWithExactly('info', 'a message').should.be.true;
 		});
 
@@ -67,9 +66,7 @@ describe('Logger', () => {
 			class MyError extends Error { };
 			logger.log('info', new MyError('whoops!'), { foo: 'foo' });
 			logSpy.lastCall.args[1].should.have.property('error_message', 'whoops!');
-			logSpy.lastCall.args[1].should.have.property('error_name', 'Error');
 			logSpy.lastCall.args[1].should.have.property('foo', 'foo');
-			logSpy.lastCall.args[1].error_stack.should.startWith('Error: whoops!\n    at');
 		});
 
 		it('should handle message and Error meta', () => {
@@ -77,8 +74,6 @@ describe('Logger', () => {
 			logger.log('info', 'a message', new MyError('whoops!'));
 			logSpy.lastCall.args[1].should.equal('a message');
 			logSpy.lastCall.args[2].should.have.property('error_message', 'whoops!');
-			logSpy.lastCall.args[2].should.have.property('error_name', 'Error');
-			logSpy.lastCall.args[2].error_stack.should.startWith('Error: whoops!\n    at');
 		});
 
 		it('should be able to send message, error and meta', () => {
@@ -86,9 +81,12 @@ describe('Logger', () => {
 			logger.log('info', 'a message', new MyError('whoops!'), { extra: 'foo' });
 			logSpy.lastCall.args[1].should.equal('a message');
 			logSpy.lastCall.args[2].should.have.property('error_message', 'whoops!');
-			logSpy.lastCall.args[2].should.have.property('error_name', 'Error');
-			logSpy.lastCall.args[2].error_stack.should.startWith('Error: whoops!\n    at');
 			logSpy.lastCall.args[2].should.have.property('extra', 'foo');
+		});
+
+		it('should be able to send multiple metas', () => {
+			logger.log('info', { extra: 'foo' }, { anotherExtra: 'bar' }, { extra: 'baz' });
+			logSpy.calledWithExactly('info', { extra: 'foo', anotherExtra: 'bar' }).should.be.true;
 		});
 
 	})

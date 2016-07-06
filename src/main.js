@@ -4,19 +4,22 @@ import formatter from './lib/formatter';
 import { formatError } from './lib/format';
 
 const loggerArgs = (level, message, ...metas) => {
-	const formattedMessage = formatError(message);
-	const formattedMetas = metas
-		.reduce(
-			(currentFormattedMetas, meta) =>
-				Object.assign({}, currentFormattedMetas, formatError(meta)),
-			{});
 	const args = [level];
-	// if message is an object, merge with meta
-	if (typeof formattedMessage === 'object') {
-		return args.concat([Object.assign({}, formattedMetas, formattedMessage || {})]);
+	// if not a string, assume it's a meta object
+	if (typeof message === 'string') {
+		args.push(message);
 	} else {
-		return args.concat([message, formattedMetas]);
+		metas.unshift(message)
 	}
+	if (metas.length) {
+		args.push(
+			metas.reduceRight((currentFormattedMetas, meta) =>
+				Object.assign({}, currentFormattedMetas, formatError(meta)),
+			{})
+		);
+	}
+
+	return args;
 };
 
 const empty = item => item;
