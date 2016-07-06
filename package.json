@@ -21,8 +21,8 @@
     "babel-register": "^6.5.1",
     "chai": "^3.4.0",
     "chai-string": "^1.1.6",
-    "eslint": "^1.10.3",
-    "lintspaces-cli": "^0.1.1",
+    "eslint": "^3.0.1",
+    "lintspaces-cli": "^0.3.0",
     "mocha": "^2.2.1",
     "sinon": "^1.17.0"
   },
