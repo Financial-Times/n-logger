@@ -4,7 +4,8 @@ const extractErrorDetails = err => {
 		error_name: err.name
 	};
 	if (err.stack) {
-		deets.error_stack = err.stack;
+		// logs need to all be on one line, so remove newlines from the stacktrace
+		deets.error_stack = err.stack.replace(/\n/g, '; ');
 	}
 
 	return deets;
