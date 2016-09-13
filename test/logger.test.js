@@ -59,7 +59,7 @@ describe('Logger', () => {
 			logger.log('info', new MyError('whoops!'));
 			logSpy.lastCall.args[1].should.have.property('error_message', 'whoops!');
 			logSpy.lastCall.args[1].should.have.property('error_name', 'Error');
-			logSpy.lastCall.args[1].error_stack.should.startWith('Error: whoops!\n    at');
+			logSpy.lastCall.args[1].error_stack.should.startWith('Error: whoops!;    at');
 		});
 
 		it('should combine Error message meta', () => {
