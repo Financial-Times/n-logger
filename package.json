@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "npm-prepublish": "^1.2.1",
     "request": "^2.67.0",
     "winston": "^1.1.1"
   },
