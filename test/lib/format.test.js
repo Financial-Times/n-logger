@@ -69,6 +69,13 @@ describe('Format', () => {
 			formatFields(meta).should.equal('msg="Bad response" status=400');
 		});
 
+		it('should convert arrays to multi-valued fields', () => {
+			const meta = {
+				msg: ['value-one', 'value-two']
+			};
+			formatFields(meta).should.equal('msg="value-one,value-two"');
+		});
+
 	});
 
 	describe('Value', () => {
