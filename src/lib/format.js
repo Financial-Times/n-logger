@@ -1,5 +1,3 @@
-const deQuote = value => (typeof value === 'string') ? value.replace(/"/g, '\'') : value;
-
 const extractErrorDetails = err => {
 	const deets = {
 		error_message: err.message,
@@ -13,18 +11,11 @@ const extractErrorDetails = err => {
 	return deets;
 };
 
-const formatError = data => (data instanceof Error) ? extractErrorDetails(data) : data;
+const deQuote = value => (typeof value === 'string') ? value.replace(/"/g, '\'') : value;
 
 const formatMessage = message => deQuote(message);
 
-// wrap in quotes, if it contains a space
-const formatValue = value => {
-	if (Array.isArray(value)) {
-		return `"${value.join(',')}"`;
-	} else {
-		return (/\s/.test(value)) ? `"${deQuote(value)}"` : deQuote(value);
-	}
-}
+const formatError = obj => (obj instanceof Error) ? extractErrorDetails(obj) : obj;
 
 const formatFields = fields => {
 	const formattedFields = Object.keys(fields)
@@ -34,6 +25,15 @@ const formatFields = fields => {
 		});
 
 	return formattedFields.join(' ');
+};
+
+const formatValue = value => {
+	if (Array.isArray(value)) {
+		return `"${value.join(',')}"`;
+	} else {
+		// wrap in quotes, if it contains a space
+		return (/\s/.test(value)) ? `"${deQuote(value)}"` : deQuote(value);
+	}
 };
 
 export { formatError, formatMessage, formatFields, formatValue }
