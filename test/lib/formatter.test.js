@@ -35,7 +35,7 @@ describe('Formatter', () => {
 
 	it('should format all options', () => {
 		const options = { message: 'a message', level: 'error', meta: { foo: 'bar' }};
-		formatter(options).should.equal('a message level=error foo=bar');
+		formatter(options).should.equal('a message foo=bar level=error');
 	});
 
 });

@@ -25,7 +25,8 @@
     "eslint": "^3.0.1",
     "lintspaces-cli": "^0.3.0",
     "mocha": "^2.2.1",
-    "sinon": "^1.17.0"
+    "sinon": "^1.17.0",
+    "sinon-chai": "^2.8.0"
   },
   "engines": {
     "node": ">=4.4.7"
