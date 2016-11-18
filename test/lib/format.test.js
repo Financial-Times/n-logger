@@ -1,27 +1,24 @@
 import chai from 'chai';
 chai.should();
 
-import { formatError, formatMessage, formatFields, formatValue } from '../../build/lib/format';
+import * as format from '../../build/lib/format';
 
 describe('Format', () => {
-
-	describe('Error', () => {
-
-		it('should exist', () => {
-			formatError.should.exist;
-		});
-
-	});
 
 	describe('Message', () => {
 
 		it('should exist', () => {
-			formatMessage.should.exist;
+			format.message.should.exist;
 		});
 
 		it('should replace double-quotes with single-quotes', () => {
 			const message = 'an "error" occurred';
-			formatMessage(message).should.equal('an \'error\' occurred');
+			format.message(message).should.equal('an \'error\' occurred');
+		});
+
+		it('should convert new lines to semicolon-space', () => {
+			const message = 'an error\nover \nmultiple lines';
+			format.message(message).should.equal('an error; over ; multiple lines');
 		});
 
 	});
@@ -29,14 +26,14 @@ describe('Format', () => {
 	describe('Fields', () => {
 
 		it('should exist', () => {
-			formatFields.should.exist;
+			format.fields.should.exist;
 		});
 
 		it('should format fields', () => {
 			const meta = {
 				app: 'ft-next-front-page'
 			};
-			formatFields(meta).should.equal('app=ft-next-front-page');
+			format.fields(meta).should.equal('app=ft-next-front-page');
 		});
 
 		it('should format multiple fields', () => {
@@ -44,21 +41,28 @@ describe('Format', () => {
 				app: 'ft-next-front-page',
 				level: 'error'
 			};
-			formatFields(meta).should.equal('app=ft-next-front-page level=error');
+			format.fields(meta).should.equal('app=ft-next-front-page level=error');
 		});
 
 		it('should wrap values with spaces in double quotes', () => {
 			const meta = {
 				msg: 'Bad response'
 			};
-			formatFields(meta).should.equal('msg="Bad response"');
+			format.fields(meta).should.equal('msg="Bad response"');
 		});
 
 		it('should convert values with double quotes to singles', () => {
 			const meta = {
 				msg: 'Server responded with "Bad Request", 400'
 			};
-			formatFields(meta).should.equal('msg="Server responded with \'Bad Request\', 400"');
+			format.fields(meta).should.equal('msg="Server responded with \'Bad Request\', 400"');
+		});
+
+		it('should convert new lines to semicolon-space', () => {
+			const meta = {
+				msg: 'an error\nover \nmultiple lines'
+			};
+			format.fields(meta).should.equal('msg="an error; over ; multiple lines"');
 		});
 
 		it('should handle non-string values', () => {
@@ -66,22 +70,21 @@ describe('Format', () => {
 				msg: 'Bad response',
 				status: 400
 			};
-			formatFields(meta).should.equal('msg="Bad response" status=400');
+			format.fields(meta).should.equal('msg="Bad response" status=400');
 		});
 
 		it('should convert arrays to multi-valued fields', () => {
 			const meta = {
 				msg: ['value-one', 'value-two']
 			};
-			formatFields(meta).should.equal('msg="value-one,value-two"');
+			format.fields(meta).should.equal('msg="value-one,value-two"');
 		});
 
-	});
-
-	describe('Value', () => {
-
-		it('should exist', () => {
-			formatValue.should.exist;
+		it('should sanitise multi-valued fields', () => {
+			const meta = {
+				msg: ['value one', 'value "two"', 'value \nthree']
+			};
+			format.fields(meta).should.equal('msg="value one,value \'two\',value ; three"');
 		});
 
 	});
