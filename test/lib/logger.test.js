@@ -47,7 +47,7 @@ describe('Logger', () => {
 			const winston = winstonStub({ log: logSpy });
 			const logger = new Logger({ winston });
 			logger.log('info', 'a message');
-			logSpy.should.always.have.been.calledWithExactly('info', 'a message');
+			logSpy.should.always.have.been.calledWithExactly('info', 'a message', {});
 		});
 
 		it('should be able to use shorthand methods', () => {
@@ -55,7 +55,7 @@ describe('Logger', () => {
 			const winston = winstonStub({ log: logSpy });
 			const logger = new Logger({ winston });
 			logger.info('a message');
-			logSpy.should.always.have.been.calledWithExactly('info', 'a message');
+			logSpy.should.always.have.been.calledWithExactly('info', 'a message', {});
 		});
 
 		it('should pass message and meta through', () => {
@@ -254,6 +254,38 @@ describe('Logger', () => {
 			logger.clearLoggers();
 			removeSpy.should.have.been.calledWith('console');
 			removeSpy.should.have.been.calledWith('splunk');
+		});
+
+	});
+
+	describe('#addContext', () => {
+
+		it('should be able to add context to logs', () => {
+			const logSpy = sinon.spy();
+			const winston = winstonStub({ log: logSpy });
+			const logger = new Logger({ winston });
+			logger.addContext({ region: 'EU' })
+			logger.log('info', 'a message');
+			logSpy.should.always.have.been.calledWithExactly('info', 'a message', { region: 'EU' });
+		});
+
+		it('should be able to add multiple context to logs', () => {
+			const logSpy = sinon.spy();
+			const winston = winstonStub({ log: logSpy });
+			const logger = new Logger({ winston });
+			logger.addContext({ region: 'EU' })
+			logger.addContext({ app: 'article' })
+			logger.log('info');
+			logSpy.should.always.have.been.calledWithExactly('info', { region: 'EU', app: 'article' });
+		});
+
+		it('should give priority to supplied meta', () => {
+			const logSpy = sinon.spy();
+			const winston = winstonStub({ log: logSpy });
+			const logger = new Logger({ winston });
+			logger.addContext({ region: 'EU' })
+			logger.log('info', { region: 'US' });
+			logSpy.should.always.have.been.calledWithExactly('info', { region: 'US' });
 		});
 
 	});
