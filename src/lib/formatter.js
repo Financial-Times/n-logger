@@ -1,7 +1,7 @@
 import * as format from './format';
 import * as utils from './utils';
 
- const formatter = ({ level, message = '', meta = {} }) => {
+const formatter = ({ level, message = '', meta = {} }) => {
 	if (level) {
 		meta.level = level
 	}
