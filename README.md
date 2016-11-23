@@ -52,6 +52,9 @@ By default
 
 #### clearLoggers()
 
+#### addContent(meta)
+`meta` to be sent with every subsequent log call
+
 #### logger
 
 The [Winston object](https://github.com/winstonjs/winston)
