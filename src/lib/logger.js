@@ -35,7 +35,6 @@ const loggerArgs = (level, message, ...metas) => {
 			{})
 		);
 	}
-
 	return args;
 };
 
