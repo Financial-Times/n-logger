@@ -1,7 +1,7 @@
 import * as format from './format';
 import * as utils from './utils';
 
-export default ({ level, message = '', meta = {} }) => {
+const formatter = ({ level, message = '', meta = {} }) => {
 	if (level) {
 		meta.level = level
 	}
@@ -9,3 +9,5 @@ export default ({ level, message = '', meta = {} }) => {
 		.filter(utils.identity)
 		.join(' ');
 }
+
+export default formatter;

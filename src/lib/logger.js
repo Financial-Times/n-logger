@@ -35,7 +35,6 @@ const loggerArgs = (level, message, ...metas) => {
 			{})
 		);
 	}
-
 	return args;
 };
 
@@ -44,6 +43,7 @@ class Logger {
 	constructor (deps = {}) {
 		this.deps = Object.assign({ winston, formatter, Splunk }, deps);
 		this.logger = new (this.deps.winston.Logger)();
+		this.context = {};
 		// create logging methods
 		Object.keys(this.logger.levels).forEach(level =>
 			this[level] = (...args) => this.log(level, ...args)
@@ -51,7 +51,8 @@ class Logger {
 	}
 
 	log (level, message, ...metas) {
-		const args = loggerArgs(level, message, ...metas).filter(utils.identity);
+		const args = loggerArgs(level, message, ...metas, this.context)
+			.filter(utils.identity);
 		this.logger.log.apply(this.logger, args);
 	}
 
@@ -96,6 +97,10 @@ class Logger {
 	clearLoggers () {
 		Object.keys(this.logger.transports)
 			.forEach(logger => this.logger.remove(logger));
+	}
+
+	addContext (meta = {}) {
+		this.context = Object.assign({}, this.context, meta);
 	}
 
 }
