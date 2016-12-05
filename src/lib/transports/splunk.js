@@ -17,7 +17,7 @@ class Splunk extends winston.Transport {
 	}
 
 	log (level, message, meta, callback) {
-		const formattedMessage = formatter({ level, message, meta });
+		const formattedMessage = formatter({ level, message, meta, splunkFriendly: true });
 		// HACK: For AWS Lambda
 		// Compare the breaking API change somewhere ebetween 0.10 and 4.x.x
 		// https://nodejs.org/docs/v0.10.36/api/child_process.html#child_process_child_send_message_sendhandle
