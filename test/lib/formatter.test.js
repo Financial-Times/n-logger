@@ -38,4 +38,15 @@ describe('Formatter', () => {
 		formatter(options).should.equal('a message foo=bar level=error');
 	});
 
+	it('should be able to make splunk friendly', () => {
+		const options = {
+			message: 'a "message\nfor you"',
+			meta: {
+				foo: 'here\'s a quote"'
+			},
+			splunkFriendly: true
+		};
+		formatter(options).should.equal('a \'message	for you\' foo="here\'s a quote\'"');
+	});
+
 });
