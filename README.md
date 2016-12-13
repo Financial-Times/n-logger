@@ -52,7 +52,7 @@ By default
 
 #### clearLoggers()
 
-#### addContent(meta)
+#### addContext(meta)
 `meta` to be sent with every subsequent log call
 
 #### logger
