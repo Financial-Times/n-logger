@@ -3,9 +3,10 @@ import AppLogger from './lib/app-logger';
 
 const getLogger = () => {
 	if (process.env.AWS_LAMBDA_FUNCTION_NAME) {
-		// browser or Lambda environment - don't use Winston
+		// Lambda environment - don't use Winston
 		return new FunctionLogger();
 	} else {
+		// app environment - use Winston
 		const logger = new AppLogger();
 
 		logger.addConsole(process.env.CONSOLE_LOG_LEVEL || 'silly');
