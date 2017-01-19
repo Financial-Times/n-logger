@@ -49,7 +49,16 @@ class Logger {
 	log (level, message, ...metas) {
 		const args = loggerArgs(level, message, ...metas, this.context)
 			.filter(utils.identity);
-		this.logger.log.apply(this.logger, args);
+		this.logToConsole.apply(this, args);
+	}
+
+	logToConsole (level, message, meta) {
+		if (typeof message !== 'string') {
+			meta = Object.assign(message, meta);
+			message = null;
+		}
+		const formattedMessage = this.deps.formatter({ level, message, meta, splunkFriendly: true });
+		console.log(formattedMessage);
 	}
 
 	addContext (meta = {}) {
