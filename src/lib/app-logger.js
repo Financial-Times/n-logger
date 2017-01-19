@@ -1,58 +1,17 @@
 import winston from 'winston';
 
+import Logger from './logger';
 import Splunk from './transports/splunk';
-import formatter from './formatter';
-import * as utils from './utils';
 
-const extractErrorDetails = obj => {
-	if (obj instanceof Error) {
-		const deets = {
-			error_message: obj.message,
-			error_name: obj.name
-		};
-		if ('stack' in obj) {
-			deets.error_stack = obj.stack;
-		}
-
-		return deets;
-	} else {
-		return obj;
-	}
-};
-
-const loggerArgs = (level, message, ...metas) => {
-	const args = [level];
-	// if not a string, assume it's a meta object
-	if (typeof message === 'string') {
-		args.push(message);
-	} else {
-		metas.unshift(message)
-	}
-	if (metas.length) {
-		args.push(
-			metas.reduceRight((currentFormattedMetas, meta) =>
-				Object.assign({}, currentFormattedMetas, extractErrorDetails(meta)),
-			{})
-		);
-	}
-	return args;
-};
-
-class Logger {
+class AppLogger extends Logger {
 
 	constructor (deps = {}) {
-		this.deps = Object.assign({ winston, formatter, Splunk }, deps);
+		super(deps);
+		Object.assign(this.deps, { winston, Splunk }, deps);
 		this.logger = new (this.deps.winston.Logger)();
-		this.context = {};
-		// create logging methods
-		Object.keys(this.logger.levels).forEach(level =>
-			this[level] = (...args) => this.log(level, ...args)
-		);
 	}
 
-	log (level, message, ...metas) {
-		const args = loggerArgs(level, message, ...metas, this.context)
-			.filter(utils.identity);
+	doLog (...args) {
 		this.logger.log.apply(this.logger, args);
 	}
 
@@ -99,10 +58,6 @@ class Logger {
 			.forEach(logger => this.logger.remove(logger));
 	}
 
-	addContext (meta = {}) {
-		this.context = Object.assign({}, this.context, meta);
-	}
-
 }
 
-export default Logger;
+export default AppLogger;
