@@ -12,6 +12,7 @@ class FunctionLogger extends Logger {
 			message = null;
 		}
 		const formattedMessage = this.deps.formatter({ level, message, meta, splunkFriendly: true });
+		/* eslint no-console: 0 */
 		console.log(formattedMessage);
 	}
 

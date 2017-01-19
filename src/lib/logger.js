@@ -52,7 +52,7 @@ class Logger {
 		this.doLog.apply(this, args);
 	}
 
-	doLog (level, message, meta) {
+	doLog (/* level, message, meta */) {
 		// to be implemented by subclasses
 	}
 

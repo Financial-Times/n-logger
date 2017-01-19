@@ -1,3 +1,5 @@
+/* eslint no-console: 0 */
+
 import sinon from 'sinon';
 import chai from 'chai';
 import chaiString from 'chai-string';
@@ -22,11 +24,11 @@ describe('Logger', () => {
 
 	describe('#log', () => {
 
-		beforeEach(function() {
+		beforeEach(() => {
 			sinon.spy(console, 'log');
 		});
 
-		afterEach(function() {
+		afterEach(() => {
 			console.log.restore();
 		});
 
@@ -96,11 +98,11 @@ describe('Logger', () => {
 
 	describe('#addContext', () => {
 
-		beforeEach(function() {
+		beforeEach(() => {
 			sinon.spy(console, 'log');
 		});
 
-		afterEach(function() {
+		afterEach(() => {
 			console.log.restore();
 		});
 
