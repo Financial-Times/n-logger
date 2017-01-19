@@ -1,6 +1,3 @@
-import winston from 'winston';
-
-import Splunk from './transports/splunk';
 import formatter from './formatter';
 import * as utils from './utils';
 
@@ -41,11 +38,10 @@ const loggerArgs = (level, message, ...metas) => {
 class Logger {
 
 	constructor (deps = {}) {
-		this.deps = Object.assign({ winston, formatter, Splunk }, deps);
-		this.logger = new (this.deps.winston.Logger)();
+		this.deps = Object.assign({ formatter }, deps);
 		this.context = {};
 		// create logging methods
-		Object.keys(this.logger.levels).forEach(level =>
+		['data', 'debug', 'error', 'info', 'silly', 'verbose', 'warn'].forEach(level =>
 			this[level] = (...args) => this.log(level, ...args)
 		);
 	}
@@ -53,50 +49,16 @@ class Logger {
 	log (level, message, ...metas) {
 		const args = loggerArgs(level, message, ...metas, this.context)
 			.filter(utils.identity);
-		this.logger.log.apply(this.logger, args);
+		this.logToConsole.apply(this, args);
 	}
 
-	addConsole (level = 'info', opts = {}) {
-		if (this.logger.transports.console) {
-			return;
+	logToConsole (level, message, meta) {
+		if (typeof message !== 'string') {
+			meta = Object.assign(message, meta);
+			message = null;
 		}
-		this.logger.add(
-			this.deps.winston.transports.Console,
-			Object.assign({ level, formatter: this.deps.formatter }, opts)
-		);
-	}
-
-	removeConsole () {
-		if (!this.logger.transports.console) {
-			return;
-		}
-		this.logger.remove('console');
-	}
-
-	addSplunk (splunkUrl, level = 'info', opts = {}) {
-		if (this.logger.transports.splunk) {
-			return;
-		}
-		if (!splunkUrl) {
-			this.warn('No `splunkUrl` supplied');
-			return false;
-		}
-		this.logger.add(
-			this.deps.Splunk,
-			Object.assign({ level, splunkUrl }, opts)
-		);
-	}
-
-	removeSplunk () {
-		if (!this.logger.transports.splunk) {
-			return;
-		}
-		this.logger.remove('splunk');
-	}
-
-	clearLoggers () {
-		Object.keys(this.logger.transports)
-			.forEach(logger => this.logger.remove(logger));
+		const formattedMessage = this.deps.formatter({ level, message, meta, splunkFriendly: true });
+		console.log(formattedMessage);
 	}
 
 	addContext (meta = {}) {
