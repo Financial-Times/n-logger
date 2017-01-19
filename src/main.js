@@ -1,6 +1,6 @@
-import Logger from './lib/logger';
+import AppLogger from './lib/app-logger';
 
-const logger = new Logger();
+const logger = new AppLogger();
 
 logger.addConsole(process.env.CONSOLE_LOG_LEVEL || 'silly');
 

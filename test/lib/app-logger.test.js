@@ -3,7 +3,7 @@ import chai from 'chai';
 import chaiString from 'chai-string';
 import sinonChai from 'sinon-chai';
 
-import Logger from '../../build/lib/logger';
+import Logger from '../../build/lib/app-logger';
 
 chai.should();
 chai.use(chaiString);
