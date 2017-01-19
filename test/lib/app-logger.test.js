@@ -3,7 +3,7 @@ import chai from 'chai';
 import chaiString from 'chai-string';
 import sinonChai from 'sinon-chai';
 
-import Logger from '../../build/lib/logger';
+import Logger from '../../build/lib/app-logger';
 
 chai.should();
 chai.use(chaiString);
@@ -14,7 +14,6 @@ const winstonStub = ({
 	add = () => {},
 	remove = () => {},
 	transports = {},
-	levels = { info: true, warn: true, error: true },
 	Console = () => {}
 }) => {
 	return {
@@ -22,7 +21,6 @@ const winstonStub = ({
 			this.log = log;
 			this.add = add;
 			this.remove = remove;
-			this.levels = levels;
 			this.transports = transports;
 		},
 		transports: { Console }
