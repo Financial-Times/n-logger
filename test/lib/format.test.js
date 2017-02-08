@@ -67,6 +67,13 @@ describe('Format', () => {
 				format.fields(meta, { splunkFriendly: true }).should.equal('msg="Bad response"');
 			});
 
+			it('should wrap values with equals (`=`) in double quotes', () => {
+				const meta = {
+					msg: 'Bad=response'
+				};
+				format.fields(meta, { splunkFriendly: true }).should.equal('msg="Bad=response"');
+			});
+
 			it('should convert double quotes to singles', () => {
 				const meta = {
 					msg: 'Server responded with "Bad Request", 400'
