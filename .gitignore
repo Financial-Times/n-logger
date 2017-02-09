@@ -2,5 +2,5 @@
 .eslintrc.js
 
 /.idea/
-/build/
+/dist/
 /node_modules/

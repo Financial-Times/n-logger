@@ -5,7 +5,7 @@ import chai from 'chai';
 import chaiString from 'chai-string';
 import sinonChai from 'sinon-chai';
 
-import Logger from '../../build/lib/function-logger';
+import Logger from '../../dist/lib/function-logger';
 
 chai.should();
 chai.use(chaiString);

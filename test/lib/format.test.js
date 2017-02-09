@@ -1,7 +1,7 @@
 import chai from 'chai';
 chai.should();
 
-import * as format from '../../build/lib/format';
+import * as format from '../../dist/lib/format';
 
 describe('Format', () => {
 
