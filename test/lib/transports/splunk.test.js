@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import chai from 'chai';
 chai.should();
 
-import Splunk from '../../../build/lib/transports/splunk';
+import Splunk from '../../../dist/lib/transports/splunk';
 
 describe('Splunk', () => {
 
