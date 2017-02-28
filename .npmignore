@@ -4,6 +4,7 @@
 /.gitignore
 /circle.yml
 /ft.yml
+/n.Makefile
 /Makefile
 
 /.idea/
