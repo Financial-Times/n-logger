@@ -1,18 +1,15 @@
 {
   "name": "@financial-times/n-logger",
   "version": "0.0.0",
-  "main": "dist/main.js",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/Financial-Times/next-logger.git"
-  },
   "license": "MIT",
+  "main": "dist/main.js",
+  "repository": "Financial-Times/next-logger.git",
   "scripts": {
     "prepublish": "make build"
   },
   "dependencies": {
     "request": "^2.67.0",
-    "winston": "^1.1.1"
+    "winston": "^2.3.1"
   },
   "devDependencies": {
     "babel-cli": "^6.5.1",
@@ -21,8 +18,8 @@
     "chai": "^3.4.0",
     "chai-string": "^1.1.6",
     "eslint": "^3.0.1",
-    "lintspaces-cli": "^0.3.0",
-    "mocha": "^2.2.1",
+    "lintspaces-cli": "^0.6.0",
+    "mocha": "^3.2.0",
     "npm-prepublish": "^1.2.1",
     "sinon": "^1.17.0",
     "sinon-chai": "^2.8.0"
