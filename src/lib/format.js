@@ -22,4 +22,4 @@ const formatFields = (fields = {}, { splunkFriendly = false } = {}) => {
 	return formattedFields.join(' ');
 };
 
-export { formatMessage as message, formatFields as fields }
+export { formatMessage as message, formatFields as fields };
