@@ -133,7 +133,7 @@ describe('Logger', () => {
 			const winston = winstonStub({ add: addSpy, Console: ConsoleSpy });
 			const logger = new Logger({ winston, formatter });
 			logger.addConsole();
-			addSpy.should.always.have.been.calledWithExactly(ConsoleSpy, { level: 'info', formatter });
+			addSpy.should.always.have.been.calledWithExactly(ConsoleSpy, { level: 'info', formatter, colorize: true });
 		});
 
 		it('should be able to set the console logger\'s level', () => {

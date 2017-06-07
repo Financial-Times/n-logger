@@ -8,11 +8,7 @@ class AppLogger extends Logger {
 	constructor (deps = {}) {
 		super(deps);
 		Object.assign(this.deps, { winston, Splunk }, deps);
-		this.logger = new (this.deps.winston.Logger)({
-			transports: [
-				new (this.deps.winston.transports.Console)({ colorize: true })
-			]
-		});
+		this.logger = new (this.deps.winston.Logger)();
 	}
 
 	doLog (...args) {
@@ -25,7 +21,7 @@ class AppLogger extends Logger {
 		}
 		this.logger.add(
 			this.deps.winston.transports.Console,
-			Object.assign({ level, formatter: this.deps.formatter }, opts)
+			Object.assign({ level, formatter: this.deps.formatter, colorize: true }, opts)
 		);
 	}
 
