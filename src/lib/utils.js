@@ -1,3 +1,3 @@
 const identity = item => item;
 
-export { identity }
+export { identity };

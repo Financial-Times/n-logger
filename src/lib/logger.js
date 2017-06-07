@@ -23,7 +23,7 @@ const loggerArgs = (level, message, ...metas) => {
 	if (typeof message === 'string') {
 		args.push(message);
 	} else {
-		metas.unshift(message)
+		metas.unshift(message);
 	}
 	if (metas.length) {
 		args.push(

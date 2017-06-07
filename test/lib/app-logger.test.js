@@ -262,7 +262,7 @@ describe('Logger', () => {
 			const logSpy = sinon.spy();
 			const winston = winstonStub({ log: logSpy });
 			const logger = new Logger({ winston });
-			logger.addContext({ region: 'EU' })
+			logger.addContext({ region: 'EU' });
 			logger.log('info', 'a message');
 			logSpy.should.always.have.been.calledWithExactly('info', 'a message', { region: 'EU' });
 		});
@@ -271,8 +271,8 @@ describe('Logger', () => {
 			const logSpy = sinon.spy();
 			const winston = winstonStub({ log: logSpy });
 			const logger = new Logger({ winston });
-			logger.addContext({ region: 'EU' })
-			logger.addContext({ app: 'article' })
+			logger.addContext({ region: 'EU' });
+			logger.addContext({ app: 'article' });
 			logger.log('info');
 			logSpy.should.always.have.been.calledWithExactly('info', { region: 'EU', app: 'article' });
 		});
@@ -281,7 +281,7 @@ describe('Logger', () => {
 			const logSpy = sinon.spy();
 			const winston = winstonStub({ log: logSpy });
 			const logger = new Logger({ winston });
-			logger.addContext({ region: 'EU' })
+			logger.addContext({ region: 'EU' });
 			logger.log('info', { region: 'US' });
 			logSpy.should.always.have.been.calledWithExactly('info', { region: 'US' });
 		});

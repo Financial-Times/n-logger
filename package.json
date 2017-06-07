@@ -5,13 +5,15 @@
   "main": "dist/main.js",
   "repository": "Financial-Times/next-logger.git",
   "scripts": {
-    "prepublish": "make build"
+    "prepublish": "make build",
+    "commit": "commit-wizard"
   },
   "dependencies": {
     "request": "^2.67.0",
     "winston": "^2.3.1"
   },
   "devDependencies": {
+    "@financial-times/n-gage": "^1.2.0",
     "babel-cli": "^6.5.1",
     "babel-preset-env": "^1.1.8",
     "babel-register": "^6.5.1",
@@ -23,6 +25,13 @@
     "npm-prepublish": "^1.2.1",
     "sinon": "^1.17.0",
     "sinon-chai": "^2.8.0"
+  },
+  "config": {
+    "pre-git": {
+      "pre-commit": [
+        "node_modules/.bin/secret-squirrel"
+      ]
+    }
   },
   "engines": {
     "node": ">=4.7.3"

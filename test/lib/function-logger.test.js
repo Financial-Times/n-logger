@@ -108,22 +108,22 @@ describe('Logger', () => {
 
 		it('should be able to add context to logs', () => {
 			const logger = new Logger();
-			logger.addContext({ region: 'EU' })
+			logger.addContext({ region: 'EU' });
 			logger.log('info', 'a message');
 			console.log.should.always.have.been.calledWithExactly('a message region=EU level=info');
 		});
 
 		it('should be able to add multiple context to logs', () => {
 			const logger = new Logger();
-			logger.addContext({ region: 'EU' })
-			logger.addContext({ app: 'article' })
+			logger.addContext({ region: 'EU' });
+			logger.addContext({ app: 'article' });
 			logger.log('info');
 			console.log.should.always.have.been.calledWithExactly('region=EU app=article level=info');
 		});
 
 		it('should give priority to supplied meta', () => {
 			const logger = new Logger();
-			logger.addContext({ region: 'EU' })
+			logger.addContext({ region: 'EU' });
 			logger.log('info', { region: 'US' });
 			console.log.should.always.have.been.calledWithExactly('region=US level=info');
 		});
