@@ -35,7 +35,7 @@ const loggerArgs = (level, message, ...metas) => {
 	return args;
 };
 
-class Logger {
+export default class {
 
 	constructor (deps = {}) {
 		this.deps = Object.assign({ formatter }, deps);
@@ -61,5 +61,3 @@ class Logger {
 	}
 
 }
-
-export default Logger;
