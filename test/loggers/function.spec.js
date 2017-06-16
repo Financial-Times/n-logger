@@ -12,7 +12,6 @@ chai.use(chaiString);
 chai.use(sinonChai);
 
 describe('Logger - Function', () => {
-
 	it('should exist', () => {
 		Function.should.exist;
 	});
@@ -23,7 +22,6 @@ describe('Logger - Function', () => {
 	});
 
 	describe('#log', () => {
-
 		beforeEach(() => {
 			sinon.spy(console, 'log');
 		});
@@ -60,7 +58,7 @@ describe('Logger - Function', () => {
 			class MyError extends Error { };
 			const logger = new Function();
 			logger.log('info', new MyError('whoops!'));
-			console.log.should.always.have.been.calledWithMatch(/^error_message=whoops! error_name=Error error_stack="Error: whoops!/);
+			console.log.should.always.have.been.calledWithMatch(/^error_message=whoops! error_name=Error error_stack=Error: whoops!/);
 			console.log.should.always.have.been.calledWithMatch(/level=info$/);
 		});
 
@@ -68,7 +66,7 @@ describe('Logger - Function', () => {
 			class MyError extends Error { };
 			const logger = new Function();
 			logger.log('info', new MyError('whoops!'), { foo: 'bar' });
-			console.log.should.always.have.been.calledWithMatch(/^foo=bar error_message=whoops! error_name=Error error_stack="Error: whoops!/);
+			console.log.should.always.have.been.calledWithMatch(/^foo=bar error_message=whoops! error_name=Error error_stack=Error: whoops!/);
 			console.log.should.always.have.been.calledWithMatch(/level=info$/);
 		});
 
@@ -76,7 +74,7 @@ describe('Logger - Function', () => {
 			class MyError extends Error { };
 			const logger = new Function();
 			logger.log('info', 'a message', new MyError('whoops!'));
-			console.log.should.always.have.been.calledWithMatch(/^a message error_message=whoops! error_name=Error error_stack="Error: whoops!/);
+			console.log.should.always.have.been.calledWithMatch(/^a message error_message=whoops! error_name=Error error_stack=Error: whoops!/);
 			console.log.should.always.have.been.calledWithMatch(/level=info$/);
 		});
 
@@ -84,7 +82,7 @@ describe('Logger - Function', () => {
 			class MyError extends Error { };
 			const logger = new Function();
 			logger.log('info', 'a message', new MyError('whoops!'), { extra: 'foo' });
-			console.log.should.always.have.been.calledWithMatch(/^a message extra=foo error_message=whoops! error_name=Error error_stack="Error: whoops!/);
+			console.log.should.always.have.been.calledWithMatch(/^a message extra=foo error_message=whoops! error_name=Error error_stack=Error: whoops!/);
 			console.log.should.always.have.been.calledWithMatch(/level=info$/);
 		});
 
@@ -93,41 +91,5 @@ describe('Logger - Function', () => {
 			logger.log('info', { extra: 'foo' }, { anotherExtra: 'bar' }, { extra: 'baz' });
 			console.log.should.always.have.been.calledWithExactly('extra=foo anotherExtra=bar level=info');
 		});
-
 	});
-
-	describe('#addContext', () => {
-
-		beforeEach(() => {
-			sinon.spy(console, 'log');
-		});
-
-		afterEach(() => {
-			console.log.restore();
-		});
-
-		it('should be able to add context to logs', () => {
-			const logger = new Function();
-			logger.addContext({ region: 'EU' });
-			logger.log('info', 'a message');
-			console.log.should.always.have.been.calledWithExactly('a message region=EU level=info');
-		});
-
-		it('should be able to add multiple context to logs', () => {
-			const logger = new Function();
-			logger.addContext({ region: 'EU' });
-			logger.addContext({ app: 'article' });
-			logger.log('info');
-			console.log.should.always.have.been.calledWithExactly('region=EU app=article level=info');
-		});
-
-		it('should give priority to supplied meta', () => {
-			const logger = new Function();
-			logger.addContext({ region: 'EU' });
-			logger.log('info', { region: 'US' });
-			console.log.should.always.have.been.calledWithExactly('region=US level=info');
-		});
-
-	});
-
 });

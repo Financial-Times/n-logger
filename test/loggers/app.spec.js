@@ -28,7 +28,6 @@ const winstonStub = ({
 };
 
 describe('Logger - App', () => {
-
 	it('should exist', () => {
 		App.should.exist;
 	});
@@ -39,7 +38,6 @@ describe('Logger - App', () => {
 	});
 
 	describe('#log', () => {
-
 		it('should be able to log a message', () => {
 			const logSpy = sinon.spy();
 			const winston = winstonStub({ log: logSpy });
@@ -84,7 +82,7 @@ describe('Logger - App', () => {
 		});
 
 		it('should combine Error message meta', () => {
-			class MyError extends Error { };
+			class MyError extends Error { }
 			const logSpy = sinon.spy();
 			const winston = winstonStub({ log: logSpy });
 			const logger = new App({ winston });
@@ -121,11 +119,9 @@ describe('Logger - App', () => {
 			logger.log('info', { extra: 'foo' }, { anotherExtra: 'bar' }, { extra: 'baz' });
 			logSpy.should.always.have.been.calledWithExactly('info', { extra: 'foo', anotherExtra: 'bar' });
 		});
-
 	});
 
 	describe('#addConsole', () => {
-
 		it('should be able to add a console logger', () => {
 			const formatter = () => {};
 			const addSpy = sinon.spy();
@@ -160,11 +156,9 @@ describe('Logger - App', () => {
 			logger.addConsole();
 			addSpy.should.have.been.calledOnce;
 		});
-
 	});
 
 	describe('#removeConsole', () => {
-
 		it('should be able to remove', () => {
 			const removeSpy = sinon.spy();
 			const winston = winstonStub({ remove: removeSpy, transports: { console: true } });
@@ -180,11 +174,9 @@ describe('Logger - App', () => {
 			logger.removeConsole();
 			removeSpy.should.not.have.been.called;
 		});
-
 	});
 
 	describe('#addSplunk', () => {
-
 		it('should be able to add a splunk logger', () => {
 			const addSpy = sinon.spy();
 			const SplunkSpy = sinon.spy();
@@ -220,11 +212,9 @@ describe('Logger - App', () => {
 			logger.addSplunk('http://splunk.ft.com');
 			addSpy.should.have.been.calledOnce;
 		});
-
 	});
 
 	describe('#removeSplunk', () => {
-
 		it('should be able to remove', () => {
 			const removeSpy = sinon.spy();
 			const winston = winstonStub({ remove: removeSpy, transports: { splunk: true } });
@@ -240,11 +230,9 @@ describe('Logger - App', () => {
 			logger.removeSplunk();
 			removeSpy.should.not.have.been.called;
 		});
-
 	});
 
 	describe('#clearLoggers', () => {
-
 		it('should be able to clear loggers', () => {
 			const removeSpy = sinon.spy();
 			const winston = winstonStub({ remove: removeSpy, transports: { console: true, splunk: true } });
@@ -253,39 +241,5 @@ describe('Logger - App', () => {
 			removeSpy.should.have.been.calledWith('console');
 			removeSpy.should.have.been.calledWith('splunk');
 		});
-
 	});
-
-	describe('#addContext', () => {
-
-		it('should be able to add context to logs', () => {
-			const logSpy = sinon.spy();
-			const winston = winstonStub({ log: logSpy });
-			const logger = new App({ winston });
-			logger.addContext({ region: 'EU' });
-			logger.log('info', 'a message');
-			logSpy.should.always.have.been.calledWithExactly('info', 'a message', { region: 'EU' });
-		});
-
-		it('should be able to add multiple context to logs', () => {
-			const logSpy = sinon.spy();
-			const winston = winstonStub({ log: logSpy });
-			const logger = new App({ winston });
-			logger.addContext({ region: 'EU' });
-			logger.addContext({ app: 'article' });
-			logger.log('info');
-			logSpy.should.always.have.been.calledWithExactly('info', { region: 'EU', app: 'article' });
-		});
-
-		it('should give priority to supplied meta', () => {
-			const logSpy = sinon.spy();
-			const winston = winstonStub({ log: logSpy });
-			const logger = new App({ winston });
-			logger.addContext({ region: 'EU' });
-			logger.log('info', { region: 'US' });
-			logSpy.should.always.have.been.calledWithExactly('info', { region: 'US' });
-		});
-
-	});
-
 });

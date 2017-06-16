@@ -5,13 +5,9 @@ module.exports = class extends Logger {
 		super(deps);
 	}
 
-	doLog (level, message, meta) {
-		if (typeof message !== 'string') {
-			meta = Object.assign(message, meta);
-			message = null;
-		}
-		const formattedMessage = this.deps.formatter({ level, message, meta, splunkFriendly: true });
-		/* eslint no-console: 0 */
-		console.log(formattedMessage);
+	log (...args) {
+		const tidiedArgs = this.tidyArgs(...args);
+		const formattedMessage = this.deps.formatter(tidiedArgs);
+		console.log(formattedMessage); // eslint-disable-line no-console
 	}
-}
+};

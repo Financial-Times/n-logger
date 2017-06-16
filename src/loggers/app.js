@@ -2,16 +2,17 @@ const winston = require('winston');
 
 const Logger = require('./logger');
 const Splunk = require('../transports/splunk');
+const utils = require('../utils');
 
 module.exports = class extends Logger {
 	constructor (deps = {}) {
-		super(deps);
-		Object.assign(this.deps, { winston, Splunk }, deps);
+		super(Object.assign({ winston, Splunk }, deps));
 		this.logger = new (this.deps.winston.Logger)();
 	}
 
-	doLog (...args) {
-		this.logger.log.apply(this.logger, args);
+	log (...args) {
+		const { level, message, meta } = this.tidyArgs(...args);
+		this.logger.log.apply(null, ([level, message, meta].filter(utils.identity)));
 	}
 
 	addConsole (level = 'info', opts = {}) {
@@ -25,10 +26,9 @@ module.exports = class extends Logger {
 	}
 
 	removeConsole () {
-		if (!this.logger.transports.console) {
-			return;
+		if (this.logger.transports.console) {
+			this.logger.remove('console');
 		}
-		this.logger.remove('console');
 	}
 
 	addSplunk (splunkUrl, level = 'info', opts = {}) {
@@ -46,10 +46,9 @@ module.exports = class extends Logger {
 	}
 
 	removeSplunk () {
-		if (!this.logger.transports.splunk) {
-			return;
+		if (this.logger.transports.splunk) {
+			this.logger.remove('splunk');
 		}
-		this.logger.remove('splunk');
 	}
 
 	clearLoggers () {

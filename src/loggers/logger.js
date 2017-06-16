@@ -1,5 +1,4 @@
 const formatter = require('../formatter');
-const utils = require('../utils');
 
 const extractErrorDetails = obj => {
 	if (obj instanceof Error) {
@@ -17,43 +16,33 @@ const extractErrorDetails = obj => {
 	}
 };
 
-const loggerArgs = (level, message, ...metas) => {
-	const args = [level];
-	// if not a string, assume it's a meta object
-	if (typeof message === 'string') {
-		args.push(message);
-	} else {
-		metas.unshift(message);
-	}
-	if (metas.length) {
-		args.push(
-			metas.reduceRight((currentFormattedMetas, meta) =>
-				Object.assign({}, currentFormattedMetas, extractErrorDetails(meta)),
-			{})
-		);
-	}
-	return args;
-};
-
 module.exports = class {
 	constructor (deps = {}) {
 		this.deps = Object.assign({ formatter }, deps);
 		this.context = {};
 		// create logging methods
-		['data', 'debug', 'error', 'info', 'silly', 'verbose', 'warn'].forEach(level =>
+		['silly', 'debug', 'verbose', 'info', 'warn', 'error'].forEach(level =>
 			this[level] = (...args) => this.log(level, ...args)
 		);
 	}
 
-	log (level, message, ...metas) {
-		const args = loggerArgs(level, message, ...metas, this.context)
-			.filter(utils.identity);
-		this.doLog.apply(this, args);
+	tidyArgs (level, ...metas) {
+		const args = {
+			level
+		};
+		// if first meta object is a string, assume it's the message
+		if (typeof metas[0] === 'string') {
+			args.message = metas.shift();
+		}
+		args.meta = [this.context].concat(metas)
+			.reduceRight((metaAcc, meta) => {
+				return Object.assign({}, metaAcc, extractErrorDetails(meta));
+			}, {});
+
+		return args;
 	}
 
-	doLog (/* level, message, meta */) {
-		// to be implemented by subclasses
-	}
+	log () { }
 
 	addContext (meta = {}) {
 		this.context = Object.assign({}, this.context, meta);
