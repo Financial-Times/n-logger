@@ -1,7 +1,8 @@
-import { fork } from 'child_process';
-import path from 'path';
-import http from 'http';
-import chai from 'chai';
+const { fork } = require('child_process');
+const path = require('path');
+const http = require('http');
+const chai = require('chai');
+
 chai.should();
 
 describe('Agent', () => {
@@ -26,7 +27,7 @@ describe('Agent', () => {
 			});
 			server.listen(port);
 		});
-		agent = fork(path.resolve(__dirname, '..', '..', 'dist', 'lib', 'agent.js'), [`${host}/${appName}`]);
+		agent = fork(path.resolve(__dirname, '..', 'src', 'agent.js'), [`${host}/${appName}`]);
 	});
 
 	afterEach(done => {

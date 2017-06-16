@@ -1,7 +1,6 @@
-import Logger from './logger';
+const Logger = require('./logger');
 
-class FunctionLogger extends Logger {
-
+module.exports = class extends Logger {
 	constructor (deps = {}) {
 		super(deps);
 	}
@@ -15,7 +14,4 @@ class FunctionLogger extends Logger {
 		/* eslint no-console: 0 */
 		console.log(formattedMessage);
 	}
-
 }
-
-export default FunctionLogger;

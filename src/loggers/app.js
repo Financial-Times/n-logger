@@ -1,10 +1,9 @@
-import winston from 'winston';
+const winston = require('winston');
 
-import Logger from './logger';
-import Splunk from './transports/splunk';
+const Logger = require('./logger');
+const Splunk = require('../transports/splunk');
 
-class AppLogger extends Logger {
-
+module.exports = class extends Logger {
 	constructor (deps = {}) {
 		super(deps);
 		Object.assign(this.deps, { winston, Splunk }, deps);
@@ -57,7 +56,4 @@ class AppLogger extends Logger {
 		Object.keys(this.logger.transports)
 			.forEach(logger => this.logger.remove(logger));
 	}
-
-}
-
-export default AppLogger;
+};

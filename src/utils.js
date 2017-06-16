@@ -1,3 +1,5 @@
 const identity = item => item;
 
-export { identity };
+module.exports = {
+	identity
+};

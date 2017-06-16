@@ -1,13 +1,12 @@
-import FunctionLogger from './lib/function-logger';
-import AppLogger from './lib/app-logger';
+const loggers = require('./loggers');
 
 const getLogger = () => {
 	if (process.env.AWS_LAMBDA_FUNCTION_NAME) {
 		// Lambda environment - don't use Winston
-		return new FunctionLogger();
+		return new loggers.Function();
 	} else {
 		// app environment - use Winston
-		const logger = new AppLogger();
+		const logger = new loggers.App();
 
 		logger.addConsole(process.env.CONSOLE_LOG_LEVEL || 'silly');
 
@@ -19,5 +18,4 @@ const getLogger = () => {
 	}
 };
 
-const logger = getLogger();
-export default logger;
+module.exports = getLogger();

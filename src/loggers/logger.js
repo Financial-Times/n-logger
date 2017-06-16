@@ -1,5 +1,5 @@
-import formatter from './formatter';
-import * as utils from './utils';
+const formatter = require('../formatter');
+const utils = require('../utils');
 
 const extractErrorDetails = obj => {
 	if (obj instanceof Error) {
@@ -35,8 +35,7 @@ const loggerArgs = (level, message, ...metas) => {
 	return args;
 };
 
-export default class {
-
+module.exports = class {
 	constructor (deps = {}) {
 		this.deps = Object.assign({ formatter }, deps);
 		this.context = {};
@@ -59,5 +58,4 @@ export default class {
 	addContext (meta = {}) {
 		this.context = Object.assign({}, this.context, meta);
 	}
-
-}
+};

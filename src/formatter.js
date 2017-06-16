@@ -1,5 +1,5 @@
-import * as format from './format';
-import * as utils from './utils';
+const format = require('./format');
+const utils = require('./utils');
 
 const formatter = ({ level, message = '', meta = {}, splunkFriendly = false } = {}) => {
 	if (level) {
@@ -11,4 +11,4 @@ const formatter = ({ level, message = '', meta = {}, splunkFriendly = false } = 
 		.join(' ');
 };
 
-export default formatter;
+module.exports = formatter;
