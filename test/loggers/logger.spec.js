@@ -1,13 +1,10 @@
-const sinon = require('sinon');
 const chai = require('chai');
 const chaiString = require('chai-string');
-const sinonChai = require('sinon-chai');
 
 const Logger = require('../../src/loggers/logger');
 
 const should = chai.should();
 chai.use(chaiString);
-chai.use(sinonChai);
 
 describe('Logger', () => {
 	it('should exist', () => {
