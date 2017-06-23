@@ -13,13 +13,13 @@ describe('Logger', () => {
 
 	it('should be able to instantiate', () => {
 		const logger = new Logger();
-		logger.should.be.defined;
+		logger.should.not.be.undefined;
 	});
 
 	it('should add logging shorthand methods', () => {
 		const logger = new Logger();
 		['silly', 'debug', 'verbose', 'info', 'warn', 'error'].forEach(level => {
-			logger[level].should.be.defined;
+			logger[level].should.not.be.undefined;
 		});
 	});
 

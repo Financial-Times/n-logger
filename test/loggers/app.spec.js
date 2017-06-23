@@ -34,7 +34,7 @@ describe('Logger - App', () => {
 
 	it('should be able to instantiate', () => {
 		const logger = new App();
-		logger.should.be.defined;
+		logger.should.not.be.undefined;
 	});
 
 	describe('#log', () => {

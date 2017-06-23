@@ -18,7 +18,7 @@ describe('Logger - Function', () => {
 
 	it('should be able to instantiate', () => {
 		const logger = new Function();
-		logger.should.be.defined;
+		logger.should.not.be.undefined;
 	});
 
 	describe('#log', () => {
