@@ -1,10 +1,10 @@
-import { fork } from 'child_process';
-import path from 'path';
-import winston from 'winston';
-import formatter from '../formatter';
+const { fork } = require('child_process');
+const path = require('path');
+const winston = require('winston');
 
-class Splunk extends winston.Transport {
+const formatter = require('../formatter');
 
+module.exports = class extends winston.Transport {
 	constructor (opts) {
 		super(opts);
 		this.name = 'splunk';
@@ -29,7 +29,4 @@ class Splunk extends winston.Transport {
 			this.agent.send(formattedMessage, (err) => callback(err, true));
 		}
 	}
-
-}
-
-export default Splunk;
+};

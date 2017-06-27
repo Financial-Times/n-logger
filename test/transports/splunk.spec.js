@@ -1,10 +1,11 @@
-import sinon from 'sinon';
-import chai from 'chai';
+const sinon = require('sinon');
+const chai = require('chai');
+
+const Splunk = require('../../src/transports/splunk');
+
 chai.should();
 
-import Splunk from '../../../dist/lib/transports/splunk';
-
-describe('Splunk', () => {
+describe('Transports - Splunk', () => {
 
 	it('should exist', () => {
 		Splunk.should.exist;

@@ -1,7 +1,8 @@
-import chai from 'chai';
-chai.should();
+const chai = require('chai');
 
-import * as format from '../../dist/lib/format';
+const format = require('../src/format');
+
+chai.should();
 
 describe('Format', () => {
 

@@ -1,9 +1,9 @@
-import chai from 'chai';
-import chaiString from 'chai-string';
+const chai = require('chai');
+const chaiString = require('chai-string');
 chai.should();
 chai.use(chaiString);
 
-import formatter from '../../dist/lib/formatter';
+const formatter = require('../src/formatter');
 
 describe('Formatter', () => {
 

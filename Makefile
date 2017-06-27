@@ -4,13 +4,12 @@ node_modules/@financial-times/n-gage/index.mk:
 
 -include node_modules/@financial-times/n-gage/index.mk
 
-build: $(shell find src -type f)
-	@echo "Building…"
-	@rm -rf dist
-	@babel -d dist src
-
-unit-test: build
+unit-test:
 	@echo "Unit Testing…"
-	@mocha --require test/setup --recursive --reporter spec test
+	mocha --recursive --reporter spec test
+
+unit-test-watch:
+	@echo "Unit Testing (watching)…"
+	mocha --recursive --reporter spec --watch test
 
 test: verify unit-test
