@@ -6,7 +6,10 @@
   "repository": "Financial-Times/next-logger.git",
   "scripts": {
     "prepublish": "make build",
-    "commit": "commit-wizard"
+    "commit": "commit-wizard",
+    "precommit": "node_modules/.bin/secret-squirrel",
+    "commitmsg": "node_modules/.bin/secret-squirrel-commitmsg",
+    "prepush": "make verify -j3"
   },
   "dependencies": {
     "request": "^2.67.0",
@@ -26,13 +29,7 @@
     "sinon": "^1.17.0",
     "sinon-chai": "^2.8.0"
   },
-  "config": {
-    "pre-git": {
-      "pre-commit": [
-        "node_modules/.bin/secret-squirrel"
-      ]
-    }
-  },
+  "config": {},
   "engines": {
     "node": ">=4.7.3"
   }
