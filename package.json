@@ -12,22 +12,19 @@
     "prepush": "make verify -j3"
   },
   "dependencies": {
-    "request": "^2.67.0",
-    "winston": "^2.3.1"
+    "request": "^2.83.0",
+    "winston": "^2.4.0"
   },
   "devDependencies": {
-    "@financial-times/n-gage": "^1.2.0",
-    "babel-cli": "^6.5.1",
-    "babel-preset-env": "^1.1.8",
-    "babel-register": "^6.5.1",
-    "chai": "^3.4.0",
-    "chai-string": "^1.1.6",
-    "eslint": "^3.0.1",
-    "lintspaces-cli": "^0.6.0",
-    "mocha": "^3.2.0",
-    "npm-prepublish": "^1.2.1",
-    "sinon": "^1.17.0",
-    "sinon-chai": "^2.8.0"
+    "@financial-times/n-gage": "^1.19.1",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "chai-string": "^1.4.0",
+    "mocha": "^4.1.0",
+    "sinon": "^4.1.3",
+    "sinon-chai": "^2.14.0"
   },
   "config": {},
   "engines": {
