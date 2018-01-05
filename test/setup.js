@@ -1,4 +1,4 @@
 require('babel-register')({
 	// just transpile the tests
-	only: filename => /n-logger\/test/.test(filename)
+	ignore: filename => !(/n-logger\/test/.test(filename))
 });

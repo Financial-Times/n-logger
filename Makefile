@@ -11,6 +11,6 @@ build: $(shell find src -type f)
 
 unit-test: build
 	@echo "Unit Testing…"
-	@mocha --require test/setup --recursive --reporter spec test
+	@mocha --require test/setup --recursive --exit --reporter spec test
 
 test: verify unit-test

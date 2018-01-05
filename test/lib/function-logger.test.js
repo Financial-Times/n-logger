@@ -19,7 +19,7 @@ describe('Logger', () => {
 
 	it('should be able to instantiate', () => {
 		const logger = new Logger();
-		logger.should.be.defined;
+		logger.should.not.equal(undefined);
 	});
 
 	describe('#log', () => {
@@ -50,7 +50,7 @@ describe('Logger', () => {
 			console.log.should.always.have.been.calledWithExactly('a message foo=foo level=info');
 		});
 
-		it('should pass meta only through', () => {
+		it('should pass meta solely through', () => {
 			const logger = new Logger();
 			logger.log('info', { foo: 'bar' });
 			console.log.should.always.have.been.calledWithExactly('foo=bar level=info');
