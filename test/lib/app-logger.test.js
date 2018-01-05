@@ -35,7 +35,7 @@ describe('Logger', () => {
 
 	it('should be able to instantiate', () => {
 		const logger = new Logger();
-		logger.should.be.defined;
+		logger.should.not.equal(undefined);
 	});
 
 	describe('#log', () => {
@@ -64,7 +64,7 @@ describe('Logger', () => {
 			logSpy.should.always.have.been.calledWithExactly('info', 'a message', { foo: 'foo' });
 		});
 
-		it('should pass meta only through', () => {
+		it('should pass meta solely through', () => {
 			const logSpy = sinon.spy();
 			const winston = winstonStub({ log: logSpy });
 			const logger = new Logger({ winston });

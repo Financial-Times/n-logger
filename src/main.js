@@ -11,7 +11,7 @@ const getLogger = () => {
 
 		logger.addConsole(process.env.CONSOLE_LOG_LEVEL || 'silly');
 
-		// only log to splunk in production
+		// log to splunk only in production
 		if (process.env.NODE_ENV === 'production' && process.env.SPLUNK_URL) {
 			logger.addSplunk(process.env.SPLUNK_URL, process.env.SPLUNK_LOG_LEVEL || 'warn');
 		}
