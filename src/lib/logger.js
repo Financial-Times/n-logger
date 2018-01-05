@@ -1,4 +1,5 @@
 import formatter from './formatter';
+import levels from './levels';
 import * as utils from './utils';
 
 const extractErrorDetails = obj => {
@@ -41,7 +42,7 @@ class Logger {
 		this.deps = Object.assign({ formatter }, deps);
 		this.context = {};
 		// create logging methods
-		['data', 'debug', 'error', 'info', 'silly', 'verbose', 'warn'].forEach(level =>
+		levels.forEach(level =>
 			this[level] = (...args) => this.log(level, ...args)
 		);
 	}

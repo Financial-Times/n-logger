@@ -5,6 +5,7 @@ import chai from 'chai';
 import chaiString from 'chai-string';
 import sinonChai from 'sinon-chai';
 
+import levels from '../../dist/lib/levels';
 import Logger from '../../dist/lib/function-logger';
 
 chai.should();
@@ -37,6 +38,26 @@ describe('Logger', () => {
 			logger.log('info', 'a message');
 			console.log.should.always.have.been.calledWithExactly('a message level=info');
 		});
+
+		levels.forEach((level) => {
+
+			const testLevels = levels.indexOf(level) > 0 ? levels.slice(0, levels.indexOf(level) - 1) : []
+			testLevels.forEach((testLevel) => {
+				it(`should not allow logging at ${testLevel} if the level is ${level}`, () => {
+					const logger = new Logger({level});
+					logger.log(testLevel, 'a message', { foo: 'foo' });
+					console.log.should.not.have.been.called;
+				});
+			})
+
+			levels.slice(levels.indexOf(level)).forEach((testLevel) => {
+				it(`should allow logging at ${testLevel} if the level is ${level}`, () => {
+					const logger = new Logger({level});
+					logger.log(testLevel, 'a message');
+					console.log.should.always.have.been.calledWithExactly(`a message level=${testLevel}`);
+				})
+			});
+		})
 
 		it('should be able to use shorthand methods', () => {
 			const logger = new Logger();
