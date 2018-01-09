@@ -5,19 +5,27 @@ jobs:
       - image: circleci/node:boron
     steps:
       - checkout
-      - run: make install test
+      - run: if [ -e package.json ]; then npm prune --production=false --no-package-lock && npm install --no-spin --no-progress --no-package-lock; fi
+      - run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ${HOME}/.npmrc
+      - run: make install
+      - run: make test
   test-on-carbon:
     docker:
       - image: node:carbon
     steps:
       - checkout
-      - run: make install test
+      - run: if [ -e package.json ]; then npm prune --production=false --no-package-lock && npm install --no-spin --no-progress --no-package-lock; fi
+      - run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ${HOME}/.npmrc
+      - run: make install
+      - run: make test
   release:
     docker:
       - image: circleci/node:boron
     steps:
       - checkout
-      - run: make build
+      - run: if [ -e package.json ]; then npm prune --production=false --no-package-lock && npm install --no-spin --no-progress --no-package-lock; fi
+      - run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ${HOME}/.npmrc
+      - run: make install build
       - run: npm version --no-git-tag-version ${CIRCLE_TAG}
       - run: npm publish --access public
 workflows:
