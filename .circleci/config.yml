@@ -1,0 +1,37 @@
+version: 2
+jobs:
+  test-on-boron:
+    docker:
+      - image: circleci/node:boron
+    steps:
+      - checkout
+      - run: make install test
+  test-on-carbon:
+    docker:
+      - image: node:carbon
+    steps:
+      - checkout
+      - run: make install test
+  release:
+    docker:
+      - image: circleci/node:boron
+    steps:
+      - checkout
+      - run: make build
+      - run: npm version --no-git-tag-version ${CIRCLE_TAG}
+      - run: npm publish --access public
+workflows:
+  version: 2
+  test-and-release:
+    jobs:
+      - test-on-boron
+      - test-on-carbon
+      - release:
+        requires:
+          - test-on-boron
+          - test-on-carbon
+        filters:
+          branches:
+            only: master
+          tags:
+            only: /^v?\d+\.\d+\.\d+(?:-beta\.\d+)?$/
