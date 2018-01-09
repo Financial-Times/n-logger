@@ -27,11 +27,11 @@ workflows:
       - test-on-boron
       - test-on-carbon
       - release:
-        requires:
-          - test-on-boron
-          - test-on-carbon
-        filters:
-          branches:
-            only: master
-          tags:
-            only: /^v?\d+\.\d+\.\d+(?:-beta\.\d+)?$/
+          requires:
+            - test-on-boron
+            - test-on-carbon
+          filters:
+            branches:
+              only: master
+            tags:
+              only: /^v?\d+\.\d+\.\d+(?:-beta\.\d+)?$/
