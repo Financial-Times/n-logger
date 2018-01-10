@@ -3,11 +3,9 @@ jobs:
   test-on-boron:
     docker:
       - image: circleci/node:boron
-    environment:
-      - PATH: ""
     steps:
-      - run: echo $PATH
-      - checkout
+      # - run: echo $PATH
+      # - checkout
       - run: if [ -e package.json ]; then npm prune --production=false --no-package-lock && npm install --no-spin --no-progress --no-package-lock; fi
       - run: make install
       - run: make test
