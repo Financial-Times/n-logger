@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: circleci/node:boron
     environment:
-      # override $PATH set in circleci
+      # override $PATH if it has been set in Circleci for 1.0
       - PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     steps:
       - checkout
