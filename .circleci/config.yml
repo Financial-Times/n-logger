@@ -6,7 +6,7 @@ jobs:
     environment:
       - PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     steps:
-      - rn: echo 'export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' >> $BASH_ENV
+      - run: echo 'export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' >> $BASH_ENV
       - run: echo $PATH
       - checkout
       - run: make install test
