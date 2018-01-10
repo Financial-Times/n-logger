@@ -2,7 +2,7 @@ version: 2
 jobs:
   test-on-boron:
     docker:
-      - image: circleci/node:boron
+      - image: node:boron
     steps:
       - run: export PATH=$(echo $PATH | sed -e 's/:node_modules\/.bin$//' )
       - run: echo $PATH
@@ -23,7 +23,7 @@ jobs:
       - run: make test
   release:
     docker:
-      - image: circleci/node:boron
+      - image: node:boron
     steps:
       - checkout
       - run: if [ -e package.json ]; then npm prune --production=false --no-package-lock && npm install --no-spin --no-progress --no-package-lock; fi
