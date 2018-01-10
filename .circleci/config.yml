@@ -33,7 +33,7 @@ workflows:
   test-and-release:
     jobs:
       - test-on-boron
-      # - test-on-carbon
+      - test-on-carbon
       - release:
           requires:
             - test-on-boron
