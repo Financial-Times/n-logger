@@ -28,6 +28,8 @@ jobs:
   release:
     docker:
       - image: circleci/node:boron
+    environment:
+      - PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     steps:
       - checkout
       - run: make install build
