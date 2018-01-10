@@ -11,7 +11,7 @@ jobs:
       - run: make install test
   test-on-carbon:
     docker:
-      - image: node:carbon
+      - image: circleci/node:carbon
     environment:
       - PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     steps:
