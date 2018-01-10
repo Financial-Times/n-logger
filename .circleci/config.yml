@@ -2,8 +2,11 @@ version: 2
 jobs:
   test-on-boron:
     docker:
-      - image: circleci/node:boron
+      - image: circleci/node:6.10
+    environment:
+      - PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     steps:
+      - rn: echo 'export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' >> $BASH_ENV
       - run: echo $PATH
       - checkout
       - run: if [ -e package.json ]; then npm prune --production=false --no-package-lock && npm install --no-spin --no-progress --no-package-lock; fi
@@ -12,6 +15,8 @@ jobs:
   test-on-carbon:
     docker:
       - image: node:carbon
+    environment:
+      - PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     steps:
       - checkout
       - run: if [ -e package.json ]; then npm prune --production=false --no-package-lock && npm install --no-spin --no-progress --no-package-lock; fi
@@ -19,7 +24,7 @@ jobs:
       - run: make test
   release:
     docker:
-      - image: circleci/node:boron
+      - image: circleci/node:6.10
     steps:
       - checkout
       - run: if [ -e package.json ]; then npm prune --production=false --no-package-lock && npm install --no-spin --no-progress --no-package-lock; fi
