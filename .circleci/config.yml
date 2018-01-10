@@ -17,6 +17,14 @@ jobs:
     steps:
       - checkout
       - run: make install test
+  test-on-latest:
+    docker:
+      - image: circleci/node:latest
+    environment:
+      - PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    steps:
+      - checkout
+      - run: make install test
   release:
     docker:
       - image: circleci/node:boron
@@ -32,6 +40,7 @@ workflows:
     jobs:
       - test-on-boron
       - test-on-carbon
+      - test-on-latest
       - release:
           requires:
             - test-on-boron
