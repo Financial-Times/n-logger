@@ -59,7 +59,7 @@ workflows:
           filters:
             branches:
               # only: master
-              ignore: /.*/
+              only: /.*/
             tags:
               # ignore: /^v?\d+\.\d+\.\d+(?:-beta\.\d+)?$/
               only: /.*/
