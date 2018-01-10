@@ -50,8 +50,8 @@ workflows:
               only: /.*/
       - test-on-latest:
           filters:
-          tags:
-            only: /.*/
+            tags:
+              only: /.*/
       - release:
           requires:
             - test-on-boron
