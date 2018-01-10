@@ -1,10 +1,15 @@
 version: 2
 jobs:
+  build:
+      docker:
+        - image: circleci/ruby:2.4.1
+      steps:
+        - checkout
+        - run: echo "A first hello"
   test-on-boron:
     docker:
       - image: circleci/node:boron
     steps:
-      - run: export PATH=$(getconf PATH)
       - run: echo $PATH
       - checkout
       - run: if [ -e package.json ]; then npm prune --production=false --no-package-lock && npm install --no-spin --no-progress --no-package-lock; fi
@@ -32,6 +37,7 @@ workflows:
   version: 2
   test-and-release:
     jobs:
+      - build
       - test-on-boron
       - test-on-carbon
       - release:
