@@ -4,8 +4,9 @@ jobs:
     docker:
       - image: circleci/node:boron
     steps:
-      # - run: echo $PATH
-      # - checkout
+      - run: echo 'export PATH=$PATH' >> $BASH_ENV
+      - run: echo $PATH
+      - checkout
       - run: if [ -e package.json ]; then npm prune --production=false --no-package-lock && npm install --no-spin --no-progress --no-package-lock; fi
       - run: make install
       - run: make test
