@@ -57,8 +57,9 @@ workflows:
             - test-on-boron
             - test-on-carbon
           filters:
-            # branches:
-            #   only: master
+            branches:
+              # only: master
+              ignore: /.*/
             tags:
               # ignore: /^v?\d+\.\d+\.\d+(?:-beta\.\d+)?$/
               only: /.*/
