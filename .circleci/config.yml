@@ -4,12 +4,10 @@ jobs:
     docker:
       - image: circleci/node:boron
     steps:
-      - run: export PATH=$(echo $PATH | sed -e 's/:node_modules\/.bin$//' )
+      - run: export PATH=$(getconf PATH)
       - run: echo $PATH
-      - run: apt -qq update; apt -y install git
       - checkout
       - run: if [ -e package.json ]; then npm prune --production=false --no-package-lock && npm install --no-spin --no-progress --no-package-lock; fi
-      - run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ${HOME}/.npmrc
       - run: make install
       - run: make test
   test-on-carbon:
@@ -18,7 +16,6 @@ jobs:
     steps:
       - checkout
       - run: if [ -e package.json ]; then npm prune --production=false --no-package-lock && npm install --no-spin --no-progress --no-package-lock; fi
-      - run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ${HOME}/.npmrc
       - run: make install
       - run: make test
   release:
@@ -36,7 +33,7 @@ workflows:
   test-and-release:
     jobs:
       - test-on-boron
-      - test-on-carbon
+      # - test-on-carbon
       - release:
           requires:
             - test-on-boron
