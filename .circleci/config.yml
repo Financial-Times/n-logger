@@ -1,14 +1,10 @@
 version: 2
 jobs:
-  build:
-      docker:
-        - image: circleci/ruby:2.4.1
-      steps:
-        - checkout
-        - run: echo "A first hello"
   test-on-boron:
     docker:
       - image: circleci/node:boron
+    environment:
+      - PATH: ""
     steps:
       - run: echo $PATH
       - checkout
@@ -37,7 +33,6 @@ workflows:
   version: 2
   test-and-release:
     jobs:
-      - build
       - test-on-boron
       - test-on-carbon
       - release:
