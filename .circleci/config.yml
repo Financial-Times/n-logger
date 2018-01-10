@@ -2,11 +2,11 @@ version: 2
 jobs:
   test-on-boron:
     docker:
-      - image: node:boron
+      - image: circleci/node:boron
     steps:
       - run: export PATH=$(echo $PATH | sed -e 's/:node_modules\/.bin$//' )
       - run: echo $PATH
-      - run: apt-get -qq update; apt-get -y install git
+      - run: apt -qq update; apt -y install git
       - checkout
       - run: if [ -e package.json ]; then npm prune --production=false --no-package-lock && npm install --no-spin --no-progress --no-package-lock; fi
       - run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ${HOME}/.npmrc
@@ -23,7 +23,7 @@ jobs:
       - run: make test
   release:
     docker:
-      - image: node:boron
+      - image: circleci/node:boron
     steps:
       - checkout
       - run: if [ -e package.json ]; then npm prune --production=false --no-package-lock && npm install --no-spin --no-progress --no-package-lock; fi
