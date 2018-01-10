@@ -4,6 +4,7 @@ jobs:
     docker:
       - image: circleci/node:boron
     environment:
+      # override $PATH set in circleci
       - PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     steps:
       - checkout
@@ -21,9 +22,8 @@ jobs:
       - image: circleci/node:boron
     steps:
       - checkout
-      - run: if [ -e package.json ]; then npm prune --production=false --no-package-lock && npm install --no-spin --no-progress --no-package-lock; fi
-      - run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ${HOME}/.npmrc
       - run: make install build
+      - run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ${HOME}/.npmrc
       - run: npm version --no-git-tag-version ${CIRCLE_TAG}
       - run: npm publish --access public
 workflows:
@@ -36,8 +36,8 @@ workflows:
           requires:
             - test-on-boron
             - test-on-carbon
-          filters:
-            branches:
-              only: master
-            tags:
-              only: /^v?\d+\.\d+\.\d+(?:-beta\.\d+)?$/
+          # filters:
+          #   branches:
+          #     only: master
+          #   tags:
+          #     only: /^v?\d+\.\d+\.\d+(?:-beta\.\d+)?$/
