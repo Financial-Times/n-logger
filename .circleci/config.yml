@@ -47,8 +47,8 @@ workflows:
           requires:
             - test-on-boron
             - test-on-carbon
-          # filters:
-          #   branches:
-          #     only: master
-          #   tags:
-          #     only: /^v?\d+\.\d+\.\d+(?:-beta\.\d+)?$/
+          filters:
+            # branches:
+            #   only: master
+            tags:
+              ignore: /^v?\d+\.\d+\.\d+(?:-beta\.\d+)?$/
