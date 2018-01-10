@@ -43,15 +43,15 @@ workflows:
       - test-on-boron
           filters:
             tags:
-              only: /.*/
+              ignore: /.*/
       - test-on-carbon
           filters:
             tags:
-              only: /.*/
+              ignore: /.*/
       - test-on-latest
           filters:
           tags:
-            only: /.*/
+            ignore: /.*/
       - release:
           requires:
             - test-on-boron
