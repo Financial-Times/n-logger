@@ -41,17 +41,8 @@ workflows:
   test-and-release:
     jobs:
       - test-on-boron
-          filters:
-            tags:
-              ignore: /.*/
       - test-on-carbon
-          filters:
-            tags:
-              ignore: /.*/
       - test-on-latest
-          filters:
-          tags:
-            ignore: /.*/
       - release:
           requires:
             - test-on-boron
