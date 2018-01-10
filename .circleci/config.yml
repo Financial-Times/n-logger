@@ -51,4 +51,5 @@ workflows:
             # branches:
             #   only: master
             tags:
-              ignore: /^v?\d+\.\d+\.\d+(?:-beta\.\d+)?$/
+              # ignore: /^v?\d+\.\d+\.\d+(?:-beta\.\d+)?$/
+              only: /.*/
