@@ -41,8 +41,9 @@ workflows:
   test-and-release:
     jobs:
       - test-on-boron:
+          # For a tag push unaffected by any filters, CircleCI skips the job
+          # https://circleci.com/docs/2.0/workflows/#git-tag-job-execution
           filters:
-            # tags currently have a design build on pushes unaffected by the filter would be skipped
             tags:
               only: /.*/
       - test-on-carbon:
@@ -58,5 +59,7 @@ workflows:
             - test-on-boron
             - test-on-carbon
           filters:
+            branches:
+              ignore: /.*/
             tags:
               only: /^v?\d+\.\d+\.\d+(?:-beta\.\d+)?$/
