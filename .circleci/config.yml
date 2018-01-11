@@ -1,0 +1,64 @@
+version: 2
+jobs:
+  test-on-boron:
+    docker:
+      - image: circleci/node:boron
+    environment:
+      # override $PATH if it has been set in Circleci for 1.0
+      - PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    steps:
+      - checkout
+      - run: make install test
+  test-on-carbon:
+    docker:
+      - image: circleci/node:carbon
+    environment:
+      - PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    steps:
+      - checkout
+      - run: make install test
+  test-on-latest:
+    docker:
+      - image: circleci/node:latest
+    environment:
+      - PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    steps:
+      - checkout
+      - run: make install test
+  release:
+    docker:
+      - image: circleci/node:boron
+    environment:
+      - PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    steps:
+      - checkout
+      - run: make install build
+      - run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > ${HOME}/.npmrc
+      - run: npm version --no-git-tag-version ${CIRCLE_TAG}
+      - run: npm publish --access public
+workflows:
+  version: 2
+  test-and-release:
+    jobs:
+      - test-on-boron:
+          filters:
+            # tags currently have a design that unaffected push wouldn't be built
+            tags:
+              only: /.*/
+      - test-on-carbon:
+          filters:
+            tags:
+              only: /.*/
+      - test-on-latest:
+          filters:
+            tags:
+              only: /.*/
+      - release:
+          requires:
+            - test-on-boron
+            - test-on-carbon
+          filters:
+            branches:
+              only: master
+            tags:
+              only: /^v?\d+\.\d+\.\d+(?:-beta\.\d+)?$/
