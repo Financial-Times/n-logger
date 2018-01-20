@@ -10,7 +10,10 @@ class AppLogger extends Logger {
 		Object.assign(this.deps, { winston, Splunk }, deps);
 		this.logger = new (this.deps.winston.Logger)({
 					transports: [
-						new (this.deps.winston.transports.Console)({ colorize: true })
+						new (this.deps.winston.transports.Console)({
+							colorize: true,
+							level: deps.level
+						})
 					]
 				});
 	}

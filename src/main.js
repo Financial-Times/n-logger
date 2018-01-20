@@ -7,9 +7,9 @@ const getLogger = () => {
 		return new FunctionLogger();
 	} else {
 		// app environment - use Winston
-		const logger = new AppLogger();
-
-		logger.addConsole(process.env.CONSOLE_LOG_LEVEL || 'silly');
+		const logger = new AppLogger({
+			level: process.env.CONSOLE_LOG_LEVEL || 'silly'
+		});
 
 		// log to splunk only in production
 		if (process.env.NODE_ENV === 'production' && process.env.SPLUNK_URL) {
