@@ -75,7 +75,7 @@ class AppLogger extends Logger {
 		if (!this.logger.transports.splunkHEC) {
 			return;
 		}
-		this.logger.remove('SplunkHEC');
+		this.logger.remove('splunkHEC');
 	}
 
 	clearLoggers () {

@@ -243,6 +243,57 @@ describe('Logger', () => {
 
 	});
 
+	describe('#addSplunkHEC', () => {
+
+		it('should be able to add a splunkHEC logger', () => {
+			const addSpy = sinon.spy();
+			const SplunkHECSpy = sinon.spy();
+			const winston = winstonStub({ add: addSpy });
+			const logger = new Logger({ winston, SplunkHEC: SplunkHECSpy });
+			logger.addSplunkHEC();
+			addSpy.should.always.have.been.calledWithExactly(SplunkHECSpy, { level: 'info' });
+		});
+
+		it('should be able to set the console logger\'s level', () => {
+			const addSpy = sinon.spy();
+			const SplunkHECSpy = sinon.spy();
+			const winston = winstonStub({ add: addSpy });
+			const logger = new Logger({ winston, SplunkHEC: SplunkHECSpy });
+			logger.addSplunkHEC('warn');
+			addSpy.should.always.have.been.calledWithExactly(SplunkHECSpy, { level: 'warn' });
+		});
+
+		it('should not be able to add if already added', () => {
+			const addSpy = sinon.spy(function () { this.transports.splunkHEC = true; });
+			const winston = winstonStub({ add: addSpy });
+			const logger = new Logger({ winston });
+			logger.addSplunkHEC();
+			logger.addSplunkHEC();
+			addSpy.should.have.been.calledOnce;
+		});
+
+	});
+
+	describe('#removeSplunkHEC', () => {
+
+		it('should be able to remove', () => {
+			const removeSpy = sinon.spy();
+			const winston = winstonStub({ remove: removeSpy, transports: { splunkHEC: true } });
+			const logger = new Logger({ winston });
+			logger.removeSplunkHEC();
+			removeSpy.should.always.have.been.calledWithExactly('splunkHEC');
+		});
+
+		it('should not be able to remove if not added', () => {
+			const removeSpy = sinon.spy();
+			const winston = winstonStub({ remove: removeSpy });
+			const logger = new Logger({ winston });
+			logger.removeSplunkHEC();
+			removeSpy.should.not.have.been.called;
+		});
+
+	});
+
 	describe('#clearLoggers', () => {
 
 		it('should be able to clear loggers', () => {
