@@ -1,33 +1,29 @@
 import winston from 'winston';
-import formatter from '../formatter';
-
 const https = require('https');
-const fetch = require('@financial-times/n-fetch');
 
 class SplunkHEC extends winston.Transport {
 
 	log (level, message, meta) {
-		const formattedMessage = formatter({ level, message, meta, splunkFriendly: true });
 		const httpsAgent = new https.Agent({ keepAlive: true });
 
 		const data = {
 			'time': Date.now(),
 			'host': 'localhost',
-			'source': `/var/log/apps/heroku/${process.env.SYSTEM_CODE}.log`,
-			'sourcetype': 'heroku:drain',
+			'source': `/var/log/apps/heroku/ft-${process.env.SYSTEM_CODE}.log`,
+			'sourcetype': '_json',
 			'index': 'heroku',
-			'event': { formattedMessage }
+			'event': { level, message, meta }
 		};
 
 		return fetch('https://http-inputs-financialtimes.splunkcloud.com/services/collector/event', {
-			method : 'POST',
+			method: 'POST',
 			headers: {
 				'Authorization': `Splunk ${process.env.SPLUNK_HEC_TOKEN}`
 			},
-			followRedirect : true,
+			followRedirect: true,
 			strictSSL: false,
-			pool : httpsAgent,
-			body : JSON.stringify(data)
+			pool: httpsAgent,
+			body: JSON.stringify(data)
 		}).catch(() => {});
 	};
 

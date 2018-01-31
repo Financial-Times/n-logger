@@ -1,6 +1,8 @@
 const chai = require('chai');
 chai.should();
 
+require('isomorphic-fetch');
+
 const nock = require('nock');
 const proxyquire = require('proxyquire');
 
@@ -36,12 +38,13 @@ describe('SplunkHEC', () => {
 
 			const splunkHECTransport = new SplunkHEC();
 			return splunkHECTransport.log('error', 'a message', { field: 'value' })
-				.then(res => {
-					res.text.should.equal('Successful request');
+				.then(res => res.json())
+				.then(json => {
+					json.text.should.equal('Successful request');
 				});
 		});
 
-		it('should not throw exceptions', () => {
+		it('should not throw exceptions when Splunk is down', () => {
 			nock('https://http-inputs-financialtimes.splunkcloud.com')
 				.post('/services/collector/event')
 				.reply(500);
@@ -49,11 +52,8 @@ describe('SplunkHEC', () => {
 			const splunkHECTransport = new SplunkHEC();
 			return splunkHECTransport.log('error', 'a message', { field: 'value' });
 		});
-	});
 
-	describe('when Splunk is not accepting requests', () => {
-
-		it('should not throw exceptions', () => {
+		it('should not throw exceptions when Splunk does not accept the request', () => {
 			nock('https://http-inputs-financialtimes.splunkcloud.com')
 				.post('/services/collector/event')
 				.reply(400);
