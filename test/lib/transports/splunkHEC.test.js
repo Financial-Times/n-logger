@@ -31,7 +31,7 @@ describe('SplunkHEC', () => {
 			nock.cleanAll();
 		});
 
-		it('should return an object', () => {
+		it('should send a log to Splunk', () => {
 			nock('https://http-inputs-financialtimes.splunkcloud.com')
 				.post('/services/collector/event')
 				.reply(201, { text: 'Successful request', code: 0 });
