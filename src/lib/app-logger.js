@@ -2,12 +2,13 @@ import winston from 'winston';
 
 import Logger from './logger';
 import Splunk from './transports/splunk';
+import SplunkHEC from './transports/splunkHEC';
 
 class AppLogger extends Logger {
 
 	constructor (deps = {}) {
 		super(deps);
-		Object.assign(this.deps, { winston, Splunk }, deps);
+		Object.assign(this.deps, { winston, Splunk, SplunkHEC }, deps);
 		this.logger = new (this.deps.winston.Logger)({
 					transports: [
 						new (this.deps.winston.transports.Console)({
@@ -58,6 +59,23 @@ class AppLogger extends Logger {
 			return;
 		}
 		this.logger.remove('splunk');
+	}
+
+	addSplunkHEC (level = 'info', opts = {}) {
+		if (this.logger.transports.splunkHEC) {
+			return;
+		}
+		this.logger.add(
+			this.deps.SplunkHEC,
+			Object.assign({ level }, opts)
+		);
+	}
+
+	removeSplunkHEC () {
+		if (!this.logger.transports.splunkHEC) {
+			return;
+		}
+		this.logger.remove('splunkHEC');
 	}
 
 	clearLoggers () {

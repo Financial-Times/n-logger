@@ -31,6 +31,8 @@ By default
     * logger level can be set by `CONSOLE_LOG_LEVEL` env variable; defaults to `silly`
   * the `splunk` logger is added if `NODE_ENV === production`
     * logger level can be set by `SPLUNK_LOG_LEVEL` env variable; defaults to `warn`
+  * the `splunkHEC` logger is added if `NODE_ENV === production && SPLUNK_HEC_TOKEN`
+    * logger level can be set by `SPLUNK_LOG_LEVEL` env variable; defaults to `warn`
 
 ### API
 
@@ -49,6 +51,10 @@ By default
 #### addSplunk(splunkUrl, level = 'info', opts = {})
 
 #### removeSplunk()
+
+#### addSplunkHEC(level = 'info', opts = {})
+
+#### removeSplunkHEC()
 
 #### clearLoggers()
 
