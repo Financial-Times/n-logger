@@ -1,10 +1,12 @@
 ---
 version: 2
 references:
-  run-test-on: &run-test-on
+  override-env-path: &override-env-path
     environment:
       # override $PATH if it has been set in Circleci for 1.0
       - PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  run-test-on: &run-test-on
+    <<: *override-env-path
     steps:
       - checkout
       - run: make install test
@@ -16,6 +18,15 @@ references:
         only: /.*/
 
 jobs:
+  # jobs.build is here just as a temporary fix to mute scheduled build and update test coverage
+  build:
+    docker:
+      - image: circleci/node:boron
+    <<: *override-env-path
+    steps:
+      - checkout
+      - run: make install test-cover
+      - run: cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js
   test-on-boron:
     <<: *run-test-on
     docker:
@@ -54,6 +65,7 @@ workflows:
           requires:
             - test-on-boron
             - test-on-carbon
+            - test-on-latest
           filters:
             branches:
               ignore: /.*/
