@@ -7,9 +7,13 @@ const getLogger = () => {
 		return new FunctionLogger();
 	} else {
 		// app environment - use Winston
-		const logger = new AppLogger();
+		const logger = new AppLogger({
+			level: process.env.CONSOLE_LOG_LEVEL || 'silly'
+		});
 
-		logger.addConsole(process.env.CONSOLE_LOG_LEVEL || 'silly');
+		if (process.env.NODE_ENV === 'production' && process.env.SPLUNK_HEC_TOKEN) {
+			logger.addSplunkHEC(process.env.SPLUNK_LOG_LEVEL || 'warn');
+		}
 
 		// log to splunk only in production
 		if (process.env.NODE_ENV === 'production' && process.env.SPLUNK_URL) {
