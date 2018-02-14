@@ -15,7 +15,7 @@ describe('FormatHEC', () => {
 			level: 'info',
 			message: 'Hello world',
 			meta: { event: 'TEST' }
-		}
+		};
 
 		expect(formatHEC(options)).to.deep.equal({
 			level: 'info',
@@ -29,7 +29,7 @@ describe('FormatHEC', () => {
 		const options = {
 			level: 'error',
 			meta: { event: 'TEST_ERROR', err }
-		}
+		};
 
 		expect(formatHEC(options)).to.deep.equal({
 			level: 'error',
@@ -41,7 +41,7 @@ describe('FormatHEC', () => {
 		const options = {
 			level: 'info',
 			message: 'a message'
-		}
+		};
 
 		expect(formatHEC(options)).to.deep.equal({
 			level: 'info',
@@ -54,7 +54,7 @@ describe('FormatHEC', () => {
 		const options = {
 			level: 'info',
 			meta: { event: 'TEST', count }
-		}
+		};
 
 		expect(formatHEC(options)).to.deep.equal({
 			level: 'info',
