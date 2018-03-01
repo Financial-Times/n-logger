@@ -32,5 +32,9 @@
   "config": {},
   "engines": {
     "node": ">=6.1.0"
+  },
+  "browser": {
+     "fs": false, 
+     "child_process": false 
   }
 }
