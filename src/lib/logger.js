@@ -12,6 +12,8 @@ const extractErrorDetails = obj => {
 		}
 
 		return deets;
+	} else if (typeof obj === 'string') {
+		return { message: obj };
 	} else {
 		return obj;
 	}
