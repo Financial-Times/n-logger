@@ -12,7 +12,7 @@ const extractErrorDetails = obj => {
 		}
 
 		return deets;
-	} elseif (typeof obj === 'string') {
+	} else if (typeof obj === 'string') {
 		return { message: obj };
 	} else {
 		return obj;
