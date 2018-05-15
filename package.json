@@ -17,17 +17,17 @@
     "winston": "^2.4.0"
   },
   "devDependencies": {
-    "@financial-times/n-gage": "^1.19.1",
+    "@financial-times/n-gage": "^2.0.1",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
     "chai-string": "^1.4.0",
-    "mocha": "^4.1.0",
+    "mocha": "^5.1.1",
     "nock": "^9.0.2",
-    "proxyquire": "^1.8.0",
-    "sinon": "^4.1.3",
-    "sinon-chai": "^2.14.0"
+    "proxyquire": "^2.0.1",
+    "sinon": "^5.0.7",
+    "sinon-chai": "^3.0.0"
   },
   "config": {},
   "engines": {
