@@ -23,6 +23,7 @@ class SplunkHEC extends winston.Transport {
 				'Authorization': `Splunk ${process.env.SPLUNK_HEC_TOKEN}`
 			},
 			pool: httpsAgent,
+			timeout: 3000,
 			body: JSON.stringify(data)
 		}).catch(() => {});
 	};
