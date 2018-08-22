@@ -7,11 +7,15 @@ class SplunkHEC extends winston.Transport {
 	log (level, message, meta) {
 		const httpsAgent = new https.Agent({ keepAlive: true });
 		const formattedMessage = formatHEC({ level, message, meta });
-
+		
+		// Allows the heroku prefix to be something other than ft- (like ip-)
+		// Omits the prefix altogether if the env var is set to an empty string
+		const herokuPrefix = process.env.HEROKU_PREFIX === undefined ? 'ft-' : process.env.HEROKU_PREFIX;
+		
 		const data = {
 			'time': Date.now(),
 			'host': 'localhost',
-			'source': `/var/log/apps/heroku/ft-${process.env.SYSTEM_CODE}.log`,
+			'source': `/var/log/apps/heroku/${herokuPrefix}${process.env.SYSTEM_CODE}.log`,
 			'sourcetype': '_json',
 			'index': process.env.SPLUNK_INDEX || 'heroku',
 			'event': formattedMessage
