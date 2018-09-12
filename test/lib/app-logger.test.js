@@ -183,66 +183,6 @@ describe('Logger', () => {
 
 	});
 
-	describe('#addSplunk', () => {
-
-		it('should be able to add a splunk logger', () => {
-			const addSpy = sinon.spy();
-			const SplunkSpy = sinon.spy();
-			const winston = winstonStub({ add: addSpy });
-			const logger = new Logger({ winston, Splunk: SplunkSpy });
-			logger.addSplunk('http://splunk.ft.com');
-			addSpy.should.always.have.been.calledWithExactly(SplunkSpy, { level: 'info', splunkUrl: 'http://splunk.ft.com' });
-		});
-
-		it('should be able to set the console logger\'s level', () => {
-			const addSpy = sinon.spy();
-			const SplunkSpy = sinon.spy();
-			const winston = winstonStub({ add: addSpy });
-			const logger = new Logger({ winston, Splunk: SplunkSpy });
-			logger.addSplunk('http://splunk.ft.com', 'warn');
-			addSpy.should.always.have.been.calledWithExactly(SplunkSpy, { level: 'warn', splunkUrl: 'http://splunk.ft.com' });
-		});
-
-		it('should return false if no `splunkUrl` supplied', () => {
-			const addSpy = sinon.spy();
-			const SplunkSpy = sinon.spy();
-			const winston = winstonStub({ add: addSpy });
-			const logger = new Logger({ winston, Splunk: SplunkSpy });
-			logger.addSplunk().should.be.false;
-			addSpy.should.not.have.been.called;
-		});
-
-		it('should not be able to add if already added', () => {
-			const addSpy = sinon.spy(function () { this.transports.splunk = true; });
-			const winston = winstonStub({ add: addSpy });
-			const logger = new Logger({ winston });
-			logger.addSplunk('http://splunk.ft.com');
-			logger.addSplunk('http://splunk.ft.com');
-			addSpy.should.have.been.calledOnce;
-		});
-
-	});
-
-	describe('#removeSplunk', () => {
-
-		it('should be able to remove', () => {
-			const removeSpy = sinon.spy();
-			const winston = winstonStub({ remove: removeSpy, transports: { splunk: true } });
-			const logger = new Logger({ winston });
-			logger.removeSplunk();
-			removeSpy.should.always.have.been.calledWithExactly('splunk');
-		});
-
-		it('should not be able to remove if not added', () => {
-			const removeSpy = sinon.spy();
-			const winston = winstonStub({ remove: removeSpy });
-			const logger = new Logger({ winston });
-			logger.removeSplunk();
-			removeSpy.should.not.have.been.called;
-		});
-
-	});
-
 	describe('#addSplunkHEC', () => {
 
 		it('should be able to add a splunkHEC logger', () => {
