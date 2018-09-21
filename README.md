@@ -1,11 +1,12 @@
 # Next Logger [![Circle CI](https://circleci.com/gh/Financial-Times/n-logger.svg?style=svg)](https://circleci.com/gh/Financial-Times/n-logger)
 
-Logging utility
+N-logger is a Winston wrapper which sends logs to Splunk's Http Event Collector (HEC).
 
 ## Installation
 
     npm install @financial-times/n-logger
 
+    Ensure `SPLUNK_HEC_TOKEN` is in the app's shared folder in Vault.
 
 ## Usage
 
@@ -15,6 +16,7 @@ Logging utility
     logger.info('Saying hello');
     logger.warn('Everything’s mostly cool');
     logger.error('Uh-oh', { field: 'some value' });
+    logger.info({ event: 'UPDATE_NOTIFICATION', data: data });
 
     const err = new Error('Whoops!');
     logger.error('Uh-oh', err, { extra_field: 'boo' });
@@ -25,14 +27,14 @@ If using CommonJS modules
 
 ### Loggers
 
-By default
+By default, the following loggers are added:
 
-  * the `console` logger is added
-    * logger level can be set by `CONSOLE_LOG_LEVEL` env variable; defaults to `silly`
-  * the `splunk` logger is added if `NODE_ENV === production`
-    * logger level can be set by `SPLUNK_LOG_LEVEL` env variable; defaults to `warn`
-  * the `splunkHEC` logger is added if `NODE_ENV === production && SPLUNK_HEC_TOKEN`
-    * logger level can be set by `SPLUNK_LOG_LEVEL` env variable; defaults to `warn`
+  * The `console` logger
+    * logger level can be set by `CONSOLE_LOG_LEVEL` env var (defaults to `silly`).
+
+
+  * The `splunkHEC` logger, if `NODE_ENV === production && SPLUNK_HEC_TOKEN`
+    * logger level can be set by `SPLUNK_LOG_LEVEL` env var (defaults to `warn`).
 
 ### API
 
@@ -47,10 +49,6 @@ By default
 #### addConsole(level = 'info', opts = {})
 
 #### removeConsole()
-
-#### addSplunk(splunkUrl, level = 'info', opts = {})
-
-#### removeSplunk()
 
 #### addSplunkHEC(level = 'info', opts = {})
 
