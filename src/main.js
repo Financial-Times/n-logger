@@ -17,10 +17,6 @@ const getLogger = () => {
 			logger.addSplunkHEC(process.env.SPLUNK_LOG_LEVEL || 'warn');
 		}
 
-		// log to splunk only in production
-		if (process.env.NODE_ENV === 'production' && process.env.SPLUNK_URL) {
-			logger.addSplunk(process.env.SPLUNK_URL, process.env.SPLUNK_LOG_LEVEL || 'warn');
-		}
 		return logger;
 	}
 };
