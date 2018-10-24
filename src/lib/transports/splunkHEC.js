@@ -10,7 +10,6 @@ class SplunkHEC extends winston.Transport {
 
 		const data = {
 			'time': Date.now(),
-			'host': 'localhost',
 			'source': `/var/log/apps/heroku/ft-${process.env.SYSTEM_CODE}.log`,
 			'sourcetype': process.env.SPLUNK_SOURCETYPE || '_json',
 			'index': process.env.SPLUNK_INDEX || 'heroku',
