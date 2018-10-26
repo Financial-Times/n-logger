@@ -61,6 +61,17 @@ describe('SplunkHEC', () => {
 			const splunkHECTransport = new SplunkHEC();
 			return splunkHECTransport.log('info', 'a message', { field: 'value' });
 		});
+
+		it('should send a log if data is circularly referenced', () => {
+			nock('https://http-inputs-financialtimes.splunkcloud.com')
+				.post('/services/collector/event')
+				.reply(201, { text: 'Successful request', code: 0 });
+
+			const splunkHECTransport = new SplunkHEC();
+			const circularData = { field: 'value' };
+			circularData.circularData = circularData;
+			return splunkHECTransport.log('info', 'a message', circularData);
+		});
 	});
 
 });
