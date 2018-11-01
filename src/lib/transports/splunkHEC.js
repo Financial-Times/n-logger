@@ -4,6 +4,18 @@ import formatHEC from '../formatHEC';
 
 const https = require('https');
 
+const throwIfNotOk = res => {
+	const { ok, status, url } = res;
+	if (!ok) {
+		return res.json()
+			.then(errorBody => {
+				console.error('Fetch error:', status, url, errorBody); // eslint-disable-line no-console
+				throw errorBody;
+			});
+	}
+	return res;
+};
+
 class SplunkHEC extends winston.Transport {
 
 	log (level, message, meta) {
@@ -27,7 +39,12 @@ class SplunkHEC extends winston.Transport {
 			pool: httpsAgent,
 			timeout: 3000,
 			body: stringify(data)
-		}).catch(() => {});
+		})
+			.then(throwIfNotOk)
+			.catch((error) => {
+				/* eslint no-console: 0 */
+				console.log('Error logging to splunk', error, data);
+			});
 	};
 
 }
