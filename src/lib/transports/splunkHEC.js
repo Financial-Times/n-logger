@@ -1,6 +1,7 @@
 import winston from 'winston';
-import { inspect } from 'util';
+import stringify from 'json-stringify-safe';
 import formatHEC from '../formatHEC';
+
 const https = require('https');
 
 class SplunkHEC extends winston.Transport {
@@ -25,7 +26,7 @@ class SplunkHEC extends winston.Transport {
 			},
 			pool: httpsAgent,
 			timeout: 3000,
-			body: inspect(data)
+			body: stringify(data)
 		}).catch(() => {});
 	};
 

@@ -1,4 +1,5 @@
 const chai = require('chai');
+const { expect } = chai;
 chai.should();
 
 require('isomorphic-fetch');
@@ -65,12 +66,37 @@ describe('SplunkHEC', () => {
 		it('should send a log if data is circularly referenced', () => {
 			nock('https://http-inputs-financialtimes.splunkcloud.com')
 				.post('/services/collector/event')
-				.reply(201, { text: 'Successful request', code: 0 });
+				// NOTE: Returning requestBody for further tests
+				.reply(201, (uri, requestBody) => {
+					return requestBody;
+				});
 
 			const splunkHECTransport = new SplunkHEC();
 			const circularData = { field: 'value' };
 			circularData.circularData = circularData;
-			return splunkHECTransport.log('info', 'a message', circularData);
+			return splunkHECTransport.log('info', 'a message', circularData)
+				// Process JSON, to check returned requestBody
+				.then(res => res.json())
+				.then(data => {
+					expect(data).to.be.an('object');
+				});;
+		});
+
+		it('sent log body should be JSON.parse-able', () => {
+			nock('https://http-inputs-financialtimes.splunkcloud.com')
+				.post('/services/collector/event')
+				// NOTE: Returning requestBody for further tests
+				.reply(201, (uri, requestBody) => {
+					return requestBody;
+				});
+
+			const splunkHECTransport = new SplunkHEC();
+			return splunkHECTransport.log('info', 'a message', { field: 'value' })
+				// Process JSON, to check returned requestBody
+				.then(res => res.json())
+				.then(data => {
+					expect(data).to.be.an('object');
+				});
 		});
 	});
 
