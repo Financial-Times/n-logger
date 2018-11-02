@@ -1,7 +1,20 @@
 import winston from 'winston';
-import { inspect } from 'util';
+import stringify from 'json-stringify-safe';
 import formatHEC from '../formatHEC';
+
 const https = require('https');
+
+const throwIfNotOk = res => {
+	const { ok, status, url } = res;
+	if (!ok) {
+		return res.json()
+			.then(errorBody => {
+				console.error('Fetch error:', status, url, errorBody); // eslint-disable-line no-console
+				throw errorBody;
+			});
+	}
+	return res;
+};
 
 class SplunkHEC extends winston.Transport {
 
@@ -25,8 +38,13 @@ class SplunkHEC extends winston.Transport {
 			},
 			pool: httpsAgent,
 			timeout: 3000,
-			body: inspect(data)
-		}).catch(() => {});
+			body: stringify(data)
+		})
+			.then(throwIfNotOk)
+			.catch((error) => {
+				/* eslint no-console: 0 */
+				console.log('Error logging to splunk', error, data);
+			});
 	};
 
 }
