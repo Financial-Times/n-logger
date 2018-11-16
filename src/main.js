@@ -13,7 +13,7 @@ const getLogger = () => {
 			level: process.env.CONSOLE_LOG_LEVEL || 'silly'
 		});
 
-		if (process.env.NODE_ENV === 'production' && process.env.SPLUNK_HEC_TOKEN) {
+		if ((process.env.NODE_ENV === 'production' || process.env.LOG_TO_SPLUNK === 'true') && process.env.SPLUNK_HEC_TOKEN) {
 			logger.addSplunkHEC(process.env.SPLUNK_LOG_LEVEL || 'warn');
 		}
 
