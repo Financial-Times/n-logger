@@ -23,3 +23,4 @@ const getLogger = () => {
 
 const logger = getLogger();
 export default logger;
+export { getLogger };
