@@ -25,6 +25,24 @@ If using CommonJS modules
 
     const logger = require('@financial-times/n-logger').default;
 
+You may also have different instances of the logger in the same project.  This is useful if you wanted to have different [context](#addcontextmeta) per logger:
+
+```javascript
+  const logger = require('@financial-times/n-logger');
+
+  const logger1 = logger.getLogger();
+  logger1.addContext({ client: 'api-service-1' });
+
+  const logger2 = logger.getLogger();
+  logger2.addContext({ client: 'api-service-2' });
+
+  logger1.info('message 1');
+  logger2.info('message 1');
+
+  // this outputs the following (note the client is different)
+  // info: message 1 client=api-service-1
+  // info: message 1 client=api-service-2
+```
 ### Loggers
 
 By default, the following loggers are added:
