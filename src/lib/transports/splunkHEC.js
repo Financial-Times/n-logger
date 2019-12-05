@@ -21,11 +21,12 @@ class SplunkHEC extends winston.Transport {
 	log (level, message, meta) {
 		const httpsAgent = new https.Agent({ keepAlive: true });
 		const formattedMessage = formatHEC({ level, message, meta });
+		const hostPlatform = process.env.HOST_PLATFORM || 'heroku';
 
 		const data = {
 			'time': Date.now(),
 			'host': 'localhost',
-			'source': `/var/log/apps/heroku/ft-${process.env.SYSTEM_CODE}.log`,
+			'source': `/var/log/apps/${hostPlatform}/ft-${process.env.SYSTEM_CODE}.log`,
 			'sourcetype': process.env.SPLUNK_SOURCETYPE || '_json',
 			'index': process.env.SPLUNK_INDEX || 'heroku',
 			'event': formattedMessage

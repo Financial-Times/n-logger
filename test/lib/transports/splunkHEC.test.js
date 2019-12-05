@@ -98,6 +98,41 @@ describe('SplunkHEC', () => {
 					expect(data).to.be.an('object');
 				});
 		});
+
+		describe('source field', () => {
+			beforeEach(() => {
+				process.env.SYSTEM_CODE = 'test-app';
+
+				nock('https://http-inputs-financialtimes.splunkcloud.com')
+					.post('/services/collector/event')
+					// NOTE: Returning requestBody for further tests
+					.reply(201, (uri, requestBody) => {
+						return requestBody;
+					});
+			});
+
+			it('should have a source field that defaults to "heroku"', () => {
+				const splunkHECTransport = new SplunkHEC();
+				return splunkHECTransport.log('info', 'a message', { field: 'value' })
+					// Process JSON, to check returned requestBody
+					.then(res => res.json())
+					.then(json => {
+						json.source.should.equal('/var/log/apps/heroku/ft-test-app.log');
+					});
+			});
+
+			it('should allow overriding the source field by setting HOST_PLATFORM', () => {
+				process.env.HOST_PLATFORM = 'ftplatform';
+
+				const splunkHECTransport = new SplunkHEC();
+				return splunkHECTransport.log('info', 'a message', { field: 'value' })
+					// Process JSON, to check returned requestBody
+					.then(res => res.json())
+					.then(json => {
+						json.source.should.equal('/var/log/apps/ftplatform/ft-test-app.log');
+					});
+			});
+		});
 	});
 
 });
