@@ -67,6 +67,7 @@ If you are making a change to n-logger it is worth testing it locally to check i
  * `level` can be silly, debug, verbose, info, warn or error
  * `message` is optional
  * any number of meta objects can be supplied, including `Error` objects
+ * **IMPORTANT NOTE** - do not send errors as properties of other objects, e.g. `{event: 'My_EVENT', error}`. This will result in no details of the error being logged**
 
 #### silly|debug|verbose|info|warn|error(message, ...meta)
 
