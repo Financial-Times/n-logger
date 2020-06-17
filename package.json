@@ -12,7 +12,6 @@
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
     "json-stringify-safe": "^5.0.1",
-    "request": "^2.83.0",
     "winston": "^2.4.0"
   },
   "devDependencies": {
