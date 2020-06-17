@@ -7,9 +7,6 @@
   "scripts": {
     "prepublish": "make build",
     "commit": "commit-wizard",
-    "precommit": "node_modules/.bin/secret-squirrel",
-    "commitmsg": "node_modules/.bin/secret-squirrel-commitmsg",
-    "prepush": "make verify -j3",
     "prepare": "npx snyk protect || npx snyk protect -d || true"
   },
   "dependencies": {
@@ -19,7 +16,7 @@
     "winston": "^2.4.0"
   },
   "devDependencies": {
-    "@financial-times/n-gage": "^3.6.0",
+    "@financial-times/n-gage": "^5.0.0",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-register": "^6.26.0",
@@ -35,5 +32,12 @@
   "config": {},
   "engines": {
     "node": ">=6.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "node_modules/.bin/secret-squirrel-commitmsg",
+      "pre-commit": "node_modules/.bin/secret-squirrel",
+      "pre-push": "make verify -j3"
+    }
   }
 }
