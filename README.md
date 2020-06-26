@@ -49,7 +49,6 @@ If you are making a change to n-logger it is worth testing it locally to check i
 
   ```
   const logger = require('./dist/main').default;
-  require('isomorphic-fetch');
 
   logger.warn('Testing Testing Testing');
   logger.warn({ event: 'HELLO_WORLD', message: 'Testing 1 2 3', count: 5 }, {fizz: 'buzz'});

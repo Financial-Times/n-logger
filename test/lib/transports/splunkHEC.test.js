@@ -2,8 +2,6 @@ const chai = require('chai');
 const { expect } = chai;
 chai.should();
 
-require('isomorphic-fetch');
-
 const nock = require('nock');
 const proxyquire = require('proxyquire');
 

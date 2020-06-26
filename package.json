@@ -10,8 +10,8 @@
     "prepare": "npx snyk protect || npx snyk protect -d || true"
   },
   "dependencies": {
-    "isomorphic-fetch": "^2.2.1",
     "json-stringify-safe": "^5.0.1",
+    "node-fetch": "^2.6.0",
     "winston": "^2.4.0"
   },
   "devDependencies": {

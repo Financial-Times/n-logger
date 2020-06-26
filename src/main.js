@@ -1,5 +1,3 @@
-require('isomorphic-fetch');
-
 import FunctionLogger from './lib/function-logger';
 import AppLogger from './lib/app-logger';
 
