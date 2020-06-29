@@ -1,4 +1,5 @@
 import winston from 'winston';
+import nodeFetch from 'node-fetch';
 import stringify from 'json-stringify-safe';
 import formatHEC from '../formatHEC';
 
@@ -31,7 +32,7 @@ class SplunkHEC extends winston.Transport {
 			'event': formattedMessage
 		};
 
-		return fetch('https://http-inputs-financialtimes.splunkcloud.com/services/collector/event', {
+		return (global.fetch || nodeFetch)('https://http-inputs-financialtimes.splunkcloud.com/services/collector/event', {
 			method: 'POST',
 			headers: {
 				'Authorization': `Splunk ${process.env.SPLUNK_HEC_TOKEN}`

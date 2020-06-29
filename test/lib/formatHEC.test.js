@@ -21,7 +21,7 @@ describe('FormatHEC', () => {
 			level: 'info',
 			message: 'Hello world',
 			event: 'TEST'
-			});
+		});
 	});
 
 	it('should handle data containing an error', () => {
@@ -34,7 +34,7 @@ describe('FormatHEC', () => {
 		expect(formatHEC(options)).to.deep.equal({
 			level: 'error',
 			event: 'TEST_ERROR', err
-			});
+		});
 	});
 
 	it('should handle no meta data ', () => {
@@ -60,7 +60,7 @@ describe('FormatHEC', () => {
 			level: 'info',
 			event: 'TEST',
 			count: 10
-			});
+		});
 	});
 
 });
