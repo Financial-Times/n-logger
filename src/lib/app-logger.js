@@ -9,13 +9,13 @@ class AppLogger extends Logger {
 		super(deps);
 		Object.assign(this.deps, { winston, SplunkHEC }, deps);
 		this.logger = new (this.deps.winston.Logger)({
-					transports: [
-						new (this.deps.winston.transports.Console)({
-							colorize: true,
-							level: deps.level
-						})
-					]
-				});
+			transports: [
+				new (this.deps.winston.transports.Console)({
+					colorize: true,
+					level: deps.level
+				})
+			]
+		});
 	}
 
 	doLog (...args) {
