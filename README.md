@@ -7,7 +7,7 @@ _Please note_ that this package is not only used by the Customer Products team. 
 
 ## Getting started
 
-This package is compatible with Node 8+ and is distributed on npm.
+This package is compatible with the Node version defined by `engines.node` in `package.json` (run command `nvm use` to switch your local Node version to the one specified in `.nvmrc`) and is distributed on npm.
 
 ```bash
 npm install --save @financial-times/n-logger

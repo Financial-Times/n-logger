@@ -14,7 +14,7 @@ const winstonStub = ({
 	add = () => {},
 	remove = () => {},
 	transports = {},
-	Console = () => {}
+	Console = function () {}
 }) => {
 	return {
 		Logger: function () {
