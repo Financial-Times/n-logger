@@ -30,7 +30,7 @@
   },
   "config": {},
   "engines": {
-    "node": "14.x"
+    "node": "12.x"
   },
   "husky": {
     "hooks": {
