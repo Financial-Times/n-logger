@@ -7,7 +7,8 @@
   "scripts": {
     "prepublish": "make build",
     "commit": "commit-wizard",
-    "prepare": "npx snyk protect || npx snyk protect -d || true"
+    "prepare": "npx snyk protect || npx snyk protect -d || true",
+    "preinstall": "npm_config_yes=true npx check-engine"
   },
   "dependencies": {
     "json-stringify-safe": "^5.0.1",
@@ -21,6 +22,7 @@
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
     "chai-string": "^1.4.0",
+    "check-engines": "^1.5.0",
     "mocha": "^5.1.1",
     "nock": "^9.0.2",
     "proxyquire": "^2.0.1",
@@ -30,7 +32,8 @@
   },
   "config": {},
   "engines": {
-    "node": "12.x"
+    "node": "12.x",
+    "npm": "7.x"
   },
   "husky": {
     "hooks": {
@@ -38,5 +41,9 @@
       "pre-commit": "node_modules/.bin/secret-squirrel",
       "pre-push": "make verify -j3"
     }
+  },
+  "volta": {
+    "node": "12.22.5",
+    "npm": "7.20.2"
   }
 }
