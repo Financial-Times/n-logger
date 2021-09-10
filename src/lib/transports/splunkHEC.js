@@ -19,15 +19,15 @@ const throwIfNotOk = res => {
 
 class SplunkHEC extends winston.Transport {
 	// name that Winston refers to the transport by
-	get name() {
+	get name () {
 		return 'splunkHEC';
 	}
 
-	setSystemCode(systemCode) {
+	setSystemCode (systemCode) {
 		this._systemCode = systemCode;
 	}
 
-	get systemCode() {
+	get systemCode () {
 		if(this._systemCode) {
 			return this._systemCode;
 		} else if(process.env.SYSTEM_CODE) {
