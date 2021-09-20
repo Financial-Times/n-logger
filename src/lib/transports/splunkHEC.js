@@ -18,6 +18,30 @@ const throwIfNotOk = res => {
 };
 
 class SplunkHEC extends winston.Transport {
+	// name that Winston refers to the transport by
+	get name () {
+		return 'splunkHEC';
+	}
+
+	setSystemCode (systemCode) {
+		this._systemCode = systemCode;
+	}
+
+	get systemCode () {
+		if(this._systemCode) {
+			return this._systemCode;
+		} else if(process.env.SYSTEM_CODE) {
+			// fall back to legacy environment variable with a warning
+			if(!this.warnedSystemCode) {
+				console.warn('n-logger Splunk transport received the system code from the SYSTEM_CODE environment variable, which is deprecated. Call logger.setSystemCode instead');
+				this.warnedSystemCode = true;
+			}
+
+			return process.env.SYSTEM_CODE;
+		} else {
+			throw new Error('You must set the systemCode option to a valid Biz Ops system code (call logger.setSystemCode) to use the Splunk transport.');
+		}
+	}
 
 	log (level, message, meta) {
 		const httpsAgent = new https.Agent({ keepAlive: true });
@@ -26,7 +50,7 @@ class SplunkHEC extends winston.Transport {
 		const data = {
 			'time': Date.now(),
 			'host': 'localhost',
-			'source': `/var/log/apps/heroku/ft-${process.env.SYSTEM_CODE}.log`,
+			'source': `/var/log/apps/heroku/ft-${this.systemCode}.log`,
 			'sourcetype': process.env.SPLUNK_SOURCETYPE || '_json',
 			'index': process.env.SPLUNK_INDEX || 'heroku',
 			'event': formattedMessage
