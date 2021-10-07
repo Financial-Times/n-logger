@@ -61,11 +61,6 @@ class AppLogger extends Logger {
 			.forEach(logger => this.logger.remove(logger));
 	}
 
-	setSystemCode (systemCode) {
-		if(this.logger.transports.splunkHEC) {
-			this.logger.transports.splunkHEC.setSystemCode(systemCode);
-		}
-	}
 }
 
 export default AppLogger;

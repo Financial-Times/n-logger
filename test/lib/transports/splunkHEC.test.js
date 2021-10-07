@@ -13,9 +13,6 @@ const SplunkHEC = proxyquire('../../../dist/lib/transports/splunkHEC', {
 	'../formatter': formatter
 }).default;
 
-// required for Splunk URL
-process.env.SYSTEM_CODE = 'n-logger';
-
 describe('SplunkHEC', () => {
 
 	it('should exist', () => {
