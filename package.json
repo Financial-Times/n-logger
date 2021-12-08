@@ -22,7 +22,7 @@
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
     "chai-string": "^1.4.0",
-    "check-engines": "^1.5.0",
+    "check-engine": "^1.10.1",
     "mocha": "^5.1.1",
     "nock": "^9.0.2",
     "proxyquire": "^2.0.1",
