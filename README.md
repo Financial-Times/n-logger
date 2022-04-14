@@ -44,7 +44,7 @@ By default, the following loggers are configured:
 
   1. **The `console` logger**
 
-      The default logger. The log levels to output to the terminal can be set using the `CONSOLE_LOG_LEVEL` environment variable (defaults to `silly`).
+      The default logger. The log levels to output to the terminal can be set using the `CONSOLE_LOG_LEVEL` environment variable (defaults to `silly`). The log coloring can be disabled by setting `CONSOLE_LOG_UNCOLORIZED` environment variable to `true` by default the colorizing is enabled.
 
   2. **The `splunkHEC` logger**
 
@@ -82,7 +82,7 @@ If you are making a change to `n-logger` it is worth testing it locally to check
 
 #### silly|debug|verbose|info|warn|error(message, ...meta)
 
-#### addConsole(level = 'info', opts = {})
+#### addConsole(level = 'info', colorize = true, opts = {})
 
 #### removeConsole()
 

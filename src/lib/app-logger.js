@@ -11,7 +11,7 @@ class AppLogger extends Logger {
 		this.logger = new (this.deps.winston.Logger)({
 			transports: [
 				new (this.deps.winston.transports.Console)({
-					colorize: true,
+					colorize: deps.colorize,
 					level: deps.level
 				})
 			]
@@ -22,13 +22,13 @@ class AppLogger extends Logger {
 		this.logger.log.apply(this.logger, args);
 	}
 
-	addConsole (level = 'info', opts = {}) {
+	addConsole (level = 'info', colorize = true, opts = {}) {
 		if (this.logger.transports.console) {
 			return;
 		}
 		this.logger.add(
 			this.deps.winston.transports.Console,
-			Object.assign({ level, formatter: this.deps.formatter, colorize: true }, opts)
+			Object.assign({ level, formatter: this.deps.formatter, colorize}, opts)
 		);
 	}
 

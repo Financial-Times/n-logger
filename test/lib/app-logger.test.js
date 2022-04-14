@@ -136,6 +136,16 @@ describe('Logger', () => {
 			addSpy.should.always.have.been.calledWithExactly(ConsoleSpy, { level: 'info', formatter, colorize: true });
 		});
 
+		it('should be able to add a console logger without coloring', () => {
+			const formatter = () => { };
+			const addSpy = sinon.spy();
+			const ConsoleSpy = sinon.spy();
+			const winston = winstonStub({ add: addSpy, Console: ConsoleSpy });
+			const logger = new Logger({ winston, formatter });
+			logger.addConsole('info', false);
+			addSpy.should.always.have.been.calledWithExactly(ConsoleSpy, { level: 'info', formatter, colorize: false });
+		});
+
 		it('should be able to set the console logger\'s level', () => {
 			const addSpy = sinon.spy();
 			const winston = winstonStub({ add: addSpy });
@@ -148,7 +158,7 @@ describe('Logger', () => {
 			const addSpy = sinon.spy();
 			const winston = winstonStub({ add: addSpy });
 			const logger = new Logger({ winston });
-			logger.addConsole('info', { option: 'one' });
+			logger.addConsole('info', true, { option: 'one' });
 			addSpy.lastCall.args[1].should.have.property('option', 'one');
 		});
 
