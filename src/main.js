@@ -8,7 +8,9 @@ const getLogger = () => {
 	} else {
 		// app environment - use Winston
 		const logger = new AppLogger({
-			level: process.env.CONSOLE_LOG_LEVEL || 'silly'
+			level: process.env.CONSOLE_LOG_LEVEL || 'silly',
+			colorize: process.env.CONSOLE_LOG_UNCOLORIZED !== 'true'
+
 		});
 
 		if (process.env.SPLUNK_HEC_TOKEN && process.env.SPLUNK_HEC_TOKEN.length > 0) {
