@@ -23,7 +23,10 @@ const winstonStub = ({
 			this.remove = remove;
 			this.transports = transports;
 		},
-		transports: { Console }
+		transports: { Console },
+		createLogger: function () {
+			return new this.Logger();
+		}
 	};
 };
 
@@ -136,7 +139,12 @@ describe('Logger', () => {
 			const formatter = () => {};
 			const addSpy = sinon.spy();
 			const ConsoleSpy = sinon.spy();
-			const winston = winstonStub({ add: addSpy, Console: ConsoleSpy });
+			class ConsoleTransporter {
+				constructor() {
+					return ConsoleSpy;
+				}
+			}
+			const winston = winstonStub({ add: addSpy, Console: ConsoleTransporter });
 			const logger = new Logger({ winston, formatter });
 			logger.addConsole();
 			addSpy.should.always.have.been.calledWithExactly(ConsoleSpy, {
@@ -150,7 +158,12 @@ describe('Logger', () => {
 			const formatter = () => {};
 			const addSpy = sinon.spy();
 			const ConsoleSpy = sinon.spy();
-			const winston = winstonStub({ add: addSpy, Console: ConsoleSpy });
+			class ConsoleTransporter {
+				constructor() {
+					return ConsoleSpy;
+				}
+			}
+			const winston = winstonStub({ add: addSpy, Console: ConsoleTransporter });
 			const logger = new Logger({ winston, formatter });
 			logger.addConsole('info', false);
 			addSpy.should.always.have.been.calledWithExactly(ConsoleSpy, {
@@ -213,8 +226,13 @@ describe('Logger', () => {
 		it('should be able to add a splunkHEC logger', () => {
 			const addSpy = sinon.spy();
 			const SplunkHECSpy = sinon.spy();
+			class SplunkHECTransporter{
+				constructor(){
+					return SplunkHECSpy;
+				}
+			}
 			const winston = winstonStub({ add: addSpy });
-			const logger = new Logger({ winston, SplunkHEC: SplunkHECSpy });
+			const logger = new Logger({ winston, SplunkHEC: SplunkHECTransporter });
 			logger.addSplunkHEC();
 			addSpy.should.always.have.been.calledWithExactly(SplunkHECSpy, {
 				level: 'info'
@@ -224,8 +242,13 @@ describe('Logger', () => {
 		it("should be able to set the console logger's level", () => {
 			const addSpy = sinon.spy();
 			const SplunkHECSpy = sinon.spy();
+			class SplunkHECTransporter{
+				constructor(){
+					return SplunkHECSpy;
+				}
+			}
 			const winston = winstonStub({ add: addSpy });
-			const logger = new Logger({ winston, SplunkHEC: SplunkHECSpy });
+			const logger = new Logger({ winston, SplunkHEC: SplunkHECTransporter });
 			logger.addSplunkHEC('warn');
 			addSpy.should.always.have.been.calledWithExactly(SplunkHECSpy, {
 				level: 'warn'

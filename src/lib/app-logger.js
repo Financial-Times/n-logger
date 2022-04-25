@@ -8,7 +8,7 @@ class AppLogger extends Logger {
 	constructor (deps = {}) {
 		super(deps);
 		Object.assign(this.deps, { winston, SplunkHEC }, deps);
-		this.logger = new (this.deps.winston.Logger)({
+		this.logger = this.deps.winston.createLogger({
 			transports: [
 				new (this.deps.winston.transports.Console)({
 					colorize: deps.colorize,
@@ -27,7 +27,7 @@ class AppLogger extends Logger {
 			return;
 		}
 		this.logger.add(
-			this.deps.winston.transports.Console,
+			new this.deps.winston.transports.Console(),
 			Object.assign({ level, formatter: this.deps.formatter, colorize}, opts)
 		);
 	}
@@ -44,7 +44,7 @@ class AppLogger extends Logger {
 			return;
 		}
 		this.logger.add(
-			this.deps.SplunkHEC,
+			new this.deps.SplunkHEC(),
 			Object.assign({ level }, opts)
 		);
 	}
