@@ -28,7 +28,6 @@ const winstonStub = ({
 };
 
 describe('Logger', () => {
-
 	it('should exist', () => {
 		Logger.should.exist;
 	});
@@ -39,7 +38,6 @@ describe('Logger', () => {
 	});
 
 	describe('#log', () => {
-
 		it('should be able to log a message', () => {
 			const logSpy = sinon.spy();
 			const winston = winstonStub({ log: logSpy });
@@ -61,7 +59,9 @@ describe('Logger', () => {
 			const winston = winstonStub({ log: logSpy });
 			const logger = new Logger({ winston });
 			logger.log('info', 'a message', { foo: 'foo' });
-			logSpy.should.always.have.been.calledWithExactly('info', 'a message', { foo: 'foo' });
+			logSpy.should.always.have.been.calledWithExactly('info', 'a message', {
+				foo: 'foo'
+			});
 		});
 
 		it('should pass meta solely through', () => {
@@ -73,7 +73,7 @@ describe('Logger', () => {
 		});
 
 		it('should convert Error message to meta', () => {
-			class MyError extends Error { };
+			class MyError extends Error {}
 			const logSpy = sinon.spy();
 			const winston = winstonStub({ log: logSpy });
 			const logger = new Logger({ winston });
@@ -84,7 +84,7 @@ describe('Logger', () => {
 		});
 
 		it('should combine Error message meta', () => {
-			class MyError extends Error { };
+			class MyError extends Error {}
 			const logSpy = sinon.spy();
 			const winston = winstonStub({ log: logSpy });
 			const logger = new Logger({ winston });
@@ -94,7 +94,7 @@ describe('Logger', () => {
 		});
 
 		it('should handle message and Error meta', () => {
-			class MyError extends Error { };
+			class MyError extends Error {}
 			const logSpy = sinon.spy();
 			const winston = winstonStub({ log: logSpy });
 			const logger = new Logger({ winston });
@@ -104,7 +104,7 @@ describe('Logger', () => {
 		});
 
 		it('should be able to send message, error and meta', () => {
-			class MyError extends Error { };
+			class MyError extends Error {}
 			const logSpy = sinon.spy();
 			const winston = winstonStub({ log: logSpy });
 			const logger = new Logger({ winston });
@@ -118,14 +118,20 @@ describe('Logger', () => {
 			const logSpy = sinon.spy();
 			const winston = winstonStub({ log: logSpy });
 			const logger = new Logger({ winston });
-			logger.log('info', { extra: 'foo' }, { anotherExtra: 'bar' }, { extra: 'baz' });
-			logSpy.should.always.have.been.calledWithExactly('info', { extra: 'foo', anotherExtra: 'bar' });
+			logger.log(
+				'info',
+				{ extra: 'foo' },
+				{ anotherExtra: 'bar' },
+				{ extra: 'baz' }
+			);
+			logSpy.should.always.have.been.calledWithExactly('info', {
+				extra: 'foo',
+				anotherExtra: 'bar'
+			});
 		});
-
 	});
 
 	describe('#addConsole', () => {
-
 		it('should be able to add a console logger', () => {
 			const formatter = () => {};
 			const addSpy = sinon.spy();
@@ -133,20 +139,28 @@ describe('Logger', () => {
 			const winston = winstonStub({ add: addSpy, Console: ConsoleSpy });
 			const logger = new Logger({ winston, formatter });
 			logger.addConsole();
-			addSpy.should.always.have.been.calledWithExactly(ConsoleSpy, { level: 'info', formatter, colorize: true });
+			addSpy.should.always.have.been.calledWithExactly(ConsoleSpy, {
+				level: 'info',
+				formatter,
+				colorize: true
+			});
 		});
 
 		it('should be able to add a console logger without coloring', () => {
-			const formatter = () => { };
+			const formatter = () => {};
 			const addSpy = sinon.spy();
 			const ConsoleSpy = sinon.spy();
 			const winston = winstonStub({ add: addSpy, Console: ConsoleSpy });
 			const logger = new Logger({ winston, formatter });
 			logger.addConsole('info', false);
-			addSpy.should.always.have.been.calledWithExactly(ConsoleSpy, { level: 'info', formatter, colorize: false });
+			addSpy.should.always.have.been.calledWithExactly(ConsoleSpy, {
+				level: 'info',
+				formatter,
+				colorize: false
+			});
 		});
 
-		it('should be able to set the console logger\'s level', () => {
+		it("should be able to set the console logger's level", () => {
 			const addSpy = sinon.spy();
 			const winston = winstonStub({ add: addSpy });
 			const logger = new Logger({ winston });
@@ -163,21 +177,24 @@ describe('Logger', () => {
 		});
 
 		it('should not be able to add if already added', () => {
-			const addSpy = sinon.spy(function () { this.transports.console = true; });
+			const addSpy = sinon.spy(function () {
+				this.transports.console = true;
+			});
 			const winston = winstonStub({ add: addSpy });
 			const logger = new Logger({ winston });
 			logger.addConsole();
 			logger.addConsole();
 			addSpy.should.have.been.calledOnce;
 		});
-
 	});
 
 	describe('#removeConsole', () => {
-
 		it('should be able to remove', () => {
 			const removeSpy = sinon.spy();
-			const winston = winstonStub({ remove: removeSpy, transports: { console: true } });
+			const winston = winstonStub({
+				remove: removeSpy,
+				transports: { console: true }
+			});
 			const logger = new Logger({ winston });
 			logger.removeConsole();
 			removeSpy.should.always.have.been.calledWithExactly('console');
@@ -190,45 +207,50 @@ describe('Logger', () => {
 			logger.removeConsole();
 			removeSpy.should.not.have.been.called;
 		});
-
 	});
 
 	describe('#addSplunkHEC', () => {
-
 		it('should be able to add a splunkHEC logger', () => {
 			const addSpy = sinon.spy();
 			const SplunkHECSpy = sinon.spy();
 			const winston = winstonStub({ add: addSpy });
 			const logger = new Logger({ winston, SplunkHEC: SplunkHECSpy });
 			logger.addSplunkHEC();
-			addSpy.should.always.have.been.calledWithExactly(SplunkHECSpy, { level: 'info' });
+			addSpy.should.always.have.been.calledWithExactly(SplunkHECSpy, {
+				level: 'info'
+			});
 		});
 
-		it('should be able to set the console logger\'s level', () => {
+		it("should be able to set the console logger's level", () => {
 			const addSpy = sinon.spy();
 			const SplunkHECSpy = sinon.spy();
 			const winston = winstonStub({ add: addSpy });
 			const logger = new Logger({ winston, SplunkHEC: SplunkHECSpy });
 			logger.addSplunkHEC('warn');
-			addSpy.should.always.have.been.calledWithExactly(SplunkHECSpy, { level: 'warn' });
+			addSpy.should.always.have.been.calledWithExactly(SplunkHECSpy, {
+				level: 'warn'
+			});
 		});
 
 		it('should not be able to add if already added', () => {
-			const addSpy = sinon.spy(function () { this.transports.splunkHEC = true; });
+			const addSpy = sinon.spy(function () {
+				this.transports.splunkHEC = true;
+			});
 			const winston = winstonStub({ add: addSpy });
 			const logger = new Logger({ winston });
 			logger.addSplunkHEC();
 			logger.addSplunkHEC();
 			addSpy.should.have.been.calledOnce;
 		});
-
 	});
 
 	describe('#removeSplunkHEC', () => {
-
 		it('should be able to remove', () => {
 			const removeSpy = sinon.spy();
-			const winston = winstonStub({ remove: removeSpy, transports: { splunkHEC: true } });
+			const winston = winstonStub({
+				remove: removeSpy,
+				transports: { splunkHEC: true }
+			});
 			const logger = new Logger({ winston });
 			logger.removeSplunkHEC();
 			removeSpy.should.always.have.been.calledWithExactly('splunkHEC');
@@ -241,31 +263,32 @@ describe('Logger', () => {
 			logger.removeSplunkHEC();
 			removeSpy.should.not.have.been.called;
 		});
-
 	});
 
 	describe('#clearLoggers', () => {
-
 		it('should be able to clear loggers', () => {
 			const removeSpy = sinon.spy();
-			const winston = winstonStub({ remove: removeSpy, transports: { console: true, splunk: true } });
+			const winston = winstonStub({
+				remove: removeSpy,
+				transports: { console: true, splunk: true }
+			});
 			const logger = new Logger({ winston });
 			logger.clearLoggers();
 			removeSpy.should.have.been.calledWith('console');
 			removeSpy.should.have.been.calledWith('splunk');
 		});
-
 	});
 
 	describe('#addContext', () => {
-
 		it('should be able to add context to logs', () => {
 			const logSpy = sinon.spy();
 			const winston = winstonStub({ log: logSpy });
 			const logger = new Logger({ winston });
 			logger.addContext({ region: 'EU' });
 			logger.log('info', 'a message');
-			logSpy.should.always.have.been.calledWithExactly('info', 'a message', { region: 'EU' });
+			logSpy.should.always.have.been.calledWithExactly('info', 'a message', {
+				region: 'EU'
+			});
 		});
 
 		it('should be able to add multiple context to logs', () => {
@@ -275,7 +298,10 @@ describe('Logger', () => {
 			logger.addContext({ region: 'EU' });
 			logger.addContext({ app: 'article' });
 			logger.log('info');
-			logSpy.should.always.have.been.calledWithExactly('info', { region: 'EU', app: 'article' });
+			logSpy.should.always.have.been.calledWithExactly('info', {
+				region: 'EU',
+				app: 'article'
+			});
 		});
 
 		it('should give priority to supplied meta', () => {
@@ -284,9 +310,9 @@ describe('Logger', () => {
 			const logger = new Logger({ winston });
 			logger.addContext({ region: 'EU' });
 			logger.log('info', { region: 'US' });
-			logSpy.should.always.have.been.calledWithExactly('info', { region: 'US' });
+			logSpy.should.always.have.been.calledWithExactly('info', {
+				region: 'US'
+			});
 		});
-
 	});
-
 });
