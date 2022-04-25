@@ -5,7 +5,6 @@ const expect = chai.expect;
 import formatHEC from '../../dist/lib/formatHEC';
 
 describe('FormatHEC', () => {
-
 	it('should exist', () => {
 		formatHEC.should.exist;
 	});
@@ -33,7 +32,8 @@ describe('FormatHEC', () => {
 
 		expect(formatHEC(options)).to.deep.equal({
 			level: 'error',
-			event: 'TEST_ERROR', err
+			event: 'TEST_ERROR',
+			err
 		});
 	});
 
@@ -62,5 +62,4 @@ describe('FormatHEC', () => {
 			count: 10
 		});
 	});
-
 });

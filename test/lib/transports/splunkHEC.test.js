@@ -14,7 +14,6 @@ const SplunkHEC = proxyquire('../../../dist/lib/transports/splunkHEC', {
 }).default;
 
 describe('SplunkHEC', () => {
-
 	it('should exist', () => {
 		SplunkHEC.should.exist;
 	});
@@ -25,7 +24,6 @@ describe('SplunkHEC', () => {
 	});
 
 	describe('log', () => {
-
 		afterEach(() => {
 			nock.cleanAll();
 		});
@@ -36,9 +34,10 @@ describe('SplunkHEC', () => {
 				.reply(201, { text: 'Successful request', code: 0 });
 
 			const splunkHECTransport = new SplunkHEC();
-			return splunkHECTransport.log('error', 'a message', { field: 'value' })
-				.then(res => res.json())
-				.then(json => {
+			return splunkHECTransport
+				.log('error', 'a message', { field: 'value' })
+				.then((res) => res.json())
+				.then((json) => {
 					json.text.should.equal('Successful request');
 				});
 		});
@@ -72,12 +71,15 @@ describe('SplunkHEC', () => {
 			const splunkHECTransport = new SplunkHEC();
 			const circularData = { field: 'value' };
 			circularData.circularData = circularData;
-			return splunkHECTransport.log('info', 'a message', circularData)
-				// Process JSON, to check returned requestBody
-				.then(res => res.json())
-				.then(data => {
-					expect(data).to.be.an('object');
-				});;
+			return (
+				splunkHECTransport
+					.log('info', 'a message', circularData)
+					// Process JSON, to check returned requestBody
+					.then((res) => res.json())
+					.then((data) => {
+						expect(data).to.be.an('object');
+					})
+			);
 		});
 
 		it('sent log body should be JSON.parse-able', () => {
@@ -89,13 +91,15 @@ describe('SplunkHEC', () => {
 				});
 
 			const splunkHECTransport = new SplunkHEC();
-			return splunkHECTransport.log('info', 'a message', { field: 'value' })
-				// Process JSON, to check returned requestBody
-				.then(res => res.json())
-				.then(data => {
-					expect(data).to.be.an('object');
-				});
+			return (
+				splunkHECTransport
+					.log('info', 'a message', { field: 'value' })
+					// Process JSON, to check returned requestBody
+					.then((res) => res.json())
+					.then((data) => {
+						expect(data).to.be.an('object');
+					})
+			);
 		});
 	});
-
 });

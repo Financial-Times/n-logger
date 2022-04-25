@@ -31,6 +31,10 @@ const winstonStub = ({
 };
 
 describe('Logger', () => {
+	afterEach(() => {
+		sinon.restore();
+	});
+
 	it('should exist', () => {
 		Logger.should.exist;
 	});
@@ -226,8 +230,8 @@ describe('Logger', () => {
 		it('should be able to add a splunkHEC logger', () => {
 			const addSpy = sinon.spy();
 			const SplunkHECSpy = sinon.spy();
-			class SplunkHECTransporter{
-				constructor(){
+			class SplunkHECTransporter {
+				constructor() {
 					return SplunkHECSpy;
 				}
 			}
@@ -242,8 +246,8 @@ describe('Logger', () => {
 		it("should be able to set the console logger's level", () => {
 			const addSpy = sinon.spy();
 			const SplunkHECSpy = sinon.spy();
-			class SplunkHECTransporter{
-				constructor(){
+			class SplunkHECTransporter {
+				constructor() {
 					return SplunkHECSpy;
 				}
 			}

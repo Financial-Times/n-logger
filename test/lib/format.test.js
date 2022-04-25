@@ -4,27 +4,23 @@ chai.should();
 import * as format from '../../dist/lib/format';
 
 describe('Format', () => {
-
 	describe('Message', () => {
-
 		it('should exist', () => {
 			format.message.should.exist;
 		});
 
 		it('should replace double-quotes with single-quotes', () => {
 			const message = 'an "error" occurred';
-			format.message(message).should.equal('an \'error\' occurred');
+			format.message(message).should.equal("an 'error' occurred");
 		});
 
 		it('should convert new lines to tabs', () => {
 			const message = 'an error\nover \nmultiple lines';
 			format.message(message).should.equal('an error	over 	multiple lines');
 		});
-
 	});
 
 	describe('Fields', () => {
-
 		it('should exist', () => {
 			format.fields.should.exist;
 		});
@@ -55,48 +51,56 @@ describe('Format', () => {
 			const meta = {
 				msg: ['value one', 'value "two"', 'value \nthree']
 			};
-			format.fields(meta).should.equal('msg=value one,value "two",value \nthree');
+			format
+				.fields(meta)
+				.should.equal('msg=value one,value "two",value \nthree');
 		});
 
 		context('if splunk Friendly', () => {
-
 			it('should wrap values with spaces in double quotes', () => {
 				const meta = {
 					msg: 'Bad response'
 				};
-				format.fields(meta, { splunkFriendly: true }).should.equal('msg="Bad response"');
+				format
+					.fields(meta, { splunkFriendly: true })
+					.should.equal('msg="Bad response"');
 			});
 
 			it('should wrap values with equals (`=`) in double quotes', () => {
 				const meta = {
 					msg: 'Bad=response'
 				};
-				format.fields(meta, { splunkFriendly: true }).should.equal('msg="Bad=response"');
+				format
+					.fields(meta, { splunkFriendly: true })
+					.should.equal('msg="Bad=response"');
 			});
 
 			it('should convert double quotes to singles', () => {
 				const meta = {
 					msg: 'Server responded with "Bad Request", 400'
 				};
-				format.fields(meta, { splunkFriendly: true }).should.equal('msg="Server responded with \'Bad Request\', 400"');
+				format
+					.fields(meta, { splunkFriendly: true })
+					.should.equal('msg="Server responded with \'Bad Request\', 400"');
 			});
 
 			it('should convert new lines to tabs', () => {
 				const meta = {
 					msg: 'an error\nover \nmultiple lines'
 				};
-				format.fields(meta, { splunkFriendly: true }).should.equal('msg="an error	over 	multiple lines"');
+				format
+					.fields(meta, { splunkFriendly: true })
+					.should.equal('msg="an error	over 	multiple lines"');
 			});
 
 			it('should handle and sanitise array values', () => {
 				const meta = {
 					msg: ['value one', 'value "two"', 'value \nthree']
 				};
-				format.fields(meta, { splunkFriendly: true }).should.equal('msg="value one,value \'two\',value 	three"');
+				format
+					.fields(meta, { splunkFriendly: true })
+					.should.equal('msg="value one,value \'two\',value 	three"');
 			});
-
 		});
-
 	});
-
 });
