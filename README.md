@@ -40,15 +40,17 @@ const logger = require('@financial-times/n-logger').default;
 
 ### Loggers
 
-By default, the following loggers are configured:
+The default loggers are configured based on the presence of several environment variables. A `Console` logger is always registered and a `SplunkHEC` logger is registered depending on which variables are set:
 
-  1. **The `console` logger**
+  - **`MIGRATE_TO_HEROKU_LOG_DRAINS`:** Whether the app should rely on Heroku log drains in production. If this variable is set to an unempty string then the app will _not_ log directly to Splunk. Instead it will log JSON strings to the console which should be picked up by Heroku and forwarded on to Splunk. **Do not set this environment variable before configuring a Heroku log drain in your application**.
 
-      The default logger. The log levels to output to the terminal can be set using the `CONSOLE_LOG_LEVEL` environment variable (defaults to `silly`). The log coloring can be disabled by setting `CONSOLE_LOG_UNCOLORIZED` environment variable to `true` by default the colorizing is enabled.
+  - **`SPLUNK_HEC_TOKEN`:** The Splunk token to use when manually sending logs to Splunk. If this is set to an unempty string then a SplunkHEC logger will be configured.
 
-  2. **The `splunkHEC` logger**
+  - **`SPLUNK_LOG_LEVEL`:** The log levels to send to Splunk, used by both Heroku log drains and the SplunkHEC logger. Defaults to `warn`.
 
-      Used if the `SPLUNK_HEC_TOKEN` environment variable is present. The log levels to send to Splunk can be set using the `SPLUNK_LOG_LEVEL` environment variable (defaults to `warn`).
+  - **`CONSOLE_LOG_LEVEL`:** The log levels to send to the console. Defaults to `silly`. This environment variable is ignored in favour of `SPLUNK_LOG_LEVEL` when `MIGRATE_TO_HEROKU_LOG_DRAINS` is in use.
+
+  - **`CONSOLE_LOG_UNCOLORIZED`:** Set to `true` to disable log coloring. By default console logs are colorized. This environment variable is ignored when `MIGRATE_TO_HEROKU_LOG_DRAINS` is in use as JSON logs are not colorized.
 
 
 ## Testing n-logger locally

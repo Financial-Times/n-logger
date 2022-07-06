@@ -12,7 +12,9 @@ class AppLogger extends Logger {
 			transports: [
 				new (this.deps.winston.transports.Console)({
 					colorize: deps.colorize,
-					level: deps.level
+					level: deps.level,
+					json: this.deps.json,
+					stringify: true // This ensures that any JSON logs are single-line
 				})
 			]
 		});
