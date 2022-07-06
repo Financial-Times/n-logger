@@ -7,13 +7,33 @@ const getLogger = () => {
 		return new FunctionLogger();
 	} else {
 		// app environment - use Winston
-		const logger = new AppLogger({
-			level: process.env.CONSOLE_LOG_LEVEL || 'silly',
-			colorize: process.env.CONSOLE_LOG_UNCOLORIZED !== 'true'
 
+		// Determine whether the app is using Heroku log drains
+		const useHerokuLogDrains = (
+			process.env.MIGRATE_TO_HEROKU_LOG_DRAINS &&
+			process.env.MIGRATE_TO_HEROKU_LOG_DRAINS.length > 0
+		);
+
+		// Determine the log level
+		let logLevel = 'silly';
+		if (useHerokuLogDrains) {
+			logLevel = process.env.SPLUNK_LOG_LEVEL || 'warn';
+		} else {
+			logLevel = process.env.CONSOLE_LOG_LEVEL || 'silly';
+		}
+
+		const logger = new AppLogger({
+			level: logLevel,
+			colorize: process.env.CONSOLE_LOG_UNCOLORIZED !== 'true',
+
+			// If we're migrating to Heroku log drains then we want
+			// all logs as JSON instead of key/value pairs
+			json: useHerokuLogDrains
 		});
 
-		if (process.env.SPLUNK_HEC_TOKEN && process.env.SPLUNK_HEC_TOKEN.length > 0) {
+		// If we have a Splunk token and we're not using log drains,
+		// then add a Splunk HEC transport to the logger
+		if (!useHerokuLogDrains && process.env.SPLUNK_HEC_TOKEN && process.env.SPLUNK_HEC_TOKEN.length > 0) {
 			logger.addSplunkHEC(process.env.SPLUNK_LOG_LEVEL || 'warn');
 		}
 
