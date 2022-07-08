@@ -8,11 +8,9 @@ const getLogger = () => {
 	} else {
 		// app environment - use Winston
 
-		// Determine whether the app is using Heroku log drains
-		const useHerokuLogDrains = (
-			process.env.MIGRATE_TO_HEROKU_LOG_DRAINS &&
-			process.env.MIGRATE_TO_HEROKU_LOG_DRAINS.length > 0
-		);
+		// Determine whether the app is using Heroku log drains or Splunk HEC
+		const useHerokuLogDrains = process.env.MIGRATE_TO_HEROKU_LOG_DRAINS;
+		const splunkToken = process.env.SPLUNK_HEC_TOKEN;
 
 		// Determine the log level
 		let logLevel = 'silly';
@@ -33,7 +31,7 @@ const getLogger = () => {
 
 		// If we have a Splunk token and we're not using log drains,
 		// then add a Splunk HEC transport to the logger
-		if (!useHerokuLogDrains && process.env.SPLUNK_HEC_TOKEN && process.env.SPLUNK_HEC_TOKEN.length > 0) {
+		if (splunkToken && !useHerokuLogDrains) {
 			logger.addSplunkHEC(process.env.SPLUNK_LOG_LEVEL || 'warn');
 		}
 
