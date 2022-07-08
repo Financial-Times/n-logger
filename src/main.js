@@ -9,19 +9,15 @@ const getLogger = () => {
 		// app environment - use Winston
 
 		// Determine whether the app is using Heroku log drains or Splunk HEC
-		const useHerokuLogDrains = process.env.MIGRATE_TO_HEROKU_LOG_DRAINS;
+		const useHerokuLogDrains = Boolean(process.env.MIGRATE_TO_HEROKU_LOG_DRAINS);
 		const splunkToken = process.env.SPLUNK_HEC_TOKEN;
 
 		// Determine the log level
-		let logLevel = 'silly';
-		if (useHerokuLogDrains) {
-			logLevel = process.env.SPLUNK_LOG_LEVEL || 'warn';
-		} else {
-			logLevel = process.env.CONSOLE_LOG_LEVEL || 'silly';
-		}
+		const splunkLogLevel = process.env.SPLUNK_LOG_LEVEL || 'warn';
+		const consoleLogLevel = process.env.CONSOLE_LOG_LEVEL || 'silly';
 
 		const logger = new AppLogger({
-			level: logLevel,
+			level: (useHerokuLogDrains ? splunkLogLevel : consoleLogLevel),
 			colorize: process.env.CONSOLE_LOG_UNCOLORIZED !== 'true',
 
 			// If we're migrating to Heroku log drains then we want
@@ -32,7 +28,7 @@ const getLogger = () => {
 		// If we have a Splunk token and we're not using log drains,
 		// then add a Splunk HEC transport to the logger
 		if (splunkToken && !useHerokuLogDrains) {
-			logger.addSplunkHEC(process.env.SPLUNK_LOG_LEVEL || 'warn');
+			logger.addSplunkHEC(splunkLogLevel);
 		}
 
 		return logger;
