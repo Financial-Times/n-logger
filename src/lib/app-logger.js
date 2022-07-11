@@ -11,8 +11,8 @@ class AppLogger extends Logger {
 		this.logger = new (this.deps.winston.Logger)({
 			transports: [
 				new (this.deps.winston.transports.Console)({
-					colorize: deps.colorize,
-					level: deps.level,
+					colorize: this.deps.colorize,
+					level: this.deps.level,
 					json: this.deps.json,
 					stringify: true // This ensures that any JSON logs are single-line
 				})
