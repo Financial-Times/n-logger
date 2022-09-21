@@ -2,15 +2,17 @@ const chai = require('chai');
 const { expect } = chai;
 chai.should();
 
-const nock = require('nock');
 const proxyquire = require('proxyquire');
 
 const formatter = () => {
 	return 'a message field=value level=error';
 };
 
+const fetchMock = require('fetch-mock');
+
 const SplunkHEC = proxyquire('../../../dist/lib/transports/splunkHEC', {
-	'../formatter': formatter
+	'../formatter': formatter,
+	'node-fetch': fetchMock.sandbox()
 }).default;
 
 describe('SplunkHEC', () => {
@@ -27,13 +29,14 @@ describe('SplunkHEC', () => {
 	describe('log', () => {
 
 		afterEach(() => {
-			nock.cleanAll();
+			fetchMock.resetBehavior();
 		});
 
 		it('should send a log to Splunk', () => {
-			nock('https://http-inputs-financialtimes.splunkcloud.com')
-				.post('/services/collector/event')
-				.reply(201, { text: 'Successful request', code: 0 });
+			fetchMock.post('https://http-inputs-financialtimes.splunkcloud.com/services/collector/event', {
+				status: 201,
+				body: { text: 'Successful request', code: 0 }
+			});
 
 			const splunkHECTransport = new SplunkHEC();
 			return splunkHECTransport.log('error', 'a message', { field: 'value' })
@@ -44,30 +47,31 @@ describe('SplunkHEC', () => {
 		});
 
 		it('should not throw exceptions when Splunk is down', () => {
-			nock('https://http-inputs-financialtimes.splunkcloud.com')
-				.post('/services/collector/event')
-				.reply(500);
+			fetchMock.post('https://http-inputs-financialtimes.splunkcloud.com/services/collector/event', {
+				status: 500
+			});
 
 			const splunkHECTransport = new SplunkHEC();
 			return splunkHECTransport.log('error', 'a message', { field: 'value' });
 		});
 
 		it('should not throw exceptions when Splunk does not accept the request', () => {
-			nock('https://http-inputs-financialtimes.splunkcloud.com')
-				.post('/services/collector/event')
-				.reply(400);
+			fetchMock.post('https://http-inputs-financialtimes.splunkcloud.com/services/collector/event', {
+				status: 400
+			});
 
 			const splunkHECTransport = new SplunkHEC();
 			return splunkHECTransport.log('info', 'a message', { field: 'value' });
 		});
 
 		it('should send a log if data is circularly referenced', () => {
-			nock('https://http-inputs-financialtimes.splunkcloud.com')
-				.post('/services/collector/event')
-				// NOTE: Returning requestBody for further tests
-				.reply(201, (uri, requestBody) => {
-					return requestBody;
-				});
+			fetchMock.post('https://http-inputs-financialtimes.splunkcloud.com/services/collector/event', (url, {body}) => {
+				return {
+					status: 201,
+					// NOTE: Returning requestBody for further tests
+					body
+				};
+			});
 
 			const splunkHECTransport = new SplunkHEC();
 			const circularData = { field: 'value' };
@@ -81,12 +85,13 @@ describe('SplunkHEC', () => {
 		});
 
 		it('sent log body should be JSON.parse-able', () => {
-			nock('https://http-inputs-financialtimes.splunkcloud.com')
-				.post('/services/collector/event')
-				// NOTE: Returning requestBody for further tests
-				.reply(201, (uri, requestBody) => {
-					return requestBody;
-				});
+			fetchMock.post('https://http-inputs-financialtimes.splunkcloud.com/services/collector/event', (url, {body}) => {
+				return {
+					status: 201,
+					// NOTE: Returning requestBody for further tests
+					body
+				};
+			});
 
 			const splunkHECTransport = new SplunkHEC();
 			return splunkHECTransport.log('info', 'a message', { field: 'value' })
