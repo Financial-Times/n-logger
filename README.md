@@ -1,3 +1,7 @@
+> **Warning**
+> 
+> We intend to deprecate n-logger some time in 2023. It will continue to work for now, but **it should not be used in new projects**. The recommended replacement is [Reliability Kit logger](https://github.com/Financial-Times/dotcom-reliability-kit/tree/main/packages/logger#readme). There's a [blog post outlining the changes here](https://financialtimes.atlassian.net/l/cp/yzsAm35t).
+
 # n-logger [![Circle CI](https://circleci.com/gh/Financial-Times/n-logger.svg?style=svg)](https://circleci.com/gh/Financial-Times/n-logger) ![GitHub release](https://img.shields.io/github/release/Financial-Times/n-logger.svg?style=popout)
 
 This package provides a Winston wrapper which sends server-side logs to Splunk's HTTP Event Collector (HEC).
